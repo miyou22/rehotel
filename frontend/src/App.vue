@@ -28,6 +28,7 @@ export default {
         -moz-user-select: none;
         user-select: none;
         background-color: 'black';
+        color: 'white';
       }
 
       @media (min-width: 768px) {
