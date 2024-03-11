@@ -9,7 +9,7 @@
            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
            </div>
-           <small class="text-body-secondary">9 mins</small>
+           <small class="text-body-secondary">9 10ins</small>
        </div>
      </div>
    </div>
@@ -25,4 +25,5 @@
  </script>
 
  <style>
+
  </style>
