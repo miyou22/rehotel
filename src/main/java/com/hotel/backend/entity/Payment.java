@@ -16,15 +16,15 @@ import java.time.LocalDateTime;
 public class Payment {
     @Id
     @Column(nullable = false)
-    private int pay_num;
+    private int payNum;
 
     @Column(nullable = false, length = 50)
-    private String pay_type;
+    private String payType;
 
     @Column(nullable = false)
-    private LocalDateTime pay_time;
+    private LocalDateTime payTime;
 
     @OneToOne
-    @JoinColumn(name = "res_id")
-    private int res_id;
+    @JoinColumn(name = "resId")
+    private Reservation resId;
 }

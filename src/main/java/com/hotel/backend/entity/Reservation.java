@@ -15,42 +15,42 @@ import java.time.LocalDateTime;
 public class Reservation {
     @Id
     @Column(nullable = false)
-    private  int res_id;
+    private  int resId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private String user_id;
+    @JoinColumn(name = "userId")
+    private Member userId;
 
     @ManyToOne
-    @JoinColumn(name = "room_num")
-    private int room_num;
+    @JoinColumn(name = "roomNum")
+    private Room roomNum;
 
     @ManyToOne
-    @JoinColumn(name = "guest_tel")
-    private int guest_tel;
+    @JoinColumn(name = "guestEmail")
+    private Guest guestEmail;
 
     @OneToOne
-    @JoinColumn(name = "fac_type")
-    private String fac_type;
+    @JoinColumn(name = "facType")
+    private Facility facType;
 
     @Column(nullable = false)
-    private LocalDateTime res_checkin;
+    private LocalDateTime resCheckin;
 
     @Column(nullable = false)
-    private LocalDateTime res_checkout;
+    private LocalDateTime resCheckout;
 
     @Column(nullable = false)
-    private int res_person;
+    private int resPerson;
 
     @Column(nullable = false)
-    private LocalDateTime res_date;
+    private LocalDateTime resDate;
 
     @Column(nullable = false, length = 1)
-    private int fac_check;
+    private int facCheck;
 
     @Column(nullable = false, length = 1)
-    private int pay_check;
+    private int payCheck;
 
     @Column(nullable = false, length = 1)
-    private int user_flag;
+    private int userFlag;
 }

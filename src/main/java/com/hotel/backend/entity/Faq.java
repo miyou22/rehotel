@@ -13,17 +13,17 @@ import lombok.ToString;
 public class Faq {
     @Id
     @Column(nullable = false)
-    private int faq_sn;
+    private int faqSn;
 
     @Column(nullable = false,length = 20)
-    private String faq_tit;
+    private String faqTit;
 
     @Column(nullable = false)
-    private String faq_sub;
+    private String faqSub;
 
-    private int faq_cnt;
+    private int faqCnt;
 
     @OneToOne
-    @JoinColumn(name = "admin_id")
-    private String admin_id;
+    @JoinColumn(name = "adminId")
+    private Admin adminId;
 }

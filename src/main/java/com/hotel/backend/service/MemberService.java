@@ -11,9 +11,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     // 로그인
-    public Member login(String user_email) {
-        System.out.println("MemberService email() ==> " + user_email);
-        Member findMember = memberRepository.findByEmail(user_email);
+    public Member login(String userEmail) {
+        System.out.println("MemberService email() ==> " + userEmail);
+        Member findMember = memberRepository.findByUserEmail(userEmail);
         if(findMember != null){
             // throw new IllegalStateException("이미 가입된 회원입니다.");
             System.out.println("MemberService findMember ==> " + findMember);
