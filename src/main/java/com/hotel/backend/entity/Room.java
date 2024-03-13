@@ -19,17 +19,17 @@ import java.io.File;
 public class Room {
     @Id
     @Column(nullable = false)
-    private int room_num;
+    private int roomNum;
 
     @Column(nullable = false)
-    private int room_price;
+    private int roomPrice;
 
     @Column(nullable = false)
-    private int room_person;
+    private int roomPerson;
 
     @Column(nullable = false,length = 20)
-    private String room_name;
+    private String roomName;
 
     @Column(nullable = false,length = 1)
-    private int room_res_check;
+    private int roomResCheck;
 }

@@ -4,5 +4,5 @@ import com.hotel.backend.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Member findByEmail(String user_email);
+    Member findByUserEmail(String userEmail);
 }

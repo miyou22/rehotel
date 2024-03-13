@@ -18,31 +18,31 @@ import java.time.LocalDateTime;
 public class Admin {
     @Id
     @Column(nullable = false,length = 20)
-    private String admin_id;
+    private String adminId;
 
     @Column(nullable = false,length = 20)
-    private String admin_pw;
+    private String adminPw;
 
-    @Column(nullable = false,length = 20, unique = true)
-    private String admin_email;
+    @Column(nullable = false,length = 50, unique = true)
+    private String adminEmail;
 
     @Column(nullable = false)
-    private int admin_tel;
+    private int adminTel;
 
-    @Column(nullable = false,length = 50)
-    private String admin_addr;
+    @Column(nullable = false,length = 100)
+    private String adminAddr;
 
     @Column(nullable = false,length = 20)
-    private String admin_name;
+    private String adminName;
 
     @Column(nullable = false,length = 1)
-    private String admin_gender;
+    private String adminGender;
 
     @Column(nullable = false)
-    private LocalDateTime admin_birth;
+    private LocalDateTime adminBirth;
 
     @Column(nullable = false)
-    private LocalDateTime admin_join;
+    private LocalDateTime adminJoin;
 
 
 }

@@ -13,18 +13,18 @@ import lombok.ToString;
 public class Qna {
     @Id
     @Column(nullable = false)
-    private int qna_sn;
+    private int qnaSn;
 
     @Column(nullable = false,length = 50)
-    private String qna_tit;
+    private String qnaTit;
 
     @Column(nullable = false)
-    private String qna_sub;
+    private String qnaSub;
 
-    private int qna_cnt;
+    private int qnaCnt;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private String user_id;
+    @JoinColumn(name = "userId")
+    private Member userId;
 
 }

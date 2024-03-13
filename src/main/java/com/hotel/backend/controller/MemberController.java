@@ -1,8 +1,10 @@
 package com.hotel.backend.controller;
 
+import com.hotel.backend.dto.MemberFormDto;
 import com.hotel.backend.entity.Member;
 import com.hotel.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +24,7 @@ public class MemberController {
 //        System.out.println("로그인 전 정보 : " + memberFormDto.getEmail());
 //        System.out.println("로그인 비밀번호 : " + passwordEncoder.encode(memberFormDto.getPassword()));
 
-        Member findMember = memberService.login(memberFormDto.getEmail());
+        Member findMember = memberService.login(memberFormDto.getUserEmail());
 //        System.out.println("로그인 후 정보 : " + findMember);
         // System.out.println("저장된 비밀번호 : " + passwordEncoder.encode(memberFormDto.getPassword()));
 
@@ -34,7 +36,7 @@ public class MemberController {
 //        System.out.println("result ==> " + result);
 
         int result = -9;
-        if(passwordEncoder.matches(memberFormDto.getPassword(), findMember.getPassword())) {
+        if(passwordEncoder.matches(memberFormDto.getUserPwd(), findMember.getUserPwd())) {
             System.out.println("로그인 성공.");
             result = 0;
         } else {

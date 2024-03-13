@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 public class Facility {
     @Id
     @Column(nullable = false,length = 20)
-    private String fac_type;
+    private String facType;
 
     @Column(nullable = false)
-    private LocalDateTime fac_start;
+    private LocalDateTime facStart;
 
     @Column(nullable = false)
-    private LocalDateTime fac_end;
+    private LocalDateTime facEnd;
 
     @Column(nullable = false)
-    private int fac_price;
+    private int facPrice;
 }
