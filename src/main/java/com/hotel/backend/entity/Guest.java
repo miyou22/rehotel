@@ -11,20 +11,19 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Guest {
-    @Column(nullable = false,length = 50)
-    private String guest_name;
-
     @Id
-    @Column(nullable = false)
-    private int guest_tel;
-
     @Column(nullable = false, length = 50)
-    private String guest_email;
+    private String guestEmail;
 
-    @OneToMany
-    @JoinColumn(name = "res_id")
-    private int res_id;
+
+    @Column(nullable = false,length = 20)
+    private String guestName;
+
+
+    @Column(nullable = false)
+    private int guestTel;
+
 
     @Column(nullable = false,length = 1)
-    private int user_flag;
+    private int userFlag;
 }

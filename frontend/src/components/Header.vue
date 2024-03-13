@@ -1,43 +1,147 @@
 <template>
-  <header>
-     <div class="collapse text-bg-dark" id="navbarHeader">
-       <div class="container">
-         <div class="row">
-           <div class="col-sm-8 col-md-7 py-4">
-             <h4>About</h4>
-             <p class="text-body-secondary">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-           </div>
-           <div class="col-sm-4 offset-md-1 py-4">
-             <h4>Contact</h4>
-             <ul class="list-unstyled">
-               <li><a href="#" class="text-white">Follow on Twitter</a></li>
-               <li><a href="#" class="text-white">Like on Facebook</a></li>
-               <li><a href="#" class="text-white">Email me</a></li>
-             </ul>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="navbar navbar-dark bg-dark shadow-sm">
-       <div class="container">
-         <a href="#" class="navbar-brand d-flex align-items-center">
-           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-           <strong>Album</strong>
-         </a>
-         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-           <span class="navbar-toggler-icon"></span>
-         </button>
-       </div>
-     </div>
-   </header>
+  <header id="head">
+    <div class="header-container aaa">
+      <nav class="header-nav-bar ">
+        <div class="header-nav-logo">
+          <!-- <a href="index.html"> -->
+          <a href="/">
+            <img src="https://res.cloudinary.com/joshuafolorunsho/image/upload/v1591615159/star_hotels_logo.png"
+              alt="star hotels logo" />
+          </a>
+        </div>
+        <!-- ========================================================== -->
+        <div id="gnbMenu">
+          <ul class="header-nav-lists">
+            <li class="header-nav-list">
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/about' }" href="about">About</a>
+              <ul class="subMenu">
+                <li><a href="#"><p>호텔소개</p></a></li>
+                <li><a href="#"><p>오시는길</p></a></li>
+              </ul>
+            </li>
+            <li class="header-nav-list">
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation' }"
+                href="accommodation">Accommodation</a>
+              <ul class="subMenu acc">
+                <li><a href="#"><p>호텔형</p></a></li>
+                <li><a href="#"><p>콘도형</p></a></li>
+              </ul>
+            </li>
+            <li class="header-nav-list">
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/dining' }"
+                href="dining">Dining</a>
+              <ul class="subMenu">
+                <li><a href="#"><p>식사장소</p></a></li>
+              </ul>
+            </li>
+            <li class="header-nav-list">
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/reservation' }"
+                href="reservation">Reservation</a>
+              <ul class="subMenu">
+                <li><a href="#"><p>객실/패키지 예약</p></a></li>
+                <li><a href="#"><p>예약조회</p></a></li>
+              </ul>
+            </li>
+            <li class="header-nav-list">
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/newsevent' }"
+                href="newsevent">news&event</a>
+              <ul class="subMenu news">
+                <li><a href="#"><p>공지사항</p></a></li>
+                <li><a href="#"><p>faq</p></a></li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+        <li class="header-nav-list">
+          <a class="header-btn header-btn-custom" href="https://timbu.com/search?query=hotel">로그인</a>
+        </li>
+
+
+        <div class="header-hamburger-icon" @click="toggle">
+          <div class="header-hamburger-line-1"></div>
+          <div class="header-hamburger-line-2"></div>
+          <div class="header-hamburger-line-3"></div>
+        </div>
+      </nav>
+    </div>
+  </header>
 </template>
 
 <script>
+// import toggle from "../assets/js/toggleHamburger";
+
 export default {
-  name: 'Header'
-}
+  data() {
+    return {
+      currentRoute: this.$route.path,
+    };
+  },
+  watch: {
+    $route(to) {
+      this.currentRoute = to.path;
+      console.log(this.currentRoute);
+    },
+  },
+  methods: {
+    toggle() {
+      const ul = document.querySelector(".header-nav-lists");
+      const hamburger = document.querySelector(".header-hamburger-icon");
+      ul.classList.toggle("show");
+      hamburger.classList.toggle("show");
+    },
+  },
+};
 </script>
 
 <style scoped>
+@import "../assets/css/Header.css";
+
+#gnbMenu{
+ display: flex;
+}
+#gnbMenu li{
+  /* width: 150px; */
+  /* outline: 1px solid red; */
+ 
+}
+
+#gnbMenu a{
+  text-decoration: none;
+      /* color: white; */
+}
+#gnbMenu li:hover .subMenu{
+  /* width: 100%; */
+  height: 100px;
+  display: block;
+}
+.subMenu{
+  position: absolute;
+  display: none;
+}
+
+.subMenu li a p{
+  font-size: 14px;
+  color: #fff;
+  /* outline: 1px solid red; */
+  /* width: 150px; */
+
+}
+.subMenu li a{
+text-align: center;
+}
+.subMenu li a p:hover{
+color: orange;
+}
+.aaa{
+  height: 120px;
+}
+.acc{
+  width: 140px;
+}
+.news{
+  width: 100px;
+}
 
 </style>
