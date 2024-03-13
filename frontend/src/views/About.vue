@@ -3,7 +3,7 @@
     <div class="container">
       <!-- Header part contain Title page and descriptoion -->
       <div class="header">
-        <h2>Contact Us</h2>
+        <h2>Contact</h2>
         <hr />
         <p>
           Intersted in striking a partnership or do you have any complaint or

@@ -55,7 +55,7 @@
         </div>
 
         <li class="header-nav-list">
-          <a class="header-btn header-btn-custom" href="https://timbu.com/search?query=hotel">로그인</a>
+          <a class="header-btn header-btn-custom" href="https://timbu.com/search?query=hotel">subscribe</a>
         </li>
 
 
@@ -63,6 +63,14 @@
           <div class="header-hamburger-line-1"></div>
           <div class="header-hamburger-line-2"></div>
           <div class="header-hamburger-line-3"></div>
+        </div>
+
+        <div class="header-top">
+          <ul class="header-top-gnb">
+            <li><a href="#">로그인</a></li>
+            <li><a href="#">회원가입</a></li>
+            <li><a href="#">호텔 찾기</a></li>
+          </ul>
         </div>
       </nav>
     </div>
@@ -100,19 +108,15 @@ export default {
 
 #gnbMenu{
  display: flex;
-}
-#gnbMenu li{
-  /* width: 150px; */
-  /* outline: 1px solid red; */
  
 }
 
+
+
 #gnbMenu a{
   text-decoration: none;
-      /* color: white; */
 }
 #gnbMenu li:hover .subMenu{
-  /* width: 100%; */
   height: 100px;
   display: block;
 }
@@ -124,8 +128,7 @@ export default {
 .subMenu li a p{
   font-size: 14px;
   color: #fff;
-  /* outline: 1px solid red; */
-  /* width: 150px; */
+
 
 }
 .subMenu li a{
@@ -143,5 +146,6 @@ color: orange;
 .news{
   width: 100px;
 }
+
 
 </style>
