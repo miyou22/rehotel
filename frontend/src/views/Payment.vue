@@ -173,7 +173,7 @@
               </li>
               <li>
                 <div class="tit">인원수</div>
-                <div class="con">2명</div>
+                <div class="con">{{selectedRoomMember}}명</div>
               </li>
               <li>
                 <div class="tit">객실타입</div>
@@ -189,8 +189,9 @@
             <ul>
               <li>
                 <div class="con con2">
-                  {{ numberWithCommas(selectedRoomPrice) }} 원
+                {{ numberWithCommas(selectedRoomPrice) }} 원/1박
                 </div>
+                
               </li>
             </ul>
           </div>
@@ -206,7 +207,7 @@
                 </div>
                 <div class="con">
                   <strong id="price"
-                  >{{ numberWithCommas(selectedRoomPrice) }} <b>원</b></strong
+                  >{{ numberWithCommas(totalRoomPrice) }} <b>원</b></strong
                   >
                 </div>
               </li>
@@ -313,6 +314,11 @@ export default {
     roomImageData() {
       return this.$store.state.selectedRoomImageData;
     },
+    totalRoomPrice() {
+      const stayDuration = this.calculateStayDuration();
+      const pricePerNight = this.selectedRoomPrice;
+      return stayDuration * pricePerNight;
+    }
   },
 };
 </script>
@@ -323,6 +329,9 @@ export default {
   padding: 0;
   border: 0;
   box-sizing: border-box;
+}
+.con2{
+  margin-top: 5px;
 }
 .payment {
   width: 100%;

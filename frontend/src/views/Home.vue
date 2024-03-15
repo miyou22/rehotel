@@ -63,7 +63,7 @@
             </select>
           </div>
         </div>
-        <button class="res" @click="$router.push('/reservation'), inp">
+        <button class="res" @click="goToReservation">
           검색
         </button>
       </div>
@@ -140,7 +140,15 @@ import store from "@/store";
 export default {
   components: { VueDatePicker },
   methods: {
+    goToReservation() {
+      // '/reservation' 경로로 이동
+      this.$router.push('/reservation');
 
+      // 컴포넌트가 마운트된 후에 최상단으로 스크롤 이동
+      this.$nextTick(() => {
+        window.scrollTo(0, 0);
+      });
+    }
   },
   setup() {
     const checkin = ref(new Date());
