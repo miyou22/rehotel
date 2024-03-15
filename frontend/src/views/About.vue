@@ -20,15 +20,17 @@
           자세히보기
         </button>
       </div>
-      <div class="img">
+      <div class="img-wrapper">
         <img src="../assets/img/hotel5.jpg" alt="객실 소개 이미지">
+        <div class="overlay over1"></div>
       </div>
     </section>
 
     <!-- 다이닝 소개 섹션 -->
     <section class="info dining">
-      <div class="img">
+      <div class="img-wrapper">
         <img src="../assets/img/hotel2.jpg" alt="다이닝 소개 이미지">
+        <div class="overlay over2"></div>
       </div>
       <div class="content">
         <div class="text">
@@ -61,8 +63,9 @@
           자세히보기
         </button>
       </div>
-      <div class="img">
+      <div class="img-wrapper">
         <img src="../assets/img/hotel1.jpg" alt="부대 시설 소개 이미지">
+        <div class="overlay over3"></div>
       </div>
     </section>
   </div>
@@ -155,9 +158,33 @@ img {
   flex: 2;
   position: relative;
   max-height: 400px;
-  z-index: 3;
+  z-index: 1;
 }
 
+/* 이미지 뒤 gray-rectangle 추가 */
+.img-wrapper {
+  position: relative;
+}
+
+.over1, .over3 {
+  position: absolute;
+  top: 60px;
+  left: 80px;
+  width: 100vw;
+  height: 100%;
+  background-color: rgba(206, 206, 206, 0.25);
+  z-index: 0;
+}
+
+.over2 {
+  position: absolute;
+  top: 60px;
+  right: 80px;
+  width: 100vw;
+  height: 100%;
+  background-color: rgba(206, 206, 206, 0.25);
+  z-index: 0;
+}
 
 h2 {
   margin-bottom: 30px;
@@ -186,3 +213,4 @@ p {
   background-color: #c9a635;
 }
 </style>
+
