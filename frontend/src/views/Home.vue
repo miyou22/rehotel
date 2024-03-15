@@ -1,239 +1,103 @@
 <template>
   <body class="scroll-bar">
     <div class="jumbotron-container">
-      <div class="jumbotron-left">
-        <h2 class="jumbotron-header">
-          Discover the perfect balance <br />
-          of hospitality, luxury and <br />comfort.
-        </h2>
-        <p>
-          We are focused on providing clients with the highest level<br />
-          of comfort and excellent affordable rates
-        </p>
-        <a
-          href="https://timbu.com/search?query=hotel"
-          class="btn btn-fill btn-large"
-          >Book Now</a
-        >
-      </div>
-      <div class="jumbotron-right">
-        <form action="" class="jumbotron-form">
-          <!-- Put the form here -->
-          <h3>Scared you can't afford it?</h3>
-          <br />
-          <p>
-            Don't worry, our hotel offers the best<br />
-            affordable rates you can ever find.
-          </p>
-          <label class="hide" for="arrival">arrival date</label>
-          <input
-            type="text"
-            id="arrival"
-            name="arrival_date"
-            placeholder="Arrival Date"
-            onfocus="(this.type='date')"
-          /><br />
-          <label class="hide" for="departure">departure date</label>
-          <input
-            type="text"
-            id="departure"
-            name="departure_date"
-            placeholder="Departure Date"
-            onfocus="(this.type='date')"
-          /><br />
-          <label class="hide" for="guests">how many guests</label>
-          <input
-            type="text"
-            id="guests"
-            name="guests"
-            placeholder="Guests"
-          /><br />
-          <label class="hide" for="children">children</label>
-          <input
-            type="text"
-            id="children"
-            name="children"
-            placeholder="Children"
-          /><br />
-          <button type="button" class="rates">CHECK RATES</button>
-        </form>
+      <div class="check-box">
+        <div class="check">
+          <div class="checkin">
+            <p class="ch">Check in</p>
+            <VueDatePicker
+              v-model="checkin"
+              :enable-time-picker="false"
+              :format="format"
+              auto-apply
+              year-first
+              locale="ko"
+              cancelText="취소"
+              selectText="선택"
+              week-start="0"
+              id="cal"
+              Foreground="{TemplateBinding Foreground}"
+              :min-date="new Date()"
+            ></VueDatePicker>
+          </div>
+
+          <div class="checkout">
+            <p>Check out</p>
+            <VueDatePicker
+              v-model="checkout"
+              :enable-time-picker="false"
+              :format="format2"
+              auto-apply
+              year-first
+              locale="ko"
+              cancelText="취소"
+              selectText="선택"
+              week-start="0"
+              id="cal"
+              Foreground="{TemplateBinding Foreground}"
+              :min-date="checkin"
+            ></VueDatePicker>
+          </div>
+        </div>
+        <div class="tw-box">
+          <div class="room">
+            <p>객실수</p>
+            <select name="room" id="room" caption="객실수">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+
+          <div class="person">
+            <p>인원수</p>
+            <select name="member" id="member" caption="인원수">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+        </div>
+        <button class="res" @click="$router.push('/reservation'), inp">
+          검색
+        </button>
       </div>
     </div>
 
-    <!-- Enjoy your stay in our hotel -->
-    <div class="enjoy-container">
-      <div class="enjoy-header">
-        <h2 class="enjoy-heading">Enjoy your stay <br />at our hotel</h2>
-        <hr class="horizontal" />
-        <p>
-          We are more than being a hotel because we are able<br />
-          to combine the quality standard of a hotel with the<br />
-          advantages of an apartment.
-        </p>
-      </div>
-      <div class="enjoy-services">
-        <div class="first-col">
-          <div class="upper">
-            <span>
-              <img
-                src="../assets/img/clock.svg"
-                alt="clock icon"
-                class="enjoy__clock-icon"
-              />
-            </span>
-            <h3>24 hours Room Service</h3>
-            <p>You have access to 24-hours a day room service at our hotel.</p>
-          </div>
-          <div class="lower">
-            <span>
-              <img
-                src="../assets/img/database.svg"
-                alt="fitness icon"
-                class="enjoy__fitness-icon"
-              />
-            </span>
-            <h3>Fitness and Spa</h3>
-            <p>
-              Access to fitness and Spa is part of our hotel package when you
-              make a booking.
-            </p>
-          </div>
-        </div>
-        <div class="sec-col">
-          <div class="upper">
-            <span>
-              <img
-                src="../assets/img/coffee.svg"
-                alt="coffee icon"
-                class="enjoy__coffee-icon"
-              />
-            </span>
-            <h3>Restaurant and Bars</h3>
-            <p>
-              You have access to the world state of art restaurants and bars at
-              our hotel
-            </p>
-          </div>
-          <div class="lower">
-            <span>
-              <img
-                src="../assets/img/wifi.svg"
-                alt="wifi icon"
-                class="enjoy__wifi-icon"
-              />
-            </span>
-            <h3>Free Wi-Fi Access</h3>
-            <p>
-              You have access to 24-hours free Wi-Fi services irrespective of
-              any room.
-            </p>
-          </div>
-        </div>
-        <div class="third-col cont">
-          <img
-            src="../assets/img/ant-design_play-circle-filled.svg"
-            alt="video play icon"
-            class="enjoy__play-icon"
-          />
-          <img
-            src="../assets/img/video link.webp"
-            alt="women in swimming pool"
-            class="third-col-video"
-          />
-        </div>
-      </div>
-    </div>
     <section class="special-offers">
       <!-- Top Text -->
       <div class="page-header-container">
-        <h2 class="page-header">Simplicity is the ultimate <br />Watchword</h2>
+        <h2 class="page-header">ROOMS & BANQUET HALL</h2>
       </div>
       <div class="row center-lg">
-        <div class="col image-col right-marg">
-          <img
-            src="../assets/img/hotel-1.webp"
-            alt="room-image"
-            class="small-image"
-          />
-          <img
-            src="../assets/img/hotel-2.webp"
-            alt="room-image"
-            class="small-image"
-          />
-          <img
-            src="../assets/img/hotel-3.webp"
-            alt="room-image"
-            class="small-image img-hide"
-          />
-          <div class="side-by-side-container">
-            <div class="large-image-container">
+        <div class="side-by-side-container">
+          <div class="large-image-container">
+            <a href="/rooms">
               <img
                 src="../assets/img/hotel-4-large.webp"
                 alt="room-image-large"
                 class="large-image"
               />
-            </div>
-            <section class="stacked-image-container">
-              <div>
-                <img
-                  src="../assets/img/hotel-5.webp"
-                  alt="room-image"
-                  class="small-image"
-                />
-              </div>
-              <div>
-                <img
-                  src="../assets/img/hotel-6.webp"
-                  alt="room-image"
-                  class="small-image"
-                />
-              </div>
-            </section>
+            </a>
+            <h4>ROOMS</h4>
+            <a class="btn" style="color: #666" href="#">자세히보기</a>
           </div>
         </div>
-        <div class="col">
-          <p class="offers-sub-title">
-            The fact that we are run by hospitality professionals<br />and
-            equipped with the world best interior designers <br />
-            is why our rooms and suites are second to none in <br />the universe
-          </p>
-          <ul class="offers-list">
-            <li>
-              <div>
-                <img
-                  src="../assets/img/check-square.svg"
-                  alt="tick"
-                  class="list-icon"
-                />
-                <p class="list-text">Standard Room</p>
-              </div>
-            </li>
-            <li>
-              <div>
-                <img
-                  src="../assets/img/check-square.svg"
-                  alt="tick"
-                  class="list-icon"
-                />
-                <p class="list-text">Executive Room</p>
-              </div>
-            </li>
-            <li>
-              <div>
-                <img
-                  src="../assets/img/check-square.svg"
-                  alt="tick"
-                  class="list-icon"
-                />
-                <p class="list-text">King Suite</p>
-              </div>
-            </li>
-          </ul>
-          <a
-            href="https://timbu.com/search?query=hotel"
-            class="btn btn-fill btn-large centered"
-            >Book Now</a
-          >
+
+        <div class="side-by-side-container">
+          <div class="large-image-container">
+            <a href="#">
+              <img
+                src="https://www.esuncruise.com/SunCruiseMain_common/images/homepage/visual/launge2.jpg"
+                alt="room-image-large"
+                class="large-image"
+              />
+            </a>
+            <h4>BANQUET HALL</h4>
+            <a class="btn" style="color: #666" href="#">자세히보기</a>
+          </div>
         </div>
       </div>
     </section>
@@ -241,7 +105,7 @@
     <!-- Client Reviews -->
     <div class="review-container">
       <div class="review-header">
-        <h2 class="review-title">Client Reviews</h2>
+        <h2 class="review-title">Facility</h2>
         <hr class="horizontal" />
         <p class="">
           We are very proud of the services we offer to our customers.<br />Read
@@ -249,32 +113,14 @@
         </p>
       </div>
       <div class="cards-container">
-        <div class="card">
-          <img src="../assets/img/customer1.webp" alt="" class="card-avi" />
-          <h2 class="card-title">Mark Essien</h2>
-          <h3 class="card-subtitle">Lagos, Nigeria.</h3>
-          <p class="card-desc">
-            Words can't explain the kind of treatment I received from the
-            management of star hotels. They are the best in the country.
-          </p>
+        <div class="card c1">
+          <a class="btn2" style="color: white" href="#">&#10142;</a>
         </div>
-        <div class="card">
-          <img src="../assets/img/customer2.webp" alt="" class="card-avi" />
-          <h2 class="card-title">Seyi Onifade</h2>
-          <h3 class="card-subtitle">Lagos, Nigeria.</h3>
-          <p class="card-desc">
-            Star hotels makes you feel the best room quality that makes you feel
-            the comfort of a home.
-          </p>
+        <div class="card c2">
+          <a class="btn2" style="color: white" href="#">&#10142;</a>
         </div>
-        <div class="card">
-          <img src="../assets/img/customer3.webp" alt="" class="card-avi" />
-          <h2 class="card-title">Fayemi David</h2>
-          <h3 class="card-subtitle">Lagos, Nigeria.</h3>
-          <p class="card-desc">
-            My Family and I are very happy when we lodge into star hotels. They
-            are by far the best in the universe.
-          </p>
+        <div class="card c3">
+          <a class="btn2" style="color: white" href="#">&#10142;</a>
         </div>
       </div>
     </div>
@@ -282,7 +128,58 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import "../assets/css/root.css";
+import store from "@/store";
+
+export default {
+  components: { VueDatePicker },
+  methods: {
+    // inp() {
+    //   let val = document.getElementsByClassName("dp__pointer")[1].value;
+    //   document.getElementById("mama").innerText = val;
+    // },    this.$router.push("/reservation");
+    inp() {
+      //state.fromDate = document.getElementsByClassName("dp__pointer")[1].value;
+      alert(store.state.fromDate); // <========
+      store.commit(
+        "setDate",
+        document.getElementsByClassName("dp__pointer")[1].value
+      );
+    },
+  },
+  setup() {
+    const checkin = ref(new Date());
+    const checkout = ref(new Date());
+    const format = (date) => {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      const ymd = `${year}/${month}/${day}`;
+      store.commit("setYmd", ymd);
+      return `${year}/${month}/${day}`;
+    };
+    const format2 = (date) => {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      const ymd2 = `${year}/${month}/${day}`;
+      store.commit("setYmd2", ymd2);
+      return `${year}/${month}/${day}`;
+    };
+    // const searchDate = ref();
+    return {
+      checkin,
+      checkout,
+      format,
+      format2,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -290,19 +187,125 @@ export default {};
   font-family: "Source Sans Pro";
 }
 
-/*Loader*/
-#loader {
-  background-color: #fff;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 9999;
+.check-box {
+  background-color: white;
+  width: 1180px;
+  height: 130px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px;
+  padding: 0px 80px;
   display: flex;
-  justify-content: center;
+  z-index: 1;
+  position: absolute;
+  bottom: 0px;
+  transform: translate(-50%, 50%);
+  left: 50%;
+  border-radius: 12px;
   align-items: center;
-  transition: ease;
+}
+.check {
+  display: flex;
+  align-items: center;
+  border-right: 1px solid lightgray;
+  justify-content: space-between;
+}
+.check p {
+  color: #d4af37;
+  text-align: center;
+}
+.checkout {
+  margin: 0 30px;
+}
+.large-image {
+  width: 400px;
+  height: 300px;
+}
+.tw-box {
+  display: flex;
+  width: 300px;
+  align-items: center;
+  justify-content: space-between;
+}
+.room,
+.person {
+  width: 150px;
+}
+.special-offers {
+  margin-top: 200px;
+}
+.tw-box p {
+  color: #d4af37;
+  text-align: center;
+}
+.tw-box select {
+  border: none;
+  max-width: 50px;
+  margin-left: 60px;
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+}
+.res {
+  width: 50%;
+  height: 50%;
+  margin: 0 20px;
+  border: 0;
+  background-color: #d4af37;
+  color: white;
+  cursor: pointer;
+}
+
+/* 위에서부터 css시작*/
+.dp__input {
+  width: 170px;
+  height: 74px;
+  border: 1px solid red;
+}
+.large-image-container h4 {
+  text-align: center;
+}
+.large-image-container a {
+  cursor: pointer;
+}
+.large-image-container .btn {
+  margin-left: 158px;
+  width: 82px;
+  padding: 6px 0;
+  text-align: center;
+  background-color: #fafafa;
+  border: 1px solid #bcbcbc;
+  border-radius: 15px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 12px;
+}
+.large-image-container img:hover {
+  filter: brightness(0.5);
+}
+.card .btn2 {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 30px;
+  text-decoration: none;
+  margin-right: 5px;
+}
+.c1 {
+  background-image: url("../assets/img/dining.jpg");
+}
+.c2 {
+  background-image: url("../assets/img/shop.jpg");
+}
+.c3 {
+  background-image: url("../assets/img/work.jpg");
+}
+.card {
+  background-size: cover;
+  position: relative;
 }
 
 #loader svg {
@@ -354,10 +357,6 @@ h2 {
   height: 105px;
 }
 
-.large-image {
-  height: 227px;
-}
-
 .side-by-side-container {
   display: flex;
 }
@@ -384,7 +383,6 @@ h2 {
 .page-header {
   /* font-weight: 500; */
   text-align: center;
-  padding: 0 150px 0 0;
 }
 
 .page-header:after {
@@ -418,16 +416,7 @@ h2 {
   min-height: calc(100vh - 12vh);
   display: flex;
   color: white;
-}
-
-.jumbotron-left {
-  flex: 3;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding-left: 10%;
-  /* border: 1px solid white; */
+  position: relative;
 }
 
 .jumbotron-left > * {
