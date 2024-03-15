@@ -11,6 +11,7 @@ const store = createStore({
       checkinDate: null,
       checkoutDate: null,
       selectedRoomImageData: null,
+      totalmember: null,
     };
   },
   getters: {
@@ -39,6 +40,9 @@ const store = createStore({
     },
     setSelectedRoomImageData(state, imageData) {
       state.selectedRoomImageData = imageData;
+    },
+    setTotalMember(state, totalmember) {
+      state.totalmember = totalmember;
     },
   },
   actions: {

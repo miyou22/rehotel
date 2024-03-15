@@ -173,7 +173,7 @@
               </li>
               <li>
                 <div class="tit">인원수</div>
-                <div class="con">{{selectedRoomMember}}명</div>
+                <div class="con">{{totalmember}}명</div>
               </li>
               <li>
                 <div class="tit">객실타입</div>
@@ -298,6 +298,7 @@ export default {
     ...mapState(["roomImages"]),
     ...mapState(["fromDate", "fromDate2"]),
     ...mapState(["checkinDate", "checkoutDate"]),
+    ...mapState(["totalmember"]),
     // 저장된 데이터에서 필요한 정보를 추출하는 computed 속성 정의
     selectedRoomTitle() {
       return this.selectedRoomData ? this.selectedRoomData.title : "";
@@ -315,9 +316,13 @@ export default {
       return this.$store.state.selectedRoomImageData;
     },
     totalRoomPrice() {
-      const stayDuration = this.calculateStayDuration();
-      const pricePerNight = this.selectedRoomPrice;
-      return stayDuration * pricePerNight;
+      let stayDuration = this.calculateStayDuration();
+  
+  // 숙박일수가 0박이면 1박 계산 가격변경
+  stayDuration = stayDuration === 0 ? 1 : stayDuration;
+  
+  const pricePerNight = this.selectedRoomPrice;
+  return stayDuration * pricePerNight;
     }
   },
 };

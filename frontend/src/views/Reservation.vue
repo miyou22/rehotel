@@ -7,19 +7,19 @@
         <div class="checkin">
           <p class="ch">Check in</p>
           <VueDatePicker
-              v-model="checkin"
-              :enable-time-picker="false"
-              :format="format"
-              auto-apply
-              year-first
-              locale="ko"
-              cancelText="취소"
-              selectText="선택"
-              week-start="0"
-              id="cal"
-              Foreground="{TemplateBinding Foreground}"
-              :min-date="new Date()"
-              placeholder="select a date
+            v-model="checkin"
+            :enable-time-picker="false"
+            :format="format"
+            auto-apply
+            year-first
+            locale="ko"
+            cancelText="취소"
+            selectText="선택"
+            week-start="0"
+            id="cal"
+            Foreground="{TemplateBinding Foreground}"
+            :min-date="new Date()"
+            placeholder="select a date
 "
           ></VueDatePicker>
         </div>
@@ -27,19 +27,19 @@
         <div class="checkout">
           <p>Check out</p>
           <VueDatePicker
-              v-model="checkout"
-              :enable-time-picker="false"
-              :format="format2"
-              auto-apply
-              year-first
-              locale="ko"
-              cancelText="취소"
-              selectText="선택"
-              week-start="0"
-              id="cal"
-              Foreground="{TemplateBinding Foreground}"
-              :min-date="checkin"
-              placeholder="select a date"
+            v-model="checkout"
+            :enable-time-picker="false"
+            :format="format2"
+            auto-apply
+            year-first
+            locale="ko"
+            cancelText="취소"
+            selectText="선택"
+            week-start="0"
+            id="cal"
+            Foreground="{TemplateBinding Foreground}"
+            :min-date="checkin"
+            placeholder="select a date"
           ></VueDatePicker>
         </div>
       </div>
@@ -54,16 +54,15 @@
         <div class="person">
           <p>인원수</p>
           <select
-              name="member"
-              id="member"
-              caption="인원수"
-              v-model="selectedMembers"
+            name="member"
+            id="member"
+            caption="인원수"
+            v-model="selectedMembers"
           >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
-            <option value="5">5</option>
           </select>
         </div>
       </div>
@@ -92,10 +91,10 @@
             </h3>
             <p>원/1박</p>
             <a
-                href="/payment"
-                class="resBtn"
-                @click="$router.push('/payment'), reserveRoom(list)"
-            >예약하기</a
+              href="/payment"
+              class="resBtn"
+              @click.prevent="reserveRoom(list)"
+              >예약하기</a
             >
           </div>
         </div>
@@ -113,17 +112,33 @@ import "../assets/css/root.css";
 export default {
   components: { VueDatePicker },
   methods: {
-     filterList() {
+    filterList() {
       const selectedMember = parseInt(document.getElementById("member").value); // 선택된 인원수 가져오기
       this.selectedRoom = this.room.filter(
-          (item) => item.member >= selectedMember
+        (item) => item.member >= selectedMember
       );
     },
     reserveRoom(roomData) {
+      const selectedMember = parseInt(document.getElementById("member").value);
+
+      // 선택된 객실 데이터
+      const selectedRoom = this.room.find(
+        (item) => item.title === roomData.title
+      );
+
+      if (selectedMember > selectedRoom.member) {
+    // 선택된 인원이 최소 인원보다 적을 때 경고창 표시
+    alert("선택된 인원이 객실의 수용 가능한 최대 인원보다 많습니다."
+    );
+  } else {
       this.$store.commit("setSelectedRoomData", roomData);
       this.$store.commit("setCheckinDate", this.checkin);
       this.$store.commit("setCheckoutDate", this.checkout);
-      this.$store.dispatch('saveSelectedRoomImageData', roomData.img);
+      this.$store.dispatch("saveSelectedRoomImageData", roomData.img);
+      const selectedMember = parseInt(document.getElementById("member").value); // 선택된 인원수 가져오기
+      this.$store.commit("setTotalMember", selectedMember);
+      this.$router.push('/payment');
+  }
     },
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -161,28 +176,28 @@ export default {
         {
           img: require("../assets/img/deluxRoom.jpg"),
           title: "디럭스 룸",
-          type: "더블 3개",
+          type: "더블 1개",
           member: 2,
           price: 140000,
         },
         {
           img: require("../assets/img/deluxFull.jpg"),
           title: "디럭스 풀빌라",
-          type: "더블 3개",
+          type: "더블 2개",
           member: 2,
           price: 260000,
         },
         {
           img: require("../assets/img/loyalsweet.jpg"),
           title: "로얄 스위트",
-          type: "더블 3개",
+          type: "더블 1개",
           member: 2,
           price: 280000,
         },
         {
           img: require("../assets/img/deluxsweet.jpg"),
           title: "디럭스 스위트 룸",
-          type: "더블 3개",
+          type: "더블 2개",
           member: 3,
           price: 230000,
         },
@@ -197,7 +212,6 @@ export default {
     };
   },
   computed: {
-
     setYmd() {
       return this.$store.state.fromDate;
     },
@@ -386,5 +400,4 @@ ul > li {
   text-decoration: none;
   line-height: 90px;
 }
-
 </style>
