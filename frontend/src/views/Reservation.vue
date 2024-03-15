@@ -7,19 +7,19 @@
         <div class="checkin">
           <p class="ch">Check in</p>
           <VueDatePicker
-            v-model="checkin"
-            :enable-time-picker="false"
-            :format="format"
-            auto-apply
-            year-first
-            locale="ko"
-            cancelText="취소"
-            selectText="선택"
-            week-start="0"
-            id="cal"
-            Foreground="{TemplateBinding Foreground}"
-            :min-date="new Date()"
-            placeholder="select a date
+              v-model="checkin"
+              :enable-time-picker="false"
+              :format="format"
+              auto-apply
+              year-first
+              locale="ko"
+              cancelText="취소"
+              selectText="선택"
+              week-start="0"
+              id="cal"
+              Foreground="{TemplateBinding Foreground}"
+              :min-date="new Date()"
+              placeholder="select a date
 "
           ></VueDatePicker>
         </div>
@@ -27,19 +27,19 @@
         <div class="checkout">
           <p>Check out</p>
           <VueDatePicker
-            v-model="checkout"
-            :enable-time-picker="false"
-            :format="format2"
-            auto-apply
-            year-first
-            locale="ko"
-            cancelText="취소"
-            selectText="선택"
-            week-start="0"
-            id="cal"
-            Foreground="{TemplateBinding Foreground}"
-            :min-date="checkin"
-            placeholder="select a date"
+              v-model="checkout"
+              :enable-time-picker="false"
+              :format="format2"
+              auto-apply
+              year-first
+              locale="ko"
+              cancelText="취소"
+              selectText="선택"
+              week-start="0"
+              id="cal"
+              Foreground="{TemplateBinding Foreground}"
+              :min-date="checkin"
+              placeholder="select a date"
           ></VueDatePicker>
         </div>
       </div>
@@ -54,10 +54,10 @@
         <div class="person">
           <p>인원수</p>
           <select
-            name="member"
-            id="member"
-            caption="인원수"
-            v-model="selectedMembers"
+              name="member"
+              id="member"
+              caption="인원수"
+              v-model="selectedMembers"
           >
             <option value="1">1</option>
             <option value="2">2</option>
@@ -92,10 +92,10 @@
             </h3>
             <p>원/1박</p>
             <a
-              href="/payment"
-              class="resBtn"
-              @click="$router.push('/payment'), reserveRoom(list)"
-              >예약하기</a
+                href="/payment"
+                class="resBtn"
+                @click="$router.push('/payment'), reserveRoom(list)"
+            >예약하기</a
             >
           </div>
         </div>
@@ -124,12 +124,14 @@ export default {
     filterList() {
       const selectedMember = parseInt(document.getElementById("member").value); // 선택된 인원수 가져오기
       this.selectedRoom = this.room.filter(
-        (item) => item.member >= selectedMember
+          (item) => item.member >= selectedMember
       );
     },
     reserveRoom(roomData) {
       this.$store.commit("setSelectedRoomData", roomData);
-      // 예약 후 페이지 이동 등의 작업을 수행할 수 있습니다.
+      this.$store.commit("setCheckinDate", this.checkin);
+      this.$store.commit("setCheckoutDate", this.checkout);
+      this.$store.dispatch('saveSelectedRoomImageData', roomData.img);
     },
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

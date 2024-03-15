@@ -20,25 +20,25 @@
           <div class="inp-list">
             <div class="first-inp">
               <input
-                name="name"
-                type="text"
-                placeholder="고객명 (필수)"
-                required
-                v-model="customerName"
+                  name="name"
+                  type="text"
+                  placeholder="고객명 (필수)"
+                  required
+                  v-model="customerName"
               />
               <input
-                name="phoneNumber"
-                type="tel"
-                placeholder="연락처 (필수)"
-                required
-                v-model="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="연락처 (필수)"
+                  required
+                  v-model="phoneNumber"
               />
               <input
-                name="email"
-                type="email"
-                placeholder="이메일 (필수)"
-                required
-                v-model="email"
+                  name="email"
+                  type="email"
+                  placeholder="이메일 (필수)"
+                  required
+                  v-model="email"
               />
             </div>
             <div class="want">
@@ -65,11 +65,11 @@
                 <p>개인정보처리방침 동의 <b>(필수)</b></p>
                 <label for="privacycheck" class="infocheck">
                   <input
-                    type="checkbox"
-                    id="privacycheck"
-                    required
-                    class="infoinp"
-                    v-model="info"
+                      type="checkbox"
+                      id="privacycheck"
+                      required
+                      class="infoinp"
+                      v-model="info"
                   />
                   동의합니다
                 </label>
@@ -114,11 +114,11 @@
                 <p>취소 환불 수수료에 관한 동의 <b>(필수)</b></p>
                 <label for="privacycheck" class="infocheck">
                   <input
-                    v-model="repay"
-                    type="checkbox"
-                    id="privacycheck"
-                    required
-                    class="infoinp"
+                      v-model="repay"
+                      type="checkbox"
+                      id="privacycheck"
+                      required
+                      class="infoinp"
                   />
                   동의합니다
                 </label>
@@ -154,22 +154,22 @@
         </div>
       </div>
       <div class="pay-check">
-        <h3 class="checkhead">상품 개요</h3>
+        <h3 class="checkhead">선택한 객실</h3>
         <div class="checkContent">
           <div class="con-group">
             <h4 class="roomtype" id="tit">{{ selectedRoomTitle }}</h4>
             <ul class="checklist">
               <li>
                 <div class="tit">체크인</div>
-                <div class="con">{{ fromDate }}</div>
+                <div class="con" id="checkin">{{ checkinDate }}</div>
               </li>
               <li>
                 <div class="tit">체크아웃</div>
-                <div class="con">{{ fromDate2 }}</div>
+                <div class="con" id="checkout">{{ checkoutDate }}</div>
               </li>
               <li>
                 <div class="tit">숙박일수</div>
-                <div class="con">1박</div>
+                <div class="con">{{ calculateStayDuration() }}박</div>
               </li>
               <li>
                 <div class="tit">인원수</div>
@@ -184,7 +184,7 @@
           <div class="con-group">
             <h4 class="tw-tit">객실/패키지</h4>
             <div class="img-wrap">
-              <img src="" style="width: 253px" alt="객실 이미지" />
+              <img :src="roomImageData" style="width: 253px" alt="객실 이미지" />
             </div>
             <ul>
               <li>
@@ -206,7 +206,7 @@
                 </div>
                 <div class="con">
                   <strong id="price"
-                    >{{ numberWithCommas(selectedRoomPrice) }} <b>원</b></strong
+                  >{{ numberWithCommas(selectedRoomPrice) }} <b>원</b></strong
                   >
                 </div>
               </li>
@@ -223,6 +223,7 @@
 <script>
 import { mapState } from "vuex";
 
+
 export default {
   data() {
     return {
@@ -235,6 +236,19 @@ export default {
     };
   },
   methods: {
+    calculateStayDuration() {
+      // 체크인 날짜와 체크아웃 날짜를 받아옵니다.
+      const checkinDate = new Date(this.checkinDate);
+      const checkoutDate = new Date(this.checkoutDate);
+
+      // 밀리초로 변환 후 일수 차이를 계산합니다.
+      const millisecondsPerDay = 1000 * 60 * 60 * 24;
+      const differenceInTime = checkoutDate.getTime() - checkinDate.getTime();
+      const stayDuration = Math.ceil(differenceInTime / millisecondsPerDay);
+
+      // 일수를 반환합니다.
+      return stayDuration;
+    },
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
@@ -253,27 +267,27 @@ export default {
       IMP.init("imp37045634");
       // IMP.request_pay(param, callback) 결제창 호출
       IMP.request_pay(
-        {
-          // param
-          pg: "html5_inicis",
-          pay_method: "card",
-          merchant_uid: "merchant_" + new Date().getTime(),
-          name: name2,
-          amount: 1000,
-          buyer_email: this.email,
-          buyer_name: this.nickname,
-        },
-        (rsp) => {
-          // callback
-          if (rsp.success) {
-            console.log(rsp.success);
-            console.log(rsp);
-            // 결제 성공 시 로직,
-          } else {
-            // 결제 실패 시 로직,
-            console.log("실패");
+          {
+            // param
+            pg: "html5_inicis",
+            pay_method: "card",
+            merchant_uid: "merchant_" + new Date().getTime(),
+            name: name2,
+            amount: 1000,
+            buyer_email: this.email,
+            buyer_name: this.nickname,
+          },
+          (rsp) => {
+            // callback
+            if (rsp.success) {
+              console.log(rsp.success);
+              console.log(rsp);
+              // 결제 성공 시 로직,
+            } else {
+              // 결제 실패 시 로직,
+              console.log("실패");
+            }
           }
-        }
       );
     },
   },
@@ -282,6 +296,7 @@ export default {
     ...mapState(["selectedRoomData"]),
     ...mapState(["roomImages"]),
     ...mapState(["fromDate", "fromDate2"]),
+    ...mapState(["checkinDate", "checkoutDate"]),
     // 저장된 데이터에서 필요한 정보를 추출하는 computed 속성 정의
     selectedRoomTitle() {
       return this.selectedRoomData ? this.selectedRoomData.title : "";
@@ -294,6 +309,9 @@ export default {
     },
     selectedRoomPrice() {
       return this.selectedRoomData ? this.selectedRoomData.price : "";
+    },
+    roomImageData() {
+      return this.$store.state.selectedRoomImageData;
     },
   },
 };

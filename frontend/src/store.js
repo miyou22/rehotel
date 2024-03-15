@@ -8,6 +8,9 @@ const store = createStore({
       fromDate2: "",
       selectedMembers: 1,
       selectedRoomData: null,
+      checkinDate: null,
+      checkoutDate: null,
+      selectedRoomImageData: null,
     };
   },
   getters: {
@@ -28,10 +31,22 @@ const store = createStore({
     setSelectedRoomData(state, payload) {
       state.selectedRoomData = payload;
     },
+    setCheckinDate(state, checkinDate) {
+      state.checkinDate = checkinDate;
+    },
+    setCheckoutDate(state, checkoutDate) {
+      state.checkoutDate = checkoutDate;
+    },
+    setSelectedRoomImageData(state, imageData) {
+      state.selectedRoomImageData = imageData;
+    },
   },
   actions: {
     updateSelectedMembers({ commit }, value) {
       commit("setSelectedMembers", value);
+    },
+    saveSelectedRoomImageData({ commit }, imageData) {
+      commit('setSelectedRoomImageData', imageData);
     },
   },
 });
