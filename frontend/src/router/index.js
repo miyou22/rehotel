@@ -7,6 +7,8 @@ import Dining from '../views/Dining'
 import Newsevent from '../views/Newsevent'
 import Faq from '../views/news/faq/Faq'
 import Board from '../views/news/board/BoardList'
+import BoardDetail from '../views/news/board/BoardDetail'
+
 import Payment from '../views/Payment'
 
 
@@ -56,6 +58,13 @@ const routes = [
     name: "payment",
     component: Payment,
   },
+  },
+  {
+    path: '/:pageType/detail',
+    name: 'detail',
+    component: BoardDetail
+  }
+
   // {
   //   path: '/about',
   //   name: 'about',
