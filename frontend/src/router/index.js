@@ -7,6 +7,9 @@ import Dining from '../views/Dining'
 import Newsevent from '../views/Newsevent'
 import Faq from '../views/news/faq/Faq'
 import Board from '../views/news/board/BoardList'
+import Banquethall from '../views/Banquethall'
+
+
 import BoardDetail from '../views/news/board/BoardDetail'
 
 import Payment from '../views/Payment'
@@ -52,6 +55,11 @@ const routes = [
     path: '/:pageType',
     name: 'pageType',
     component: Board
+  },
+  {
+    path: '/banquethall',
+    name: 'banquethall',
+    component: Banquethall
   },
  {
     path: "/payment",

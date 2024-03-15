@@ -1,7 +1,9 @@
 <template>
   <header id="head">
     <div class="header-container aaa">
+
       <nav class="header-nav-bar ">
+        <!-- ========================================================== -->
         <div class="header-nav-logo">
           <!-- <a href="index.html"> -->
           <a href="/">
@@ -14,65 +16,63 @@
           <ul class="header-nav-lists">
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/about' }" href="about">About</a>
-              <ul class="subMenu">
-                <li><a href="#"><p>호텔소개</p></a></li>
-                <li><a href="#"><p>오시는길</p></a></li>
-              </ul>
+
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation' }"
                 href="accommodation">Accommodation</a>
-              <ul class="subMenu acc">
-                <li><a href="#"><p>호텔형</p></a></li>
-                <li><a href="#"><p>콘도형</p></a></li>
-              </ul>
+
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/dining' }"
-                href="dining">Dining</a>
-              <ul class="subMenu">
-                <li><a href="#"><p>식사장소</p></a></li>
-              </ul>
+                href="dining">Facility</a>
+
+            </li>
+            <li class="header-nav-list">
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/newsevent' }"
+                href="newsevent">banquet hall</a>
+
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/reservation' }"
                 href="reservation">Reservation</a>
-              <ul class="subMenu">
-                <li><a href="#"><p>객실/패키지 예약</p></a></li>
-                <li><a href="#"><p>예약조회</p></a></li>
-              </ul>
+
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/newsevent' }"
                 href="newsevent">news&event</a>
-              <ul class="subMenu news">
-                <li><a href="#"><p>공지사항</p></a></li>
-                <li><a href="#"><p>faq</p></a></li>
-              </ul>
             </li>
+            
 
           </ul>
         </div>
 
-        <li class="header-nav-list">
-          <a class="header-btn header-btn-custom" href="https://timbu.com/search?query=hotel">subscribe</a>
-        </li>
 
 
+
+
+
+
+
+
+      </nav>
+      <div>
+        <ul class="header-top-gnb">
+          <div class="top-menu">
+          <li><a href="#">MyPage</a></li>
+          <li><a href="#">LogIn</a></li>
+          <li><a href="#">회원가입</a></li>
+          <li><a href="#">회원가입</a></li>
+          <li><a href="#">회원가입</a></li>
+        </div>
+         <li> <button class="top-btn">Books Now</button></li>
+        </ul>
         <div class="header-hamburger-icon" @click="toggle">
           <div class="header-hamburger-line-1"></div>
           <div class="header-hamburger-line-2"></div>
           <div class="header-hamburger-line-3"></div>
         </div>
-
-        <div class="header-top">
-          <ul class="header-top-gnb">
-            <li><a href="#">로그인</a></li>
-            <li><a href="#">회원가입</a></li>
-            <li><a href="#">호텔 찾기</a></li>
-          </ul>
-        </div>
-      </nav>
+      </div>
     </div>
   </header>
 </template>
@@ -106,46 +106,68 @@ export default {
 <style scoped>
 @import "../assets/css/Header.css";
 
-#gnbMenu{
- display: flex;
- 
+#gnbMenu {
+  display: flex;
+
+}
+
+#gnbMenu ul {
+  list-style: none;
+
 }
 
 
-
-#gnbMenu a{
+#gnbMenu a {
   text-decoration: none;
 }
-#gnbMenu li:hover .subMenu{
-  height: 100px;
+
+#gnbMenu li:hover .subMenu {
+  width: 150px;
   display: block;
 }
-.subMenu{
+
+.subMenu {
   position: absolute;
   display: none;
+  z-index: 100;
+  list-style: none;
+  background-color: white;
+  border-radius: 3%;
+  outline: 1px solid black;
 }
 
-.subMenu li a p{
+.subMenu li a p {
   font-size: 14px;
-  color: #fff;
+  color: black;
+  padding: 10px;
+}
+
+.top-btn {
+  height: 60px;
+  border-radius: 5%;
+  width: 180px;
+  margin-left: 30px;
+	background-color: #d4af37;
+  color: white;
+  float: right;
+}
 
 
+.subMenu li a p:hover {
+  color: #D4AF37;
 }
-.subMenu li a{
-text-align: center;
+
+.aaa {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.subMenu li a p:hover{
-color: orange;
-}
-.aaa{
-  height: 120px;
-}
-.acc{
+
+.acc {
   width: 140px;
 }
-.news{
+
+.news {
   width: 100px;
 }
-
-
 </style>

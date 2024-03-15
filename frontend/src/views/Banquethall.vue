@@ -1,16 +1,8 @@
 <template>
   <main>
-    <div class="sub-gnb">
-      <p class="name">Accommodation</p>
-      <ul class="sub-gnb-list">
-        <li><a href="#">객실</a> </li>
-        <li><a href="#">부대시설</a> </li>
-        <li><a href="#">연회장</a> </li>
-      </ul>
-    </div>
     <div class="container">
 
-
+      
 
 
       <!-- Top Text -->
@@ -27,19 +19,43 @@
       <section class="special-offers">
         <div class="row center-lg">
           <div class="col image-col right-marg">
-            <img src="../assets/img/hotel-1.webp" alt="room-image" class="small-image" />
-            <img src="../assets/img/hotel-2.webp" alt="room-image" class="small-image" />
-            <img src="../assets/img/hotel-3.webp" alt="room-image" class="small-image" />
+            <img
+              src="../assets/img/hotel-1.webp"
+              alt="room-image"
+              class="small-image"
+            />
+            <img
+              src="../assets/img/hotel-2.webp"
+              alt="room-image"
+              class="small-image"
+            />
+            <img
+              src="../assets/img/hotel-3.webp"
+              alt="room-image"
+              class="small-image"
+            />
             <div class="side-by-side-container">
               <div class="large-image-container">
-                <img src="../assets/img/hotel-4-large.webp" alt="room-image-large" class="large-image" />
+                <img
+                  src="../assets/img/hotel-4-large.webp"
+                  alt="room-image-large"
+                  class="large-image"
+                />
               </div>
               <section class="stacked-image-container">
                 <div>
-                  <img src="../assets/img/hotel-5.webp" alt="room-image" class="small-image" />
+                  <img
+                    src="../assets/img/hotel-5.webp"
+                    alt="room-image"
+                    class="small-image"
+                  />
                 </div>
                 <div>
-                  <img src="../assets/img/hotel-6.webp" alt="room-image" class="small-image" />
+                  <img
+                    src="../assets/img/hotel-6.webp"
+                    alt="room-image"
+                    class="small-image"
+                  />
                 </div>
               </section>
             </div>
@@ -53,19 +69,31 @@
             <ul class="offers-list">
               <li>
                 <div>
-                  <img src="../assets/img/check-square.svg" alt="tick" class="list-icon" />
+                  <img
+                    src="../assets/img/check-square.svg"
+                    alt="tick"
+                    class="list-icon"
+                  />
                   <p class="list-text">Free Wi-Fi Service</p>
                 </div>
               </li>
               <li>
                 <div>
-                  <img src="../assets/img/check-square.svg" alt="tick" class="list-icon" />
+                  <img
+                    src="../assets/img/check-square.svg"
+                    alt="tick"
+                    class="list-icon"
+                  />
                   <p class="list-text">Best Rate Guarantee</p>
                 </div>
               </li>
               <li>
                 <div>
-                  <img src="../assets/img/check-square.svg" alt="tick" class="list-icon" />
+                  <img
+                    src="../assets/img/check-square.svg"
+                    alt="tick"
+                    class="list-icon"
+                  />
                   <p class="list-text">Free DSTV Access</p>
                 </div>
               </li>
@@ -79,12 +107,20 @@
       <section class="rooms-section">
         <div class="row room-section-header-container">
           <div class="col col-3">
-            <h4 class="room-section-header active-header" @click="isActive" id="standard-room">
+            <h4
+              class="room-section-header active-header"
+              @click="isActive"
+              id="standard-room"
+            >
               Standard Rooms
             </h4>
           </div>
           <div class="col col-3">
-            <h4 class="room-section-header" @click="isActive" id="executive-room">
+            <h4
+              class="room-section-header"
+              @click="isActive"
+              id="executive-room"
+            >
               Executive Rooms
             </h4>
           </div>
@@ -96,8 +132,11 @@
         </div>
         <div class="row center-lg">
           <div class="rooms col col-2">
-            <img src="https://res.cloudinary.com/start-ng/image/upload/v1591638448/Rectangle_42_nastdj.png" alt=""
-              class="rooms-img" />
+            <img
+              src="https://res.cloudinary.com/start-ng/image/upload/v1591638448/Rectangle_42_nastdj.png"
+              alt=""
+              class="rooms-img"
+            />
             <h3 class="room-title">Standard Economic Single</h3>
             <p class="room-text">
               Designed specifically for Practicality and <br />
@@ -105,23 +144,38 @@
             </p>
             <div>
               <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
+                <img
+                  src="assets/img/check-square.svg"
+                  alt="tick"
+                  class="list-icon"
+                />
                 <p class="list-text">2 Persons</p>
               </div>
               <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
+                <img
+                  src="assets/img/check-square.svg"
+                  alt="tick"
+                  class="list-icon"
+                />
                 <p class="list-text">1 Kingsize bed</p>
               </div>
             </div>
             <p class="amount-text">NGN25,000 Per Night</p>
             <div class="buttons-container">
               <a href="#" class="btn btn-ghost">View More</a>
-              <a href="https://timbu.com/search?query=hotel" class="btn btn-fill">Book Now</a>
+              <a
+                href="https://timbu.com/search?query=hotel"
+                class="btn btn-fill"
+                >Book Now</a
+              >
             </div>
           </div>
           <div class="rooms col col-2">
-            <img src="https://res.cloudinary.com/start-ng/image/upload/v1591638449/Rectangle_43_d9eepu.png" alt=""
-              class="rooms-img" />
+            <img
+              src="https://res.cloudinary.com/start-ng/image/upload/v1591638449/Rectangle_43_d9eepu.png"
+              alt=""
+              class="rooms-img"
+            />
             <h3 class="room-title">Standard Economic Single</h3>
             <p class="room-text">
               Designed specifically for Practicality and <br />
@@ -129,7 +183,11 @@
             </p>
             <div>
               <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
+                <img
+                  src="assets/img/check-square.svg"
+                  alt="tick"
+                  class="list-icon"
+                />
                 <p class="list-text">2 Persons</p>
               </div>
               <div class="details-container">
@@ -140,12 +198,19 @@
             <p class="amount-text">NGN35,000 Per Night</p>
             <div class="buttons-container">
               <a href="#" class="btn btn-ghost">View More</a>
-              <a href="https://timbu.com/search?query=hotel" class="btn btn-fill">Book Now</a>
+              <a
+                href="https://timbu.com/search?query=hotel"
+                class="btn btn-fill"
+                >Book Now</a
+              >
             </div>
           </div>
           <div class="rooms col col-2">
-            <img src="https://res.cloudinary.com/start-ng/image/upload/v1591638448/Rectangle_44_anerdv.png" alt=""
-              class="rooms-img" />
+            <img
+              src="https://res.cloudinary.com/start-ng/image/upload/v1591638448/Rectangle_44_anerdv.png"
+              alt=""
+              class="rooms-img"
+            />
             <h3 class="room-title">Standard Economic Single</h3>
             <p class="room-text">
               Designed specifically for Practicality and <br />
@@ -153,7 +218,11 @@
             </p>
             <div>
               <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
+                <img
+                  src="assets/img/check-square.svg"
+                  alt="tick"
+                  class="list-icon"
+                />
                 <p class="list-text">2 Persons</p>
               </div>
               <div class="details-container">
@@ -164,12 +233,19 @@
             <p class="amount-text">NGN45,000 Per Night</p>
             <div class="buttons-container">
               <a href="#" class="btn btn-ghost">View More</a>
-              <a href="https://timbu.com/search?query=hotel" class="btn btn-fill">Book Now</a>
+              <a
+                href="https://timbu.com/search?query=hotel"
+                class="btn btn-fill"
+                >Book Now</a
+              >
             </div>
           </div>
           <div class="rooms col col-2">
-            <img src="https://res.cloudinary.com/start-ng/image/upload/v1591638449/Rectangle_45_mtl458.png" alt=""
-              class="rooms-img" />
+            <img
+              src="https://res.cloudinary.com/start-ng/image/upload/v1591638449/Rectangle_45_mtl458.png"
+              alt=""
+              class="rooms-img"
+            />
             <h3 class="room-title">Standard Economic Single</h3>
             <p class="room-text">
               Designed specifically for Practicality and <br />
@@ -177,7 +253,11 @@
             </p>
             <div>
               <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
+                <img
+                  src="assets/img/check-square.svg"
+                  alt="tick"
+                  class="list-icon"
+                />
                 <p class="list-text">2 Persons</p>
               </div>
               <div class="details-container">
@@ -188,7 +268,11 @@
             <p class="amount-text">NGN50,000 Per Night</p>
             <div class="buttons-container">
               <a href="#" class="btn btn-ghost">View More</a>
-              <a href="https://timbu.com/search?query=hotel" class="btn btn-fill">Book Now</a>
+              <a
+                href="https://timbu.com/search?query=hotel"
+                class="btn btn-fill"
+                >Book Now</a
+              >
             </div>
           </div>
         </div>
@@ -224,42 +308,16 @@ export default {
   margin: 0 auto;
   padding: 1.5rem 0.5rem;
 }
-
 h4 {
   color: rgba(36, 30, 9, 0.6);
   font-weight: 500;
   font-size: 95%;
   cursor: pointer;
 }
-
 .active-header {
-  color: #241E09;
-  font-weight: 500;
-  font-size: 95%;
-  cursor: pointer;
-}
-
-.sub-gnb{
-  display: flex;
-  height: 100px;
-  outline: 1px solid red;
-  align-items: center;
-}
-.name{
-  margin:0 40px 0 40px;
-}
-.sub-gnb-list{
-display: flex;
-list-style: none;
-
-}
-.sub-gnb-list li{
-  margin: 0 20px 0 20px ;
-
-
-}
-.sub-gnb-list li a{
-  font-size: 16px;
-  text-decoration: none;
+    color: #241E09;
+    font-weight: 500;
+    font-size: 95%;
+    cursor: pointer;
 }
 </style>
