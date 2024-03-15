@@ -140,18 +140,7 @@ import store from "@/store";
 export default {
   components: { VueDatePicker },
   methods: {
-    // inp() {
-    //   let val = document.getElementsByClassName("dp__pointer")[1].value;
-    //   document.getElementById("mama").innerText = val;
-    // },    this.$router.push("/reservation");
-    inp() {
-      //state.fromDate = document.getElementsByClassName("dp__pointer")[1].value;
-      alert(store.state.fromDate); // <========
-      store.commit(
-        "setDate",
-        document.getElementsByClassName("dp__pointer")[1].value
-      );
-    },
+
   },
   setup() {
     const checkin = ref(new Date());
