@@ -113,15 +113,7 @@ import "../assets/css/root.css";
 export default {
   components: { VueDatePicker },
   methods: {
-    // inp() {
-    //   let val = document.getElementsByClassName("dp__pointer")[1].value;
-    //   document.getElementById("mama").innerText = val;
-    // },
-    // printCheckin() {
-    //   document.getElementById("ppp").innerText = this.checkin;
-    // },
-
-    filterList() {
+     filterList() {
       const selectedMember = parseInt(document.getElementById("member").value); // 선택된 인원수 가져오기
       this.selectedRoom = this.room.filter(
           (item) => item.member >= selectedMember
@@ -154,7 +146,7 @@ export default {
 
       return `${year}/${month}/${day}`;
     };
-    // const searchDate = ref();
+
     return {
       checkin,
       checkout,
@@ -205,7 +197,7 @@ export default {
     };
   },
   computed: {
-    // store에서 fromDate에 접근하는 computed 속성을 추가합니다.
+
     setYmd() {
       return this.$store.state.fromDate;
     },
@@ -220,7 +212,6 @@ export default {
     },
   },
   mounted() {
-    // Vuex store의 값을 input 요소의 값에 설정
     this.checkin = this.setYmd;
     this.checkout = this.setYmd2;
     this.selectedMembers = this.setSelectedMembers;
@@ -395,4 +386,5 @@ ul > li {
   text-decoration: none;
   line-height: 90px;
 }
+
 </style>

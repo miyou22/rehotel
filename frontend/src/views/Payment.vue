@@ -237,16 +237,16 @@ export default {
   },
   methods: {
     calculateStayDuration() {
-      // 체크인 날짜와 체크아웃 날짜를 받아옵니다.
+      // 체크인 날짜와 체크아웃 날짜를 받아오기
       const checkinDate = new Date(this.checkinDate);
       const checkoutDate = new Date(this.checkoutDate);
 
-      // 밀리초로 변환 후 일수 차이를 계산합니다.
+
       const millisecondsPerDay = 1000 * 60 * 60 * 24;
       const differenceInTime = checkoutDate.getTime() - checkinDate.getTime();
       const stayDuration = Math.ceil(differenceInTime / millisecondsPerDay);
 
-      // 일수를 반환합니다.
+      // 일수를 반환
       return stayDuration;
     },
     numberWithCommas(x) {
