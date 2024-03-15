@@ -9,6 +9,7 @@ import Faq from '../views/news/faq/Faq'
 import Board from '../views/news/board/BoardList'
 import BoardDetail from '../views/news/board/BoardDetail'
 
+import Payment from '../views/Payment'
 
 
 const routes = [
@@ -52,6 +53,12 @@ const routes = [
     name: 'pageType',
     component: Board
   },
+ {
+    path: "/payment",
+    name: "payment",
+    component: Payment,
+  },
+
   {
     path: '/:pageType/detail',
     name: 'detail',
