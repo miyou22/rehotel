@@ -1,7 +1,6 @@
 <template>
   <main>
     <h1 class="headtxt">Reservation</h1>
-    <h1></h1>
 
     <div class="check-box">
       <div class="check">
@@ -49,14 +48,17 @@
           <p>객실수</p>
           <select name="room" id="room" caption="객실수">
             <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
           </select>
         </div>
 
         <div class="person">
           <p>인원수</p>
-          <select name="member" id="member" caption="인원수">
+          <select
+            name="member"
+            id="member"
+            caption="인원수"
+            v-model="selectedMembers"
+          >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -65,14 +67,14 @@
           </select>
         </div>
       </div>
-      <button class="res">검색</button>
+      <button class="res" @click="filterList">검색</button>
     </div>
 
     <div class="reservation">
       <div class="headtxt2">
         <h4>객실예약</h4>
       </div>
-      <div class="list" v-for="list in room" :key="list">
+      <div class="list" v-for="list in filteredRoom" :key="list">
         <div class="content">
           <div class="img">
             <img :src="list.img" width="253px" />
@@ -86,10 +88,15 @@
           </div>
           <div class="price">
             <h3 class="rm-price-box">
-              <span class="rm-price">{{ list.price }}</span>
+              <span class="rm-price">{{ numberWithCommas(list.price) }}</span>
             </h3>
             <p>원/1박</p>
-            <a href="/reservation/pay" class="resBtn">예약하기</a>
+            <a
+              href="/payment"
+              class="resBtn"
+              @click="$router.push('/payment'), reserveRoom(list)"
+              >예약하기</a
+            >
           </div>
         </div>
       </div>
@@ -113,6 +120,20 @@ export default {
     // printCheckin() {
     //   document.getElementById("ppp").innerText = this.checkin;
     // },
+
+    filterList() {
+      const selectedMember = parseInt(document.getElementById("member").value); // 선택된 인원수 가져오기
+      this.selectedRoom = this.room.filter(
+        (item) => item.member >= selectedMember
+      );
+    },
+    reserveRoom(roomData) {
+      this.$store.commit("setSelectedRoomData", roomData);
+      // 예약 후 페이지 이동 등의 작업을 수행할 수 있습니다.
+    },
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
   },
   setup() {
     const checkin = ref(new Date());
@@ -141,20 +162,42 @@ export default {
   },
   data() {
     return {
+      selectedRoom: null,
       room: [
         {
-          img: require("../assets/img/hotel-1.webp"),
-          title: "그랜드 럭셔리 더블 시티뷰",
+          img: require("../assets/img/deluxRoom.jpg"),
+          title: "디럭스 룸",
           type: "더블 3개",
           member: 2,
-          price: "200,000",
+          price: 140000,
         },
         {
-          img: require("../assets/img/hotel-2.webp"),
-          title: "그랜드 럭셔리 더블 오션뷰",
+          img: require("../assets/img/deluxFull.jpg"),
+          title: "디럭스 풀빌라",
           type: "더블 3개",
           member: 2,
-          price: "200,000",
+          price: 260000,
+        },
+        {
+          img: require("../assets/img/loyalsweet.jpg"),
+          title: "로얄 스위트",
+          type: "더블 3개",
+          member: 2,
+          price: 280000,
+        },
+        {
+          img: require("../assets/img/deluxsweet.jpg"),
+          title: "디럭스 스위트 룸",
+          type: "더블 3개",
+          member: 3,
+          price: 230000,
+        },
+        {
+          img: require("../assets/img/grandDelux.jpg"),
+          title: "그랜드 디럭스 룸",
+          type: "더블 3개",
+          member: 4,
+          price: 400000,
         },
       ],
     };
@@ -167,28 +210,22 @@ export default {
     setYmd2() {
       return this.$store.state.fromDate2;
     },
+    setSelectedMembers() {
+      return this.$store.state.selectedMembers;
+    },
+    filteredRoom() {
+      return this.selectedRoom || this.room;
+    },
   },
   mounted() {
     // Vuex store의 값을 input 요소의 값에 설정
     this.checkin = this.setYmd;
     this.checkout = this.setYmd2;
+    this.selectedMembers = this.setSelectedMembers;
   },
 };
 </script>
-<!-- {
 
-  title: "디럭스",
-  type: "더블 2개",
-  member: 2,
-  price: "200,000",
-},
-{
-  img: require("../assets/img/hotel-1.webp"),
-  title: "디럭스",
-  type: "더블 3개",
-  member: 2,
-  price: "200,000",
-}, -->
 <style scoped>
 main {
   width: 100%;

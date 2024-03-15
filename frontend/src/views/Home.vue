@@ -44,14 +44,17 @@
             <p>객실수</p>
             <select name="room" id="room" caption="객실수">
               <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
             </select>
           </div>
 
           <div class="person">
             <p>인원수</p>
-            <select name="member" id="member" caption="인원수">
+            <select
+              name="member"
+              id="member"
+              caption="인원수"
+              v-model="selectedMembers"
+            >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -128,7 +131,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import "../assets/css/root.css";
@@ -153,6 +156,12 @@ export default {
   setup() {
     const checkin = ref(new Date());
     const checkout = ref(new Date());
+    const selectedMembers = ref(1);
+
+    watch(selectedMembers, (value) => {
+      store.dispatch("updateSelectedMembers", value);
+    });
+
     const format = (date) => {
       const day = date.getDate();
       const month = date.getMonth() + 1;
@@ -177,6 +186,7 @@ export default {
       checkout,
       format,
       format2,
+      selectedMembers,
     };
   },
 };
