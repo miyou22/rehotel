@@ -5,6 +5,8 @@ import Accommodation from '../views/Accommodation'
 import Reservation from '../views/Reservation'
 import Dining from '../views/Dining'
 import Newsevent from '../views/Newsevent'
+import Faq from '../views/news/faq/Faq'
+import Board from '../views/news/board/BoardList'
 
 
 
@@ -39,6 +41,16 @@ const routes = [
     name: 'newsevent',
     component: Newsevent
   },
+  {
+    path: '/faq',
+    name: 'faq',
+    component: Faq
+  },
+  {
+    path: '/:pageType',
+    name: 'pageType',
+    component: Board
+  }
 
   // {
   //   path: '/about',
