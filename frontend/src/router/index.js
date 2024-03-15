@@ -7,7 +7,7 @@ import Dining from '../views/Dining'
 import Newsevent from '../views/Newsevent'
 import Faq from '../views/news/faq/Faq'
 import Board from '../views/news/board/BoardList'
-
+import Payment from '../views/Payment'
 
 
 const routes = [
@@ -50,8 +50,12 @@ const routes = [
     path: '/:pageType',
     name: 'pageType',
     component: Board
-  }
-
+  },
+ {
+    path: "/payment",
+    name: "payment",
+    component: Payment,
+  },
   // {
   //   path: '/about',
   //   name: 'about',
