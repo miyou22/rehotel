@@ -58,7 +58,7 @@ const routes = [
     name: "payment",
     component: Payment,
   },
-  },
+
   {
     path: '/:pageType/detail',
     name: 'detail',
