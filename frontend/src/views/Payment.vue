@@ -24,18 +24,21 @@
                 type="text"
                 placeholder="고객명 (필수)"
                 required
+                v-model="customerName"
               />
               <input
                 name="phoneNumber"
                 type="tel"
                 placeholder="연락처 (필수)"
                 required
+                v-model="phoneNumber"
               />
               <input
                 name="email"
                 type="email"
                 placeholder="이메일 (필수)"
                 required
+                v-model="email"
               />
             </div>
             <div class="want">
@@ -66,6 +69,7 @@
                     id="privacycheck"
                     required
                     class="infoinp"
+                    v-model="info"
                   />
                   동의합니다
                 </label>
@@ -110,6 +114,7 @@
                 <p>취소 환불 수수료에 관한 동의 <b>(필수)</b></p>
                 <label for="privacycheck" class="infocheck">
                   <input
+                    v-model="repay"
                     type="checkbox"
                     id="privacycheck"
                     required
@@ -214,16 +219,34 @@
     </div>
   </div>
 </template>
-//imp37045634
+
 <script>
 import { mapState } from "vuex";
 
 export default {
+  data() {
+    return {
+      customerName: "",
+      phoneNumber: "",
+      email: "",
+      info: false,
+      repay: false,
+      // 나머지 입력값에 대한 데이터도 추가할 수 있습니다.
+    };
+  },
   methods: {
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     KGpay: function () {
+      if (!this.customerName || !this.phoneNumber || !this.email) {
+        alert("고객 정보를 모두 입력해주세요.");
+        return;
+      }
+      if (!this.info || !this.repay) {
+        alert("약관 동의에 체크해주세요");
+        return;
+      }
       var IMP = window.IMP; // 생략 가능
       var name2 = document.getElementById("tit").innerText;
 
