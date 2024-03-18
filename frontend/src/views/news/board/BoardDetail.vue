@@ -1,5 +1,5 @@
 <template>
-  <div class="board-container w3-border-top w3-border-bottom">
+  <div class="board-container w3-border-top">
     <div class="page-header-container">
       <h1 class="page-header">{{ pageTitle }}</h1>
     </div>
@@ -102,11 +102,12 @@
         </ul>
       </div>
       <!-- 목록버튼 -->
-      <div class="w3-padding-32 w3-container w3 w3-border-bottom">
+      <div class="w3-padding-32 w3-container">
         <div class="w3-container w3-center">
           <button
-            class="w3-button w3-round w3-blue-gray w3-margin-bottom"
+            class="w3-button w3-round w3-blue-gray"
             style="width: 20%"
+            @click="$router.push({ path: '/' + pageType })"
           >
             목록
           </button>
@@ -146,6 +147,7 @@ export default {
 .board-container {
   max-width: 1200px;
   margin: 0 auto;
+  margin-bottom: 100px;
 }
 .page-header {
   margin: 0;
@@ -154,6 +156,7 @@ export default {
 }
 .page-header-container {
   text-align: center;
+  margin-bottom: 80px;
 }
 ul,
 li {

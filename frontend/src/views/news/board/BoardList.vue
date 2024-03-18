@@ -33,7 +33,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="item in 10" :key="item">
+              <td class="w3-center">{{ item }}</td>
+              <td class="w3-center">
+                <a>hey</a>
+              </td>
+              <td class="w3-center"><a href="/notice/detail">about</a></td>
+              <td class="w3-center">nyaa</td>
+            </tr>
+            <!-- <tr>
               <td class="w3-center">1</td>
               <td class="w3-center">
                 <a>hey</a>
@@ -48,15 +56,7 @@
               </td>
               <td class="w3-center">about</td>
               <td class="w3-center">nyaa</td>
-            </tr>
-            <tr>
-              <td class="w3-center">1</td>
-              <td class="w3-center">
-                <a>hey</a>
-              </td>
-              <td class="w3-center">about</td>
-              <td class="w3-center">nyaa</td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
@@ -70,6 +70,19 @@
         <a href="#" class="w3-button w3-hover-orange circle">»</a>
       </div>
       <!-- SearchBar -->
+      <div class="searchBar">
+        <select name="typeDetail">
+          <option value="all" style="font-size: 14px">전체</option>
+          <option value="칭찬" style="font-size: 14px">칭찬</option>
+          <option value="문의" style="font-size: 14px">문의</option>
+          <option value="제안" style="font-size: 14px">제안</option>
+          <option value="기타" style="font-size: 14px">기타</option>
+        </select>
+        <div class="inputButton">
+          <input type="text" placeholder="검색어를 입력하세요" id="search" />
+          <button type="button" class="w3-button">검색</button>
+        </div>
+      </div>
     </div>
     <!-- 문의사항 -->
     <div class="allBoard" v-if="pageType === 'inquiry'">
@@ -78,8 +91,9 @@
         <div class="common-buttons">
           <button
             type="button"
-            class="w3-button w3-round w3-blue-gray w3-margin-bottom"
+            class="w3-button w3-round w3-margin-bottom buttonWrite"
             v-if="pageType !== 'notice'"
+            @click="$router.push(pageType + '/write')"
           >
             작성하기
           </button>
@@ -100,28 +114,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="w3-center">1</td>
+            <tr v-for="item in 10" :key="item">
+              <td class="w3-center">{{ item }}</td>
               <td class="w3-center">
                 <a>hey</a>
               </td>
-              <td class="w3-center">about</td>
-              <td class="w3-center">nyaa</td>
-            </tr>
-            <tr>
-              <td class="w3-center">1</td>
-              <td class="w3-center">
-                <a>hey</a>
-              </td>
-              <td class="w3-center">about</td>
-              <td class="w3-center">nyaa</td>
-            </tr>
-            <tr>
-              <td class="w3-center">1</td>
-              <td class="w3-center">
-                <a>hey</a>
-              </td>
-              <td class="w3-center">about</td>
+              <td class="w3-center"><a href="/inquiry/detail">about</a></td>
               <td class="w3-center">nyaa</td>
             </tr>
           </tbody>
@@ -137,6 +135,19 @@
         <a href="#" class="w3-button w3-hover-orange circle">»</a>
       </div>
       <!-- SearchBar -->
+      <div class="searchBar">
+        <select name="typeDetail">
+          <option value="all" style="font-size: 14px">전체</option>
+          <option value="칭찬" style="font-size: 14px">칭찬</option>
+          <option value="문의" style="font-size: 14px">문의</option>
+          <option value="제안" style="font-size: 14px">제안</option>
+          <option value="기타" style="font-size: 14px">기타</option>
+        </select>
+        <div class="inputButton">
+          <input type="text" placeholder="검색어를 입력하세요" id="search" />
+          <button type="button" class="w3-button">검색</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -178,6 +189,10 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
 }
+.buttonWrite {
+  background-color: #d4af37;
+  color: white;
+}
 .page-header {
   margin: 0;
   font-size: 40px;
@@ -185,6 +200,7 @@ export default {
 }
 .page-header-container {
   text-align: center;
+  margin-bottom: 80px;
 }
 .common-buttons {
   text-align: right;
@@ -206,5 +222,50 @@ export default {
   padding: 0 7px;
   height: 24px;
   line-height: 20px;
+}
+.searchBar {
+  justify-content: center;
+  display: flex;
+  column-gap: 10px;
+  height: 40px;
+  font-size: 14px;
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+.inputButton {
+  display: flex;
+  column-gap: 10px;
+}
+.inputButton input {
+  border: 1px solid rgb(221, 221, 221);
+  font-size: 14px;
+  padding: 0 8px;
+  width: 250px;
+}
+.inputButton button {
+  font-size: 14px;
+  width: 80px;
+  height: 40px;
+  border: none;
+  background-color: #d4af37;
+  color: white;
+}
+.searchBar select {
+  width: 120px;
+  border: 1px solid rgb(221, 221, 221);
+  padding: 0 30px 0px 15px;
+  font-size: 14px;
+  -webkit-appearance: none; /* for chrome */
+
+  -moz-appearance: none; /*for firefox*/
+
+  appearance: none;
+  background-image: url(../../../assets/img/dropdown.svg);
+  background-repeat: no-repeat;
+  background-position: 90% center;
+  background-size: 14px;
+}
+a {
+  text-decoration: none;
 }
 </style>
