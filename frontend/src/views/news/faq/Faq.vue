@@ -1,41 +1,38 @@
 <template>
-  <main>
-    <!-- Top Text -->
-    <div class="container">
-      <div class="page-header-container">
-        <h2 class="page-header">FAQ</h2>
-        <hr />
-      </div>
-      <!-- Acodian -->
-      <div
-        id="accordions"
-        v-for="item in 3"
-        :key="item"
-        :class="[`accor item${item}`, { 'w3-show': isOpen[item] }]"
+  <!-- Top Text -->
+  <div class="board-container">
+    <div class="page-header-container">
+      <h1 class="page-header">FAQ</h1>
+    </div>
+    <!-- Acodian -->
+    <div
+      id="accordions"
+      v-for="item in 3"
+      :key="item"
+      :class="[`accor item${item}`, { 'w3-show': isOpen[item] }]"
+    >
+      <button
+        class="w3-btn w3-block w3-white w3-left-align w3-padding-24 w3-border-top w3-border-bottom"
+        @click="toggleAccordion(item)"
+        id="accBtn"
+        :class="{ opened: isOpen[item] }"
       >
-        <button
-          class="w3-btn w3-block w3-white w3-left-align w3-padding-24 w3-border-top w3-border-bottom"
-          @click="toggleAccordion(item)"
-          id="accBtn"
-          :class="{ opened: isOpen[item] }"
+        <span class="ico"
+          ><img src="../../../assets/img/ico_q.png" />
+          <span class="btnSpan"> Open Section 1</span></span
         >
-          <span class="ico"
-            ><img src="../../../assets/img/ico_q.png" />
-            <span class="btnSpan"> Open Section 1</span></span
-          >
-          <span class="plus"></span>
-        </button>
-        <div
-          id="panel"
-          class="w3-container w3-border-bottom"
-          v-show="isOpen[item]"
-        >
-          <h4>Section {{ item }}</h4>
-          <p class="w3-margin-bottom">Some text..</p>
-        </div>
+        <span class="plus"></span>
+      </button>
+      <div
+        id="panel"
+        class="w3-container w3-border-bottom"
+        v-show="isOpen[item]"
+      >
+        <h4>Section {{ item }}</h4>
+        <p class="w3-margin-bottom">Some text..</p>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -56,6 +53,18 @@ export default {
 </script>
 
 <style scoped>
+.board-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.page-header {
+  margin: 0;
+  font-size: 40px;
+  font-weight: bold;
+}
+.page-header-container {
+  text-align: center;
+}
 #accBtn {
   display: flex;
   align-items: center;
