@@ -200,5 +200,47 @@ p {
 .btn:hover {
   background-color: #c9a635;
 }
+
+/* 반응형 */
+@media only screen and (max-width: 970px) {
+  /* 섹션의 스타일 수정 */
+  .room, .facility {
+    flex-direction: column-reverse; /* 섹션을 세로로 배치하고 텍스트와 이미지의 순서를 변경 */
+  }
+
+  .dining {
+    flex-direction: column; /*섹션 세로로 배치*/
+  }
+
+  .info {
+    padding: 0;
+  }
+
+  .content {
+    text-align: center;
+  }
+
+  .text {
+    margin: 20px 0; /* 텍스트 섹션 간격 조정 */
+  }
+
+  .img-wrapper {
+    margin-bottom: 20px; /* 이미지와 오버레이 간격 조정 */
+  }
+
+  .overlay {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(215, 217, 223, 0.2);
+    z-index: 0;
+  }
+
+  .btn {
+    margin: 10px 0 80px 0;
+  }
+}
+
 </style>
 
