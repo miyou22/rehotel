@@ -10,6 +10,7 @@ import Faq from '../views/news/faq/Faq'
 import Board from '../views/news/board/BoardList'
 import Banquethall from '../views/Banquethall'
 import Mypage from '../views/Mypage'
+import Joinmember from '../views/Joinmember'
 
 
 import BoardDetail from '../views/news/board/BoardDetail'
@@ -96,7 +97,11 @@ const routes = [
     name: 'mypage',
     component: Mypage
   },
-
+  {
+    path: '/joinmember',
+    name: 'joinmember',
+    component: Joinmember
+  },
 
 
   // {
