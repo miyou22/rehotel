@@ -24,13 +24,13 @@
 
             </li>
             <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/dining' }"
-                href="dining">Facility</a>
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Facility' }"
+                href="Facility">Facility</a>
 
             </li>
             <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/newsevent' }"
-                href="newsevent">banquet hall</a>
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/banquethall' }"
+                href="banquethall">banquet hall</a>
 
             </li>
             <li class="header-nav-list">
@@ -42,7 +42,7 @@
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/newsevent' }"
                 href="newsevent">news&event</a>
             </li>
-            
+
 
           </ul>
         </div>
@@ -59,7 +59,8 @@
       <div>
         <ul class="header-top-gnb">
           <div class="top-menu">
-          <li><a href="#">MyPage</a></li>
+          <li><a class="header-nav-link" :class="{ 'header-active': currentRoute === '/mypage' }"
+                href="mypage">myPage</a></li>
           <li><a href="#">LogIn</a></li>
           <li><a href="#">회원가입</a></li>
           <li><a href="#">회원가입</a></li>
