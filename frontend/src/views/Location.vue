@@ -18,14 +18,14 @@
         <tr class="subway">
           <th>
             <div class="icon"><img src="../assets/img/subway.png"></div>
-            <div class="text">지하철 이용시</div>
+            <div class="location-text">지하철 이용시</div>
           </th>
           <td>4호선, 수인선 중앙역 1번 출구 하차 후 도보 10분 이내</td>
         </tr>
         <tr class="bus">
           <th>
             <div class="icon"><img src="../assets/img/bus.png"></div>
-            <div class="text">버스 이용시</div>
+            <div class="location-text">버스 이용시</div>
           </th>
           <td>일반  &ensp;123, 3, 35, 50, 7, 77, 80B, 9-1, 99-1, 70A, 9<br/>
               직행  &ensp;300(2층버스)(토,일,공휴일)</td>
@@ -127,8 +127,12 @@ export default {
     width: 1200px;
   }
 
+  .location-text {
+    font-weight: 400;
+    font-size: 18px;
+  }
+
   .path {
-    font-weight: bold;
     font-size: 28px;
     margin-bottom: 40px;
   }
@@ -146,7 +150,7 @@ export default {
     width: 25%;
     border-bottom: 1px solid rgb(221, 221, 221);
     border-right: 1px solid rgb(221, 221, 221);
-    font-size: 16px;
+    font-size: 18px;
     padding: 40px 60px;
     color: #3a3a3a;
   }
