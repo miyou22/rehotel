@@ -160,7 +160,7 @@ img {
   left: 80px;
   width: 100vw;
   height: 100%;
-  background-color: rgba(206, 206, 206, 0.25);
+  background-color: rgba(215, 217, 223, 0.2);
   z-index: 0;
 }
 
@@ -170,7 +170,7 @@ img {
   right: 80px;
   width: 100vw;
   height: 100%;
-  background-color: rgba(206, 206, 206, 0.25);
+  background-color: rgba(215, 217, 223, 0.2);
   z-index: 0;
 }
 
