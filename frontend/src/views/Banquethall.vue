@@ -1,323 +1,113 @@
 <template>
   <main>
-    <div class="container">
+    <h4 class="head-tit">Banquet Hall</h4>
+    <p class="head-sub">
+      저희 킹스 호텔의 연회장은 호텔 숙박하는 고객님에 한해서 예약이 가능합니다
+    </p>
+    <div class="img-box">
+      <img
+        src="https://www.esuncruise.com/SunCruiseMain_common/images/homepage/visual/launge2.jpg"
+      />
+    </div>
 
-      
+    <div class="info-tit">
+      <p>Informaiton</p>
+    </div>
 
-
-      <!-- Top Text -->
-      <div class="page-header-container">
-        <h2 class="page-header">Star Hotel Rooms</h2>
-        <hr />
-        <p class="page-sub-header">
-          Get the most of our hotel specials. Enjoy the modern <br />
-          comfort and panoramic view
-        </p>
+    <div class="info-con">
+      <div class="f-info">
+        <p class="info-subti"><strong>위치</strong></p>
+        <p class="info-sub">킹스호텔 5층</p>
       </div>
-
-      <!-- Special offers section -->
-      <section class="special-offers">
-        <div class="row center-lg">
-          <div class="col image-col right-marg">
-            <img
-              src="../assets/img/hotel-1.webp"
-              alt="room-image"
-              class="small-image"
-            />
-            <img
-              src="../assets/img/hotel-2.webp"
-              alt="room-image"
-              class="small-image"
-            />
-            <img
-              src="../assets/img/hotel-3.webp"
-              alt="room-image"
-              class="small-image"
-            />
-            <div class="side-by-side-container">
-              <div class="large-image-container">
-                <img
-                  src="../assets/img/hotel-4-large.webp"
-                  alt="room-image-large"
-                  class="large-image"
-                />
-              </div>
-              <section class="stacked-image-container">
-                <div>
-                  <img
-                    src="../assets/img/hotel-5.webp"
-                    alt="room-image"
-                    class="small-image"
-                  />
-                </div>
-                <div>
-                  <img
-                    src="../assets/img/hotel-6.webp"
-                    alt="room-image"
-                    class="small-image"
-                  />
-                </div>
-              </section>
-            </div>
-          </div>
-          <div class="col">
-            <h3 class="offers-title">Special Offers</h3>
-            <p class="offers-sub-title">
-              Get 10% discount off this city view- standard room. <br />
-              Offers valid till june 31st 2020
-            </p>
-            <ul class="offers-list">
-              <li>
-                <div>
-                  <img
-                    src="../assets/img/check-square.svg"
-                    alt="tick"
-                    class="list-icon"
-                  />
-                  <p class="list-text">Free Wi-Fi Service</p>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <img
-                    src="../assets/img/check-square.svg"
-                    alt="tick"
-                    class="list-icon"
-                  />
-                  <p class="list-text">Best Rate Guarantee</p>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <img
-                    src="../assets/img/check-square.svg"
-                    alt="tick"
-                    class="list-icon"
-                  />
-                  <p class="list-text">Free DSTV Access</p>
-                </div>
-              </li>
-            </ul>
-            <a href="#" class="btn btn-fill btn-large">View More</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Rooms -->
-      <section class="rooms-section">
-        <div class="row room-section-header-container">
-          <div class="col col-3">
-            <h4
-              class="room-section-header active-header"
-              @click="isActive"
-              id="standard-room"
-            >
-              Standard Rooms
-            </h4>
-          </div>
-          <div class="col col-3">
-            <h4
-              class="room-section-header"
-              @click="isActive"
-              id="executive-room"
-            >
-              Executive Rooms
-            </h4>
-          </div>
-          <div class="col col-3">
-            <h4 class="room-section-header" @click="isActive" id="king-room">
-              King Suites
-            </h4>
-          </div>
-        </div>
-        <div class="row center-lg">
-          <div class="rooms col col-2">
-            <img
-              src="https://res.cloudinary.com/start-ng/image/upload/v1591638448/Rectangle_42_nastdj.png"
-              alt=""
-              class="rooms-img"
-            />
-            <h3 class="room-title">Standard Economic Single</h3>
-            <p class="room-text">
-              Designed specifically for Practicality and <br />
-              comfort
-            </p>
-            <div>
-              <div class="details-container">
-                <img
-                  src="assets/img/check-square.svg"
-                  alt="tick"
-                  class="list-icon"
-                />
-                <p class="list-text">2 Persons</p>
-              </div>
-              <div class="details-container">
-                <img
-                  src="assets/img/check-square.svg"
-                  alt="tick"
-                  class="list-icon"
-                />
-                <p class="list-text">1 Kingsize bed</p>
-              </div>
-            </div>
-            <p class="amount-text">NGN25,000 Per Night</p>
-            <div class="buttons-container">
-              <a href="#" class="btn btn-ghost">View More</a>
-              <a
-                href="https://timbu.com/search?query=hotel"
-                class="btn btn-fill"
-                >Book Now</a
-              >
-            </div>
-          </div>
-          <div class="rooms col col-2">
-            <img
-              src="https://res.cloudinary.com/start-ng/image/upload/v1591638449/Rectangle_43_d9eepu.png"
-              alt=""
-              class="rooms-img"
-            />
-            <h3 class="room-title">Standard Economic Single</h3>
-            <p class="room-text">
-              Designed specifically for Practicality and <br />
-              comfort
-            </p>
-            <div>
-              <div class="details-container">
-                <img
-                  src="assets/img/check-square.svg"
-                  alt="tick"
-                  class="list-icon"
-                />
-                <p class="list-text">2 Persons</p>
-              </div>
-              <div class="details-container">
-                <img src="assets/img/bed.png" alt="tick" class="list-icon" />
-                <p class="list-text">1 Kingsize bed</p>
-              </div>
-            </div>
-            <p class="amount-text">NGN35,000 Per Night</p>
-            <div class="buttons-container">
-              <a href="#" class="btn btn-ghost">View More</a>
-              <a
-                href="https://timbu.com/search?query=hotel"
-                class="btn btn-fill"
-                >Book Now</a
-              >
-            </div>
-          </div>
-          <div class="rooms col col-2">
-            <img
-              src="https://res.cloudinary.com/start-ng/image/upload/v1591638448/Rectangle_44_anerdv.png"
-              alt=""
-              class="rooms-img"
-            />
-            <h3 class="room-title">Standard Economic Single</h3>
-            <p class="room-text">
-              Designed specifically for Practicality and <br />
-              comfort
-            </p>
-            <div>
-              <div class="details-container">
-                <img
-                  src="assets/img/check-square.svg"
-                  alt="tick"
-                  class="list-icon"
-                />
-                <p class="list-text">2 Persons</p>
-              </div>
-              <div class="details-container">
-                <img src="assets/img/bed.png" alt="tick" class="list-icon" />
-                <p class="list-text">1 Kingsize bed</p>
-              </div>
-            </div>
-            <p class="amount-text">NGN45,000 Per Night</p>
-            <div class="buttons-container">
-              <a href="#" class="btn btn-ghost">View More</a>
-              <a
-                href="https://timbu.com/search?query=hotel"
-                class="btn btn-fill"
-                >Book Now</a
-              >
-            </div>
-          </div>
-          <div class="rooms col col-2">
-            <img
-              src="https://res.cloudinary.com/start-ng/image/upload/v1591638449/Rectangle_45_mtl458.png"
-              alt=""
-              class="rooms-img"
-            />
-            <h3 class="room-title">Standard Economic Single</h3>
-            <p class="room-text">
-              Designed specifically for Practicality and <br />
-              comfort
-            </p>
-            <div>
-              <div class="details-container">
-                <img
-                  src="assets/img/check-square.svg"
-                  alt="tick"
-                  class="list-icon"
-                />
-                <p class="list-text">2 Persons</p>
-              </div>
-              <div class="details-container">
-                <img src="assets/img/bed.png" alt="tick" class="list-icon" />
-                <p class="list-text">1 Kingsize bed</p>
-              </div>
-            </div>
-            <p class="amount-text">NGN50,000 Per Night</p>
-            <div class="buttons-container">
-              <a href="#" class="btn btn-ghost">View More</a>
-              <a
-                href="https://timbu.com/search?query=hotel"
-                class="btn btn-fill"
-                >Book Now</a
-              >
-            </div>
-          </div>
-        </div>
-      </section>
+      <div class="t-info t2">
+        <p class="info-subti"><strong>가격</strong></p>
+        <p class="info-sub">100,000원</p>
+      </div>
+      <div class="t-info">
+        <p class="info-subti"><strong>예약문의</strong></p>
+        <p class="info-sub">Tel. 031-123-4567</p>
+      </div>
+      <div class="t-info t2">
+        <p class="info-subti"><strong>이용가능</strong></p>
+        <p class="info-sub">킹스 호텔에 숙박하는 고객님들만 예약 가능합니다</p>
+      </div>
     </div>
   </main>
 </template>
 
 <script>
-// import switchRooms from "../assets/js/switchRooms";
-export default {
-  methods: {
-    isActive(e) {
-      const btns = document.querySelectorAll(".col-3>h4");
-      const target = e.target;
-      for (let i = 0; i < btns.length; i++) {
-        if (btns[i] == target) {
-          btns[i].className = "active-header";
-        } else {
-          btns[i].className = "";
-        }
-      }
-    },
-  },
-};
+export default {};
 </script>
 
 <style scoped>
-@import "../assets/css/Rooms.css";
-
-.container {
-  max-width: 1050px;
-  margin: 0 auto;
-  padding: 1.5rem 0.5rem;
+main {
+  width: 1200px;
+  margin: auto;
 }
-h4 {
-  color: rgba(36, 30, 9, 0.6);
+.f-info,
+.t-info {
+  display: flex;
+  align-items: center;
+  line-height: 50px;
+}
+ul {
+  list-style: none;
+}
+.info-con {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 24px 0;
+  margin-bottom: 80px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.info-subti {
+  width: 120px;
+  font-size: 15px;
   font-weight: 500;
-  font-size: 95%;
-  cursor: pointer;
+  color: #201f1f;
 }
-.active-header {
-    color: #241E09;
-    font-weight: 500;
-    font-size: 95%;
-    cursor: pointer;
+.info-sub {
+  width: 480px;
+  font-size: 15px;
+  color: #666;
+}
+.information {
+  outline: 0;
+}
+.info-tit {
+  border-bottom: 2px solid #454545;
+}
+.info-tit p {
+  margin-bottom: 15px;
+}
+
+.info-tit p {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 28px;
+  color: #000000;
+
+  padding: 14px 0 3px;
+}
+.head-tit {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.head-sub {
+  text-align: center;
+  color: #696969;
+  font-size: 15px;
+  margin-top: 19px;
+  line-height: 150%;
+  margin-bottom: 50px;
+}
+.img-box {
+  width: 1200px;
+  margin: auto;
 }
 </style>

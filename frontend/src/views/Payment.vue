@@ -20,25 +20,25 @@
           <div class="inp-list">
             <div class="first-inp">
               <input
-                  name="name"
-                  type="text"
-                  placeholder="고객명 (필수)"
-                  required
-                  v-model="customerName"
+                name="name"
+                type="text"
+                placeholder="고객명 (필수)"
+                required
+                v-model="customerName"
               />
               <input
-                  name="phoneNumber"
-                  type="tel"
-                  placeholder="연락처 (필수)"
-                  required
-                  v-model="phoneNumber"
+                name="phoneNumber"
+                type="tel"
+                placeholder="연락처 (필수)"
+                required
+                v-model="phoneNumber"
               />
               <input
-                  name="email"
-                  type="email"
-                  placeholder="이메일 (필수)"
-                  required
-                  v-model="email"
+                name="email"
+                type="email"
+                placeholder="이메일 (필수)"
+                required
+                v-model="email"
               />
             </div>
             <div class="want">
@@ -65,11 +65,11 @@
                 <p>개인정보처리방침 동의 <b>(필수)</b></p>
                 <label for="privacycheck" class="infocheck">
                   <input
-                      type="checkbox"
-                      id="privacycheck"
-                      required
-                      class="infoinp"
-                      v-model="info"
+                    type="checkbox"
+                    id="privacycheck"
+                    required
+                    class="infoinp"
+                    v-model="info"
                   />
                   동의합니다
                 </label>
@@ -114,11 +114,11 @@
                 <p>취소 환불 수수료에 관한 동의 <b>(필수)</b></p>
                 <label for="privacycheck" class="infocheck">
                   <input
-                      v-model="repay"
-                      type="checkbox"
-                      id="privacycheck"
-                      required
-                      class="infoinp"
+                    v-model="repay"
+                    type="checkbox"
+                    id="privacycheck"
+                    required
+                    class="infoinp"
                   />
                   동의합니다
                 </label>
@@ -173,7 +173,7 @@
               </li>
               <li>
                 <div class="tit">인원수</div>
-                <div class="con">{{totalmember}}명</div>
+                <div class="con">{{ totalmember }}명</div>
               </li>
               <li>
                 <div class="tit">객실타입</div>
@@ -184,18 +184,55 @@
           <div class="con-group">
             <h4 class="tw-tit">객실/패키지</h4>
             <div class="img-wrap">
-              <img :src="roomImageData" style="width: 253px" alt="객실 이미지" />
+              <img
+                :src="roomImageData"
+                style="width: 253px"
+                alt="객실 이미지"
+              />
             </div>
             <ul>
               <li>
                 <div class="con con2">
-                {{ numberWithCommas(selectedRoomPrice) }} 원/1박
+                  {{ numberWithCommas(selectedRoomPrice) }} 원/1박
                 </div>
-                
               </li>
             </ul>
           </div>
+          <div class="facility">
+            <h4>추가 예약</h4>
 
+            <div class="banquet">
+              <div class="ban-flex">
+                <label>연회장</label>
+              </div>
+              <div class="description">
+                <ul class="checklist">
+                  <li>
+                    <div class="tit">시작시간</div>
+                    <div class="con">17:00</div>
+                  </li>
+                  <li>
+                    <div class="tit">마감시간</div>
+                    <div class="con">21:00</div>
+                  </li>
+                  <li>
+                    <div class="tit">가격</div>
+                    <div class="con" id="ppp">
+                      {{ numberWithCommas(100000) }}원
+                    </div>
+                  </li>
+                </ul>
+                <div class="ban-check">
+                  <label>예약하기</label>
+                  <input
+                    type="checkbox"
+                    id="banquetReservation"
+                    v-model="banquetReservation"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="con-price">
             <ul class="price-final">
               <li>
@@ -207,7 +244,7 @@
                 </div>
                 <div class="con">
                   <strong id="price"
-                  >{{ numberWithCommas(totalRoomPrice) }} <b>원</b></strong
+                    >{{ numberWithCommas(finalRoomPrice) }} <b>원</b></strong
                   >
                 </div>
               </li>
@@ -224,7 +261,6 @@
 <script>
 import { mapState } from "vuex";
 
-
 export default {
   data() {
     return {
@@ -233,15 +269,23 @@ export default {
       email: "",
       info: false,
       repay: false,
+      banquetReservation: false,
       // 나머지 입력값에 대한 데이터도 추가할 수 있습니다.
     };
   },
   methods: {
+    updateTotalRoomPrice() {
+      // 체크박스 상태에 따라 결제 금액 업데이트
+      if (this.banquetReservation) {
+        this.totalRoomPrice += 100000; // 10만원 추가
+      } else {
+        this.totalRoomPrice -= 100000; // 10만원 감소
+      }
+    },
     calculateStayDuration() {
       // 체크인 날짜와 체크아웃 날짜를 받아오기
       const checkinDate = new Date(this.checkinDate);
       const checkoutDate = new Date(this.checkoutDate);
-
 
       const millisecondsPerDay = 1000 * 60 * 60 * 24;
       const differenceInTime = checkoutDate.getTime() - checkinDate.getTime();
@@ -268,27 +312,27 @@ export default {
       IMP.init("imp37045634");
       // IMP.request_pay(param, callback) 결제창 호출
       IMP.request_pay(
-          {
-            // param
-            pg: "html5_inicis",
-            pay_method: "card",
-            merchant_uid: "merchant_" + new Date().getTime(),
-            name: name2,
-            amount: 1000,
-            buyer_email: this.email,
-            buyer_name: this.nickname,
-          },
-          (rsp) => {
-            // callback
-            if (rsp.success) {
-              console.log(rsp.success);
-              console.log(rsp);
-              // 결제 성공 시 로직,
-            } else {
-              // 결제 실패 시 로직,
-              console.log("실패");
-            }
+        {
+          // param
+          pg: "html5_inicis",
+          pay_method: "card",
+          merchant_uid: "merchant_" + new Date().getTime(),
+          name: name2,
+          amount: 1000,
+          buyer_email: this.email,
+          buyer_name: this.nickname,
+        },
+        (rsp) => {
+          // callback
+          if (rsp.success) {
+            console.log(rsp.success);
+            console.log(rsp);
+            // 결제 성공 시 로직,
+          } else {
+            // 결제 실패 시 로직,
+            console.log("실패");
           }
+        }
       );
     },
   },
@@ -315,15 +359,24 @@ export default {
     roomImageData() {
       return this.$store.state.selectedRoomImageData;
     },
-    totalRoomPrice() {
+    finalRoomPrice() {
       let stayDuration = this.calculateStayDuration();
-  
-  // 숙박일수가 0박이면 1박 계산 가격변경
-  stayDuration = stayDuration === 0 ? 1 : stayDuration;
-  
-  const pricePerNight = this.selectedRoomPrice;
-  return stayDuration * pricePerNight;
-    }
+
+      // 숙박일수가 0박이면 1박 계산 가격변경
+      stayDuration = stayDuration === 0 ? 1 : stayDuration;
+
+      const pricePerNight = this.selectedRoomPrice;
+
+      // 최종 결제 금액 계산
+      let finalPrice = stayDuration * pricePerNight;
+
+      // 체크박스가 체크되어 있다면 추가 요금 적용
+      if (this.banquetReservation) {
+        finalPrice += 100000; // 10만원 추가
+      }
+
+      return finalPrice;
+    },
   },
 };
 </script>
@@ -335,7 +388,41 @@ export default {
   border: 0;
   box-sizing: border-box;
 }
-.con2{
+.facility {
+  border-bottom: 1px solid #dfdfdf;
+  padding: 18px 0;
+}
+.facility h4 {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.banquet label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+.ban-check {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.ban-check label {
+  font-size: 14px;
+}
+.ban-flex {
+  display: flex;
+  align-items: center;
+}
+
+#banquetReservation {
+  margin-left: 10px;
+}
+
+.con2 {
   margin-top: 5px;
 }
 .payment {
@@ -488,7 +575,7 @@ ul {
 input {
   font-size: 15px;
   border: 1px solid #cccccc;
-  height: 40px;
+
   padding: 8px 15px;
 }
 .inp-list {
@@ -509,14 +596,14 @@ input {
 }
 .headtxt {
   text-align: center;
-  font-size: 38px;
+  font-size: 40px;
   font-weight: bold;
+  margin: 0;
   margin-bottom: 10px;
-  margin-top: 85px;
 }
 .pay-wrap {
   display: flex;
-  width: 1260px;
+  width: 1200px;
   margin: 0px auto;
   padding: 80px 35px 0px;
 }

@@ -59,13 +59,10 @@
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
-              
             </select>
           </div>
         </div>
-        <button class="res" @click="goToReservation">
-          검색
-        </button>
+        <button class="res" @click="goToReservation">검색</button>
       </div>
     </div>
 
@@ -77,7 +74,7 @@
       <div class="row center-lg">
         <div class="side-by-side-container">
           <div class="large-image-container">
-            <a href="/rooms">
+            <a href="/accommodation">
               <img
                 src="../assets/img/hotel-4-large.webp"
                 alt="room-image-large"
@@ -85,13 +82,15 @@
               />
             </a>
             <h4>ROOMS</h4>
-            <a class="btn" style="color: #666" href="#">자세히보기</a>
+            <a class="btn" style="color: #666" href="/accommodation"
+              >자세히보기</a
+            >
           </div>
         </div>
 
         <div class="side-by-side-container">
           <div class="large-image-container">
-            <a href="#">
+            <a href="/banquethall">
               <img
                 src="https://www.esuncruise.com/SunCruiseMain_common/images/homepage/visual/launge2.jpg"
                 alt="room-image-large"
@@ -99,7 +98,9 @@
               />
             </a>
             <h4>BANQUET HALL</h4>
-            <a class="btn" style="color: #666" href="#">자세히보기</a>
+            <a class="btn" style="color: #666" href="/banquethall"
+              >자세히보기</a
+            >
           </div>
         </div>
       </div>
@@ -109,22 +110,23 @@
     <div class="review-container">
       <div class="review-header">
         <h2 class="review-title">Facility</h2>
-        <hr class="horizontal" />
-        <p class="">
-          We are very proud of the services we offer to our customers.<br />Read
-          every word from our happy customers.
-        </p>
       </div>
       <div class="cards-container">
         <div class="card c1">
-          <a class="btn2" style="color: white" href="#">&#10142;</a>
+          <a class="btn2" style="color: white" href="/Facility">&#10142;</a>
         </div>
         <div class="card c2">
-          <a class="btn2" style="color: white" href="#">&#10142;</a>
+          <a class="btn2" style="color: white" href="/Facility">&#10142;</a>
         </div>
         <div class="card c3">
-          <a class="btn2" style="color: white" href="#">&#10142;</a>
+          <a class="btn2" style="color: white" href="/banquethall">&#10142;</a>
         </div>
+      </div>
+    </div>
+
+    <div class="location">
+      <div class="review-header">
+        <h2 class="review-title">Location</h2>
       </div>
     </div>
   </body>
@@ -142,13 +144,13 @@ export default {
   methods: {
     goToReservation() {
       // '/reservation' 경로로 이동
-      this.$router.push('/reservation');
+      this.$router.push("/reservation");
 
       // 컴포넌트가 마운트된 후에 최상단으로 스크롤 이동
       this.$nextTick(() => {
         window.scrollTo(0, 0);
       });
-    }
+    },
   },
   setup() {
     const checkin = ref(new Date());
@@ -196,7 +198,7 @@ export default {
 
 .check-box {
   background-color: white;
-  width: 1180px;
+  width: 1200px;
   height: 130px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px;
   padding: 0px 80px;
@@ -209,6 +211,7 @@ export default {
   border-radius: 12px;
   align-items: center;
 }
+
 .check {
   display: flex;
   align-items: center;
@@ -288,6 +291,7 @@ export default {
 }
 .large-image-container img:hover {
   filter: brightness(0.5);
+  transition: all 0.5s;
 }
 .card .btn2 {
   position: absolute;
@@ -326,14 +330,6 @@ export default {
 
 .scroll-bar {
   overflow: hidden;
-}
-
-.horizontal {
-  width: 10%;
-  margin: 1em 0 2em 0;
-  height: 1px;
-  background-color: #d4af37;
-  border: none;
 }
 
 p {
@@ -390,15 +386,6 @@ h2 {
 .page-header {
   /* font-weight: 500; */
   text-align: center;
-}
-
-.page-header:after {
-  display: block;
-  height: 1px;
-  background-color: #d4af37;
-  content: "";
-  width: 90px;
-  margin: 0.5em auto 0 auto;
 }
 
 .page-sub-header {
@@ -681,7 +668,9 @@ h2 {
   font-size: 18px;
   font-weight: 300;
 }
-
+.review-title {
+  margin-bottom: 10px;
+}
 /* End----------------------------------------- */
 
 /* @media queries */
@@ -756,9 +745,6 @@ h2 {
     padding: 15px 27px;
   }
 
-  .horizontal {
-    margin: 1em auto 2em auto;
-  }
   .jumbotron-form {
     width: 90%;
     margin: 1em auto;
