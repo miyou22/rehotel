@@ -10,7 +10,7 @@
         <tr>
           <th>카테고리</th>
           <td>
-            <select required name="category">
+            <select required name="category" class="selectCategory">
               <option value>선택</option>
               <option value="칭찬">칭찬</option>
               <option value="문의">문의</option>
@@ -171,6 +171,15 @@ button {
   padding: 15px;
   background-color: #d4af37;
   color: white;
+}
+.selectCategory {
+  -webkit-appearance: none; /* for chrome */
+  -moz-appearance: none; /*for firefox*/
+  appearance: none;
+  background-image: url(../../../assets/img/dropdown.svg);
+  background-repeat: no-repeat;
+  background-position: 95% center;
+  background-size: 14px;
 }
 /* tab-item 과 dining 반응형 css와 겹침 */
 </style>
