@@ -1,17 +1,21 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
-import About from "../views/About";
-import Accommodation from "../views/Accommodation";
-import Reservation from "../views/Reservation";
-import Facility from "../views/Facility";
-import Newsevent from "../views/Newsevent";
-import Faq from "../views/news/faq/Faq";
-import Board from "../views/news/board/BoardList";
-import Banquethall from "../views/Banquethall";
-import Mypage from "../views/Mypage";
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
+import About from '../views/About'
+import Location from '../views/Location'
+import Accommodation from '../views/Accommodation'
+import Reservation from '../views/Reservation'
+import Facility from '../views/Facility'
+import Newsevent from '../views/Newsevent'
+import Faq from '../views/news/faq/Faq'
+import Board from '../views/news/board/BoardList'
+import Banquethall from '../views/Banquethall'
+import Mypage from '../views/Mypage'
+import Joinmember from '../views/Joinmember'
 
-import BoardDetail from "../views/news/board/BoardDetail";
-import BoardWrite from "../views/news/board/BoardWrite";
+
+import BoardDetail from '../views/news/board/BoardDetail'
+import BoardWrite from '../views/news/board/BoardWrite'
+import BoardUpdate from '../views/news/board/BoardUpdate'
 
 import Payment from "../views/Payment";
 import Admin from "../admin/home/Admin";
@@ -29,71 +33,87 @@ const routes = [
     component: Check,
   },
   {
-    path: "/about",
-    name: "about",
-    component: About,
+    path: '/about',
+    name: 'about',
+    component: About
   },
   {
-    path: "/accommodation",
-    name: "accommodation",
-    component: Accommodation,
+    path: '/location',
+    name: 'location',
+    component: Location
   },
   {
-    path: "/reservation",
-    name: "reservation",
-    component: Reservation,
+    path: '/accommodation',
+    name: 'accommodation',
+    component: Accommodation
   },
   {
-    path: "/facility",
-    name: "facility",
-    component: Facility,
+    path: '/reservation',
+    name: 'reservation',
+    component: Reservation
   },
   {
-    path: "/newsevent",
-    name: "newsevent",
-    component: Newsevent,
+    path: '/facility',
+    name: 'facility',
+    component: Facility
   },
   {
-    path: "/faq",
-    name: "faq",
-    component: Faq,
+    path: '/newsevent',
+    name: 'newsevent',
+    component: Newsevent
   },
   {
-    path: "/:pageType",
-    name: "pageType",
-    component: Board,
+    path: '/faq',
+    name: 'faq',
+    component: Faq
   },
   {
-    path: "/banquethall",
-    name: "banquethall",
-    component: Banquethall,
+    path: '/:pageType',
+    name: 'pageType',
+    component: Board
   },
   {
+    path: '/banquethall',
+    name: 'banquethall',
+    component: Banquethall
+  },
+ {
     path: "/payment",
     name: "payment",
     component: Payment,
   },
 
   {
-    path: "/:pageType/detail",
-    name: "detail",
-    component: BoardDetail,
+    path: '/:pageType/detail',
+    name: 'detail',
+    component: BoardDetail
   },
   {
-    path: "/:pageType/write",
-    name: "write",
-    component: BoardWrite,
+    path: '/:pageType/write',
+    name: 'write',
+    component: BoardWrite
   },
   {
-    path: "/admin",
-    name: "admin",
-    component: Admin,
+    path: '/:pageType/update',
+    name: 'update',
+    component: BoardUpdate
   },
   {
-    path: "/mypage",
-    name: "mypage",
-    component: Mypage,
+    path: '/admin',
+    name: 'admin',
+    component: Admin
   },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    component: Mypage
+  },
+  {
+    path: '/joinmember',
+    name: 'joinmember',
+    component: Joinmember
+  },
+
 
   // {
   //   path: '/about',

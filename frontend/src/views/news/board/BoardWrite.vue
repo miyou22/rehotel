@@ -3,12 +3,14 @@
     <div class="page-header-container">
       <h1 class="page-header">{{ pageTitle }}</h1>
     </div>
+
+    <!-- 글작성 메뉴 -->
     <table class="w3-border-top w3-margin-top w3-border-black">
       <tbody>
         <tr>
           <th>카테고리</th>
           <td>
-            <select required name="category">
+            <select required name="category" class="selectCategory">
               <option value>선택</option>
               <option value="칭찬">칭찬</option>
               <option value="문의">문의</option>
@@ -49,17 +51,17 @@
         </tr>
       </tbody>
     </table>
+    <!-- 글작성 에이터 -->
     <div id="editor" class="w3-border-bottom w3-border-black"></div>
+    <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">
-      <button
-        class="w3-button w3-round w3-blue-gray w3-margin-bottom"
-        style="width: 20%"
-      >
+      <button class="w3-button w3-round y w3-margin-bottom" style="width: 20%">
         작성하기
       </button>
       <button
-        class="w3-button w3-round w3-blue-gray w3-margin-bottom"
+        class="w3-button w3-round w3-margin-bottom"
         style="width: 20%"
+        @click="$router.push({ path: '/' + pageType })"
       >
         취소
       </button>
@@ -111,9 +113,13 @@ export default {
 * {
   font-size: 16px;
 }
+
 .board-container {
   max-width: 1200px;
   margin: 0 auto;
+}
+.page-header-container {
+  margin-bottom: 50px;
 }
 .page-header {
   margin: 0;
@@ -124,6 +130,7 @@ export default {
 #editor {
   width: 100%;
   font-size: 4px !important;
+  margin-bottom: 100px;
 }
 .boardWrite-container {
   max-width: 1200px;
@@ -162,6 +169,17 @@ tbody tr {
 button {
   margin-left: 30px;
   padding: 15px;
+  background-color: #d4af37;
+  color: white;
+}
+.selectCategory {
+  -webkit-appearance: none; /* for chrome */
+  -moz-appearance: none; /*for firefox*/
+  appearance: none;
+  background-image: url(../../../assets/img/dropdown.svg);
+  background-repeat: no-repeat;
+  background-position: 95% center;
+  background-size: 14px;
 }
 /* tab-item 과 dining 반응형 css와 겹침 */
 </style>
