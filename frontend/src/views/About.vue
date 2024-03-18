@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <section class="page-header-container">
-      <h1 class="page-header">About</h1>
+      <h1 class="header">About</h1>
     </section>
     <!-- 객실 소개 섹션 -->
     <section class="info room">
@@ -16,7 +16,7 @@
             다양한 객실에서 특별한 순간과 최상의 휴식과 여유를 경험해 보세요.
           </p>
         </div>
-        <button class="btn b1" @click="$router.push('/room'), inp">
+        <button class="btn b1" @click="$router.push('/accommodation'), inp">
           자세히보기
         </button>
       </div>
@@ -59,7 +59,7 @@
             휴식과 여행의 만족도를 높이는 다양한 편의시설과 함께하세요.
           </p>
         </div>
-        <button class="btn b3" @click="$router.push('/reservation'), inp">
+        <button class="btn b3" @click="$router.push('/facility'), inp">
           자세히보기
         </button>
       </div>
@@ -82,35 +82,23 @@ export default {
 <style scoped>
 
 .wrap {
-  max-width: 1500px;
+  max-width: 1200px;
   margin: auto;
 }
 
-.page-header-container {
-  margin-top: 85px;
-}
-
-.page-header {
+.header {
   font-size: 40px;
   text-align: center;
   font-weight: bold;
 }
 
-.page-header:after {
-  display: block;
-  height: 1px;
-  background-color: #d4af37;
-  content: "";
-  width: 90px;
-  margin: 0.5em auto 0 auto;
-}
 
 /* fadeup애니메이션 추가 */
 .info {
   display: flex;
   align-items: center;
   justify-content:space-between;
-  padding: 0 140px 120px 140px;
+  padding: 0 0 120px 0;
   box-sizing: border-box;
   opacity: 0;
   transform: translateY(10px);
