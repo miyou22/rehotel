@@ -17,15 +17,20 @@ import BoardDetail from '../views/news/board/BoardDetail'
 import BoardWrite from '../views/news/board/BoardWrite'
 import BoardUpdate from '../views/news/board/BoardUpdate'
 
-import Payment from '../views/Payment'
-import Admin from '../admin/home/Admin'
-
+import Payment from "../views/Payment";
+import Admin from "../admin/home/Admin";
+import Check from "../views/Checklist.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home
+    path: "/",
+    name: "home",
+    component: Home,
+  },
+  {
+    path: "/checkList",
+    name: "checkList",
+    component: Check,
   },
   {
     path: '/about',
@@ -118,11 +123,11 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   // }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
