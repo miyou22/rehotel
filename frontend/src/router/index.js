@@ -15,6 +15,7 @@ import Joinmember from '../views/Joinmember'
 
 import BoardDetail from '../views/news/board/BoardDetail'
 import BoardWrite from '../views/news/board/BoardWrite'
+import BoardUpdate from '../views/news/board/BoardUpdate'
 
 import Payment from '../views/Payment'
 import Admin from '../admin/home/Admin'
@@ -86,6 +87,11 @@ const routes = [
     path: '/:pageType/write',
     name: 'write',
     component: BoardWrite
+  },
+  {
+    path: '/:pageType/update',
+    name: 'update',
+    component: BoardUpdate
   },
   {
     path: '/admin',
