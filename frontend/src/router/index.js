@@ -3,11 +3,12 @@ import Home from '../views/Home.vue'
 import About from '../views/About'
 import Accommodation from '../views/Accommodation'
 import Reservation from '../views/Reservation'
-import Dining from '../views/Dining'
+import Facility from '../views/Facility'
 import Newsevent from '../views/Newsevent'
 import Faq from '../views/news/faq/Faq'
 import Board from '../views/news/board/BoardList'
 import Banquethall from '../views/Banquethall'
+import Mypage from '../views/Mypage'
 
 
 import BoardDetail from '../views/news/board/BoardDetail'
@@ -37,9 +38,9 @@ const routes = [
     component: Reservation
   },
   {
-    path: '/dining',
-    name: 'dining',
-    component: Dining
+    path: '/facility',
+    name: 'facility',
+    component: Facility
   },
   {
     path: '/newsevent',
@@ -71,7 +72,14 @@ const routes = [
     path: '/:pageType/detail',
     name: 'detail',
     component: BoardDetail
-  }
+  },  
+  {
+    path: '/mypage',
+    name: 'mypage',
+    component: Mypage
+  },
+
+  
 
   // {
   //   path: '/about',
