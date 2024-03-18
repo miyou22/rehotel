@@ -1,145 +1,144 @@
 <template>
-  <main>
-    <!-- Top Text -->
-    <div class="container">
-      <div class="page-header-container">
-        <h2 class="page-header">{{ pageTitle }}</h2>
-        <hr />
-      </div>
-      <div class="allBoard" v-if="pageType === 'notice'">
-        <!-- Board -->
-        <div class="board-list">
-          <div class="common-buttons">
-            <button
-              type="button"
-              class="w3-button w3-round w3-blue-gray w3-margin-bottom"
-              v-if="pageType !== 'notice'"
-            >
-              작성하기
-            </button>
-          </div>
-          <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
-            <colgroup>
-              <col width="110px" />
-              <col width="180px" />
-              <col width="auto" />
-              <col width="180px" />
-            </colgroup>
-            <thead>
-              <tr class="w3-light-grey w3-border-top w3-border-black">
-                <th class="w3-center">번호</th>
-                <th class="w3-center">카테고리</th>
-                <th class="w3-center">제목</th>
-                <th class="w3-center">작성일</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="w3-center">1</td>
-                <td class="w3-center">
-                  <a>hey</a>
-                </td>
-                <td class="w3-center">about</td>
-                <td class="w3-center">nyaa</td>
-              </tr>
-              <tr>
-                <td class="w3-center">1</td>
-                <td class="w3-center">
-                  <a>hey</a>
-                </td>
-                <td class="w3-center">about</td>
-                <td class="w3-center">nyaa</td>
-              </tr>
-              <tr>
-                <td class="w3-center">1</td>
-                <td class="w3-center">
-                  <a>hey</a>
-                </td>
-                <td class="w3-center">about</td>
-                <td class="w3-center">nyaa</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Pagination -->
-        <div class="w3-bar pagin">
-          <a href="#" class="w3-button w3-hover-purple circle">«</a>
-          <a href="#" class="w3-button w3-hover-green">1</a>
-          <a href="#" class="w3-button w3-hover-red">2</a>
-          <a href="#" class="w3-button w3-hover-blue">3</a>
-          <a href="#" class="w3-button w3-hover-black">4</a>
-          <a href="#" class="w3-button w3-hover-orange circle">»</a>
-        </div>
-        <!-- SearchBar -->
-      </div>
-      <div class="allBoard" v-if="pageType === 'inquiry'">
-        <!-- Board -->
-        <div class="board-list">
-          <div class="common-buttons">
-            <button
-              type="button"
-              class="w3-button w3-round w3-blue-gray w3-margin-bottom"
-              v-if="pageType !== 'notice'"
-            >
-              작성하기
-            </button>
-          </div>
-          <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
-            <colgroup>
-              <col width="110px" />
-              <col width="180px" />
-              <col width="auto" />
-              <col width="180px" />
-            </colgroup>
-            <thead>
-              <tr class="w3-light-grey w3-border-top w3-border-black">
-                <th class="w3-center">번호</th>
-                <th class="w3-center">고양이</th>
-                <th class="w3-center">사자</th>
-                <th class="w3-center">강아지</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="w3-center">1</td>
-                <td class="w3-center">
-                  <a>hey</a>
-                </td>
-                <td class="w3-center">about</td>
-                <td class="w3-center">nyaa</td>
-              </tr>
-              <tr>
-                <td class="w3-center">1</td>
-                <td class="w3-center">
-                  <a>hey</a>
-                </td>
-                <td class="w3-center">about</td>
-                <td class="w3-center">nyaa</td>
-              </tr>
-              <tr>
-                <td class="w3-center">1</td>
-                <td class="w3-center">
-                  <a>hey</a>
-                </td>
-                <td class="w3-center">about</td>
-                <td class="w3-center">nyaa</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Pagination -->
-        <div class="w3-bar pagin">
-          <a href="#" class="w3-button w3-hover-purple circle">«</a>
-          <a href="#" class="w3-button w3-hover-green">1</a>
-          <a href="#" class="w3-button w3-hover-red">2</a>
-          <a href="#" class="w3-button w3-hover-blue">3</a>
-          <a href="#" class="w3-button w3-hover-black">4</a>
-          <a href="#" class="w3-button w3-hover-orange circle">»</a>
-        </div>
-        <!-- SearchBar -->
-      </div>
+  <!-- Top Text -->
+  <div class="board-container">
+    <div class="page-header-container">
+      <h1 class="page-header">{{ pageTitle }}</h1>
     </div>
-  </main>
+    <!-- 공지사항 -->
+    <div class="allBoard" v-if="pageType === 'notice'">
+      <!-- Board -->
+      <div class="board-list">
+        <div class="common-buttons">
+          <button
+            type="button"
+            class="w3-button w3-round w3-blue-gray w3-margin-bottom"
+            v-if="pageType !== 'notice'"
+          >
+            작성하기
+          </button>
+        </div>
+        <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
+          <colgroup>
+            <col width="110px" />
+            <col width="180px" />
+            <col width="auto" />
+            <col width="180px" />
+          </colgroup>
+          <thead>
+            <tr class="w3-light-grey w3-border-top w3-border-black">
+              <th class="w3-center">번호</th>
+              <th class="w3-center">카테고리</th>
+              <th class="w3-center">제목</th>
+              <th class="w3-center">작성일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="w3-center">1</td>
+              <td class="w3-center">
+                <a>hey</a>
+              </td>
+              <td class="w3-center">about</td>
+              <td class="w3-center">nyaa</td>
+            </tr>
+            <tr>
+              <td class="w3-center">1</td>
+              <td class="w3-center">
+                <a>hey</a>
+              </td>
+              <td class="w3-center">about</td>
+              <td class="w3-center">nyaa</td>
+            </tr>
+            <tr>
+              <td class="w3-center">1</td>
+              <td class="w3-center">
+                <a>hey</a>
+              </td>
+              <td class="w3-center">about</td>
+              <td class="w3-center">nyaa</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+      <div class="w3-bar pagin">
+        <a href="#" class="w3-button w3-hover-purple circle">«</a>
+        <a href="#" class="w3-button w3-hover-green">1</a>
+        <a href="#" class="w3-button w3-hover-red">2</a>
+        <a href="#" class="w3-button w3-hover-blue">3</a>
+        <a href="#" class="w3-button w3-hover-black">4</a>
+        <a href="#" class="w3-button w3-hover-orange circle">»</a>
+      </div>
+      <!-- SearchBar -->
+    </div>
+    <!-- 문의사항 -->
+    <div class="allBoard" v-if="pageType === 'inquiry'">
+      <!-- Board -->
+      <div class="board-list">
+        <div class="common-buttons">
+          <button
+            type="button"
+            class="w3-button w3-round w3-blue-gray w3-margin-bottom"
+            v-if="pageType !== 'notice'"
+          >
+            작성하기
+          </button>
+        </div>
+        <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
+          <colgroup>
+            <col width="110px" />
+            <col width="180px" />
+            <col width="auto" />
+            <col width="180px" />
+          </colgroup>
+          <thead>
+            <tr class="w3-light-grey w3-border-top w3-border-black">
+              <th class="w3-center">번호</th>
+              <th class="w3-center">고양이</th>
+              <th class="w3-center">사자</th>
+              <th class="w3-center">강아지</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="w3-center">1</td>
+              <td class="w3-center">
+                <a>hey</a>
+              </td>
+              <td class="w3-center">about</td>
+              <td class="w3-center">nyaa</td>
+            </tr>
+            <tr>
+              <td class="w3-center">1</td>
+              <td class="w3-center">
+                <a>hey</a>
+              </td>
+              <td class="w3-center">about</td>
+              <td class="w3-center">nyaa</td>
+            </tr>
+            <tr>
+              <td class="w3-center">1</td>
+              <td class="w3-center">
+                <a>hey</a>
+              </td>
+              <td class="w3-center">about</td>
+              <td class="w3-center">nyaa</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+      <div class="w3-bar pagin">
+        <a href="#" class="w3-button w3-hover-purple circle">«</a>
+        <a href="#" class="w3-button w3-hover-green">1</a>
+        <a href="#" class="w3-button w3-hover-red">2</a>
+        <a href="#" class="w3-button w3-hover-blue">3</a>
+        <a href="#" class="w3-button w3-hover-black">4</a>
+        <a href="#" class="w3-button w3-hover-orange circle">»</a>
+      </div>
+      <!-- SearchBar -->
+    </div>
+  </div>
 </template>
 
 <script>
@@ -175,6 +174,18 @@ export default {
 </script>
 
 <style scoped>
+.board-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.page-header {
+  margin: 0;
+  font-size: 40px;
+  font-weight: bold;
+}
+.page-header-container {
+  text-align: center;
+}
 .common-buttons {
   text-align: right;
   font-size: 15px;
