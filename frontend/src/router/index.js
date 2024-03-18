@@ -11,8 +11,10 @@ import Banquethall from '../views/Banquethall'
 
 
 import BoardDetail from '../views/news/board/BoardDetail'
+import BoardWrite from '../views/news/board/BoardWrite'
 
 import Payment from '../views/Payment'
+import Admin from '../admin/home/Admin'
 
 
 const routes = [
@@ -71,6 +73,16 @@ const routes = [
     path: '/:pageType/detail',
     name: 'detail',
     component: BoardDetail
+  },
+  {
+    path: '/:pageType/write',
+    name: 'write',
+    component: BoardWrite
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin
   }
 
   // {

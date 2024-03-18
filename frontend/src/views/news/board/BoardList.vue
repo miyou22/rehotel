@@ -174,7 +174,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .common-buttons {
   text-align: right;
   font-size: 15px;
