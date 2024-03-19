@@ -10,7 +10,7 @@ import Faq from '../views/news/faq/Faq'
 import Board from '../views/news/board/BoardList'
 import Banquethall from '../views/Banquethall'
 import Mypage from '../views/Mypage'
-import Joinmember from '../views/Joinmember'
+import Joinmember from '../views/join/Joinmember'
 
 
 import BoardDetail from '../views/news/board/BoardDetail'

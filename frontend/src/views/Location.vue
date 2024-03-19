@@ -138,7 +138,7 @@ export default {
   }
 
   .subway th, .subway td{
-    border-top: 1px solid rgb(56, 56, 56);
+    border-top: 2px solid #454545;
   }
 
   .icon img {
@@ -148,8 +148,8 @@ export default {
 
   th {
     width: 25%;
-    border-bottom: 1px solid rgb(221, 221, 221);
-    border-right: 1px solid rgb(221, 221, 221);
+    border-bottom: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
     font-size: 18px;
     padding: 40px 60px;
     color: #3a3a3a;
