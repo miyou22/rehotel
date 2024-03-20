@@ -1,0 +1,144 @@
+<template>
+    <div class="wrap">
+        <section class="page-header-container">
+            <h1 class="header">아이디/비밀번호 찾기</h1>
+        </section>
+        <section class="content-container">
+            <div class="find-id">
+                <h2 class="subtitle">아이디 찾기</h2>
+                <form @submit.prevent="findId">
+                    <div class="form-group">
+                        <input type="text" id="findIdUsername" v-model="findIdUsername" required placeholder="이름">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="findIdUseremail" v-model="findIdUseremail" required placeholder="이메일">
+                    </div>
+                    <button type="submit" class="submit" @click.prevent="findId">아이디 찾기</button>
+                    </form>
+            </div>
+            <div class="vertical-line"></div> <!--세로 선 추가-->
+            <div class="find-pw">
+                <h2 class="subtitle">비밀번호 찾기</h2>
+                <form @submit.prevent="findPw">
+                    <div class="form-group">
+                        <input type="text" id="findPwUserid" v-model="findPwUserid" required placeholder="아이디">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="findPwUsername" v-model="findPwUsername" required placeholder="이름">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="findPwUseremail" v-model="findPwUseremail" required placeholder="이메일">
+                    </div>
+                    <button type="submit" class="submit" @click.prevent="findPw">아이디 찾기</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            findIdUsername:'',
+            findIdUseremail: '',
+            findPwUserid: '',
+            findPwUsername: '',
+            findPwUseremail: '',
+        };
+    },
+    methods: {
+        findId: function() {
+            if(!this.findIdUsername) {
+                alert('이름을 입력해주세요.')
+                return;
+                }
+            if(!this.findIdUseremail) {
+                alert('이메일을 입력해주세요.')
+                return;
+            }
+        },
+        findPw: function() {
+            if(!this.findPwUserid) {
+                alert('아이디를 입력해주세요')
+                return;
+            }
+            if(!this.findPwUsername) {
+                alert('이름을 입력해주세요')
+                return;
+            }
+            if(!this.findPwUseremail) {
+                alert('이메일을 입력해주세요')
+                return;
+            }
+        }
+    }
+}
+</script>
+
+<style scoped>
+    *{
+        font-family: "Noto Sans KR", sans-serif;
+    }
+    .wrap {
+        max-width: 1200px;
+        margin: auto;
+        margin-bottom: 96px;
+    }
+
+    .header {
+        font-size: 40px;
+        font-weight: 500;
+        margin-top: 85px;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .vertical-line {
+        border-left: 1px solid #a8a8a8;
+    }
+
+    .find-id, .find-pw {
+        flex: 1;
+        padding: 0px 80px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        font-weight: normal;
+        margin-bottom: 25px;
+    }
+
+    form {
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    input[type="text"], input[type="email"] {
+        width: 100%;
+        height: 50px;
+        margin-bottom: 10px;
+        padding: 0 20px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+    }
+
+    .submit {
+        height: 50px;
+        padding: 10px 20px;
+        font-size: 15px;
+        border: none;
+        background-color: #d4af37;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .submit:hover {
+        background-color: #c2a031;
+    }
+</style>

@@ -3,8 +3,8 @@
         <section class="page-header-container">
             <h1 class="header">로그인</h1>
         </section>
-        <div class="content">
-            <section class="login-container">
+        <section class="content-container">
+            <div class="login-container">
                 <div class="tabs">
                     <button :class="{ active: activeTab === 'member' }" @click="activeTab = 'member'">회원</button>
                     <button :class="{ active: activeTab === 'non-member' }" @click="activeTab = 'non-member'">비회원(예약확인)</button>
@@ -17,9 +17,9 @@
                     <div class="form-group">
                         <input type="password" id="password" v-model="password" required placeholder="비밀번호">
                     </div>
-                    <button type="submit" class="submit">로그인</button>
+                    <button type="submit" class="submit" @click.prevent="login">로그인</button>
                     <div class="forgot-password">
-                        <a href="#">아이디/비밀번호 찾기</a>
+                        <a href="/findidpw">아이디/비밀번호 찾기</a>
                     </div>
                     </form>
                 </div>
@@ -34,16 +34,16 @@
                     <button type="submit" class="submit">예약 확인</button>
                     </form>
                 </div>
-            </section>
+            </div>
             <div class="vertical-line"></div> <!--세로 선 추가-->
-            <section class="signup-link">
+            <div class="signup-link">
                 <div class="text">
                    <h1>아직 회원이 아니신가요?</h1>
                    <p>저희 킹스호텔 회원이 되시면 예약조회를 포함한<br/> 다양한 사이트 이용이 가능합니다 !</p>
                 </div>
                 <a href="/joinmember">회원가입</a>
-            </section>
-        </div>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -59,8 +59,13 @@ export default {
     };
   },
   methods: {
-    login() {
-      // 로그인 로직
+    login: function () {
+        if (!this.userid || !this.password) {
+                alert('아이디와 비밀번호가 일치하지 않습니다.')
+                return;
+            }
+                alert(this.userid + '님 환영합니다!')
+                this.$router.push('/');
     },
     checkReservation() {
       // 예약 확인 로직
@@ -86,7 +91,7 @@ export default {
         margin-top: 85px;
     }
 
-    .content {
+    .content-container {
         height: 280px;
         display: flex;
         justify-content: center;
@@ -197,7 +202,7 @@ export default {
         cursor: pointer;
     }
 
-     .signup-link a:hover {
+    .signup-link a:hover {
         color: white;
         background-color: #d4af37;
     }
