@@ -12,6 +12,7 @@ import Banquethall from '../views/Banquethall'
 import Mypage from '../views/Mypage'
 import Joinmember from '../views/join/Joinmember'
 import Login from '../views/Login'
+import Findidpw from '../views/Findidpw.vue'
 
 
 import BoardDetail from '../views/news/board/BoardDetail'
@@ -119,7 +120,11 @@ const routes = [
     name: 'login',
     component: Login
   },
-
+ {
+    path: '/findidpw',
+    name: 'findidpw',
+    component: Findidpw,
+  }
 
   // {
   //   path: '/about',
