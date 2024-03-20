@@ -43,8 +43,8 @@
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/banquethall' }"
-                href="banquethall"
+                :class="{ 'header-active': currentRoute === '/board' }"
+                href="/admin/board"
                 @click="subgnb2 = true"
                 >게시판관리</a
               >
@@ -204,11 +204,9 @@ export default {
     display: none;
   }
 }
-@media (max-width: 9000px) {
-  .header-hamburger-icon {
-  }
+@media (max-width: 10000px) {
   .header-top-gnb {
-    display: block;
+    display: flex;
   }
 
   .subMenu li a {
