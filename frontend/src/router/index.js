@@ -11,6 +11,7 @@ import Board from '../views/news/board/BoardList'
 import Banquethall from '../views/Banquethall'
 import Mypage from '../views/Mypage'
 import Joinmember from '../views/join/Joinmember'
+import Login from '../views/Login'
 
 
 import BoardDetail from '../views/news/board/BoardDetail'
@@ -112,6 +113,11 @@ const routes = [
     path: '/joinmember',
     name: 'joinmember',
     component: Joinmember
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
   },
 
 

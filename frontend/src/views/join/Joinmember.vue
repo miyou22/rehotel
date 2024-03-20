@@ -9,7 +9,7 @@
                 <div class="user">
                     <h4>이용약관 동의 <b>(필수)</b></h4>
                     <div>
-                        <input type="checkbox" id="terms">
+                        <input type="checkbox" id="terms" v-model="agreedTerms">
                         <label for="terms">동의합니다.</label>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                 <div class="user">
                     <h4>개인정보처리방침 동의 <b>(필수)</b></h4>
                     <div>
-                        <input type="checkbox" id="privacy">
+                        <input type="checkbox" id="privacy" v-model="agreedPrivacy">
                         <label for="privacy">동의합니다.</label>
                     </div>
                 </div>
@@ -28,17 +28,17 @@
                 <h2 class="input">회원정보 입력</h2>
                 <form>
                     <div class="input-id">
-                        <input type="text" id="userid" name="userid" required placeholder="아이디">
-                        <button type="confirm">중복확인</button>
+                        <input type="text" id="userid" v-model="userid" required placeholder="아이디">
+                        <button type="confirm" @click="checkDuplicate">중복확인</button>
                     </div>
-                    <input type="password" id="password" name="password" required placeholder="비밀번호">
-                    <input type="password" id="password-confirm" name="password-confirm" required placeholder="비밀번호 확인">
-                    <input type="text" id="username" name="username" required placeholder="이름">
-                    <input type="email" id="useremail" name="useremail" required placeholder="이메일">
-                    <input type="text" id="tel" name="tel" required placeholder="연락처">
+                    <input type="password" id="password" v-model="password" required placeholder="비밀번호">
+                    <input type="password" id="password-confirm" v-model="passwordConfirm" required placeholder="비밀번호 확인">
+                    <input type="text" id="username" v-model="username" required placeholder="이름">
+                    <input type="email" id="useremail" v-model="useremail" required placeholder="이메일">
+                    <input type="text" id="tel" v-model="tel" required placeholder="연락처">
                     <input type="text" id="birth" name="birth" placeholder="생년월일">
                     <input type="text" id="gender" name="gender" placeholder="성별">
-                    <button type="submit" class="submit">회원가입</button>
+                    <button type="submit" class="submit" @click.prevent="submitForm">회원가입</button>
                 </form>
             </section>
         </div>
@@ -51,12 +51,49 @@
 
     export default {
         components:{termsContent, privacyPolicyContent},
+        data() {
+            return {
+                agreedTerms: false,
+                agreedPrivacy: false,
+                userId: '',
+                password: '',
+                passwordConfirm: '',
+                userName: '',
+                userEmail: '',
+                tel: '',
+                birth: '',
+                gender: ''
+        }
+    },
+    methods: {
+        /*checkDuplicate() {
+             아이디중복확인 로직 추가
+           },
+           */
+        submitForm: function () {
+            if (!this.agreedTerms || !this.agreedPrivacy) {
+                alert('약관 동의에 체크해주세요.')
+                return;
+            }
+            if (!this.userid || !this.password || !this.passwordConfirm || !this.username || !this.useremail || !this.tel){
+                alert('고객정보를 입력해주세요.')
+                return;
+            } else if (this.password !== this.passwordConfirm) {
+                alert('비밀번호가 일치하지 않습니다.')
+                return;
+            }
+                alert('회원가입이 완료되었습니다.')
+                this.$router.push('/login');
+        }
     }
+}
 </script>
 
 <style scoped>
-    .wrap {
+    *{
         font-family: "Noto Sans KR", sans-serif;
+    }
+    .wrap {
         max-width: 1200px;
         margin: auto;
         margin-bottom: 96px;
@@ -64,7 +101,8 @@
 
     .header {
         font-size: 40px;
-        font-weight: bold;
+        font-weight: 500;
+        margin-top: 85px;
     }
     .content {
         display: flex;
@@ -91,6 +129,7 @@
     }
 
     .user b {
+        font-weight: 400;
         color: #ee0000;
         font-size: 14px;
     }
@@ -181,6 +220,11 @@
         border: 1px solid black;
         border-radius: 0;
         background-color: white;
+    }
+
+   .input-id button:hover {
+        background-color: black;
+        color: white;
     }
 
     .submit {
