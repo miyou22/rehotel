@@ -16,7 +16,7 @@
           <h1>18만 2천원</h1>
         </li>
         <li class="w3-card w3-bottombar w3-border-blue notice">
-          <p class="roomP">예약된 방 비율</p>
+          <p class="roomP">남은 방 수</p>
           <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
         </li>
       </ul>
@@ -91,7 +91,6 @@
 </template>
 
 <script>
-import AHeader from "../common/AHeader";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -114,14 +113,13 @@ ChartJS.register(
 
 export default {
   components: {
-    AHeader,
     Bar,
   },
   data() {
     return {
       chartData: {
         labels: ["1번", "2번", "3번", "4번", "5번"],
-        datasets: [{ data: [4, 2, 1, 0, 0] }],
+        datasets: [{ data: [5, 6, 6, 6, 6] }],
       },
       chartOptions: {
         responsive: true,

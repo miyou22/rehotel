@@ -7,7 +7,6 @@ import Reservation from '../views/Reservation'
 import Facility from '../views/Facility'
 import Newsevent from '../views/Newsevent'
 import Faq from '../views/news/faq/Faq'
-import Board from '../views/news/board/BoardList'
 import Banquethall from '../views/Banquethall'
 import Mypage from '../views/Mypage'
 import Joinmember from '../views/join/Joinmember'
@@ -15,13 +14,19 @@ import Login from '../views/Login'
 import Findidpw from '../views/Findidpw.vue'
 
 
+import Board from '../views/news/board/BoardList'
 import BoardDetail from '../views/news/board/BoardDetail'
 import BoardWrite from '../views/news/board/BoardWrite'
 import BoardUpdate from '../views/news/board/BoardUpdate'
 
 import Payment from "../views/Payment";
-import Admin from "../admin/home/Admin";
 import Check from "../views/Checklist.vue";
+
+import Admin from "../admin/home/Admin";
+import AdminBoard from "../admin/board/AdminBoardList"
+import AdminBoardWrite from "../admin/board/AdminBoardWrite"
+import AdminBoardDetail from "../admin/board/AdminBoardDetail"
+
 
 const routes = [
   {
@@ -90,6 +95,7 @@ const routes = [
     name: 'detail',
     component: BoardDetail
   },
+
   {
     path: '/:pageType/write',
     name: 'write',
@@ -104,6 +110,21 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: Admin
+  },
+  {
+    path: '/admin/:categoryType',
+    name: 'categoryTitle',
+    component: AdminBoard
+  },
+  {
+    path: '/admin/:categoryType/write',
+    name: 'write',
+    component: AdminBoardWrite
+  },
+  {
+    path: '/admin/:categoryType/detail',
+    name: 'detail',
+    component: AdminBoardDetail
   },
   {
     path: '/mypage',
