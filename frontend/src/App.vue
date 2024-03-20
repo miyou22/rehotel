@@ -1,7 +1,7 @@
 <template>
-  <Header />
+  <Header v-if="$route.name !== 'admin'"></Header>
   <router-view />
-  <Footer />
+  <Footer v-if="$route.name !== 'admin'"></Footer>
 </template>
 
 <script>
