@@ -1,15 +1,7 @@
 <template>
   <main>
-    <div class="sub-gnb">
-      <p class="sub-gnb-name">시설 소개</p>
-      <ul class="sub-gnb-list">
-        <li><a href="#">객실</a></li>
-        <li><a href="#">부대시설</a></li>
-        <li><a href="#">연회장</a></li>
-      </ul>
-    </div>
-    <div class="container">
-      <h2 class="accName">객실</h2>
+    <div class="container-full">
+      <h2 class="accName">부대시설</h2>
 
       <div class="menu">
         <a v-for="(fac, index) in menus" :key="index">{{ fac }}</a>
@@ -27,18 +19,8 @@
               </p>
               {{ fac.time }}
             </div>
-            <swiper
-              ref="{swiperRef}"
-              :slidesPerView="1"
-              :slidesPerGroup="1"
-              :centeredSlides="false"
-              :spaceBetween="14"
-              :navigation="true"
-              :loop="true"
-              :modules="modules"
-              :autoHeight="true"
-              class="mySwiper"
-            >
+            <swiper ref="{swiperRef}" :slidesPerView="1" :slidesPerGroup="1" :centeredSlides="false" :spaceBetween="14"
+              :navigation="true" :loop="true" :modules="modules" :autoHeight="true" class="mySwiper">
               <swiper-slide>
                 <img class="img" v-bind:src="fac.img" />
               </swiper-slide>
@@ -130,7 +112,7 @@ export default {
 <style scoped>
 @import "../assets/css/Facility.css";
 
-.container {
+.container-full {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1.5rem 0.5rem;
@@ -143,24 +125,36 @@ export default {
   align-items: center;
   /* color: #d4af37; */
 }
+
 .sub-gnb-name {
   font-weight: bold;
   font-size: 18px;
   margin: 0 140px 0 40px;
 }
+
 .sub-gnb-list {
   display: flex;
   list-style: none;
 }
+
 .sub-gnb-list li {
   margin: 0 20px 0 20px;
 }
+
 .sub-gnb-list li a {
   font-size: 16px;
   text-decoration: none;
 }
-.img{
+
+.img {
   width: 800px;
-	height: 370px;
+  height: 370px;
+}
+
+.accName {
+  margin-bottom: 50px;
+  font-weight: bold;
+  font-size: 40px;
+  text-align: center;
 }
 </style>
