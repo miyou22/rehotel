@@ -90,10 +90,7 @@
               <span class="rm-price">{{ numberWithCommas(list.price) }}</span>
             </h3>
             <p>원/1박</p>
-            <a
-              href="/payment"
-              class="resBtn"
-              @click.prevent="reserveRoom(list)"
+            <a href="/payment" class="resBtn" @click.prevent="reserveRoom(list)"
               >예약하기</a
             >
           </div>
@@ -127,18 +124,22 @@ export default {
       );
 
       if (selectedMember > selectedRoom.member) {
-    // 선택된 인원이 최소 인원보다 적을 때 경고창 표시
-    alert("선택된 인원이 객실의 수용 가능한 최대 인원보다 많습니다."
-    );
-  } else {
-      this.$store.commit("setSelectedRoomData", roomData);
-      this.$store.commit("setCheckinDate", this.checkin);
-      this.$store.commit("setCheckoutDate", this.checkout);
-      this.$store.dispatch("saveSelectedRoomImageData", roomData.img);
-      const selectedMember = parseInt(document.getElementById("member").value); // 선택된 인원수 가져오기
-      this.$store.commit("setTotalMember", selectedMember);
-      this.$router.push('/payment');
-  }
+        // 선택된 인원이 최소 인원보다 적을 때 경고창 표시
+        alert("선택된 인원이 객실의 수용 가능한 최대 인원보다 많습니다.");
+      } else {
+        this.$store.commit("setSelectedRoomData", roomData);
+        this.$store.commit("setCheckinDate", this.checkin);
+        this.$store.commit("setCheckoutDate", this.checkout);
+        this.$store.dispatch("saveSelectedRoomImageData", roomData.img);
+        const selectedMember = parseInt(
+          document.getElementById("member").value
+        ); // 선택된 인원수 가져오기
+        this.$store.commit("setTotalMember", selectedMember);
+        this.$router.push("/payment");
+      }
+      this.$nextTick(() => {
+        window.scrollTo(0, 0);
+      });
     },
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -239,7 +240,7 @@ main {
 }
 .check-box {
   background-color: white;
-  width: 1180px;
+  width: 1200px;
   height: 130px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px;
   padding: 0px 80px;
@@ -315,13 +316,13 @@ main {
 }
 .headtxt {
   text-align: center;
-  font-size: 38px;
+  font-size: 40px;
   font-weight: bold;
+  margin: 0;
   margin-bottom: 10px;
-  margin-top: 85px;
 }
 .reservation {
-  width: 1180px;
+  width: 1200px;
   background-color: white;
   padding: 40px;
   margin: auto;
@@ -329,6 +330,7 @@ main {
 .headtxt2 {
   border-bottom: 1px solid lightgray;
 }
+
 .headtxt2 h4 {
   font-size: 20px;
   color: #323232;

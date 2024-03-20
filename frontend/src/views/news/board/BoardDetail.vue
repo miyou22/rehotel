@@ -1,10 +1,9 @@
 <template>
-  <div class="container">
+  <div class="board-container w3-border-top">
     <div class="page-header-container">
-      <h2 class="page-header">문의하기</h2>
-      <hr />
+      <h1 class="page-header">{{ pageTitle }}</h1>
     </div>
-    <div class="w3-card-4 boardDetail" style="width: 100%">
+    <div class="boardDetail" style="width: 100%">
       <!--제목,분류,작성일-->
       <header class="w3-container w3-blue w3-padding-32">
         <span class="w3-left">[분류들어감]</span>
@@ -103,11 +102,12 @@
         </ul>
       </div>
       <!-- 목록버튼 -->
-      <div class="w3-padding-32 w3-container w3 w3-border-bottom">
+      <div class="w3-padding-32 w3-container">
         <div class="w3-container w3-center">
           <button
-            class="w3-button w3-round w3-blue-gray w3-margin-bottom"
+            class="w3-button w3-round w3-blue-gray"
             style="width: 20%"
+            @click="$router.push({ path: '/' + pageType })"
           >
             목록
           </button>
@@ -118,12 +118,46 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      pageTitle: "", // 페이지 제목
+      pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+    };
+  },
+  created() {
+    // 라우터를 통해 페이지 유형을 결정합니다.
+
+    const pageType = this.$route.params.pageType;
+
+    console.log(pageType);
+
+    // 페이지의 유형에 따라 페이지 제목과 게시판 리스트 출력 여부를 설정합니다.
+    if (pageType === "notice") {
+      this.pageTitle = "공지사항";
+      this.pageType = "notice";
+    } else if (pageType === "inquiry") {
+      this.pageTitle = "문의하기";
+      this.pageType = "inquiry";
+    }
+  },
+};
 </script>
 <style scoped>
-/* .textBtn {
-  display: flex;
-} */
+.board-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 100px;
+}
+.page-header {
+  margin: 0;
+  font-size: 40px;
+  font-weight: bold;
+}
+.page-header-container {
+  text-align: center;
+  margin-bottom: 80px;
+}
 ul,
 li {
   list-style: none;
@@ -133,6 +167,7 @@ li {
 }
 .boardetail {
   margin: 0 auto;
+  box-shadow: none;
 }
 
 .replyDay {

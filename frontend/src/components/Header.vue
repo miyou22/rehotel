@@ -1,19 +1,24 @@
 <template>
   <header id="head">
     <div class="header-container aaa">
-
-      <nav class="header-nav-bar ">
+      <nav class="header-nav-bar">
         <!-- ========================================================== -->
         <div class="header-nav-logo">
           <!-- <a href="index.html"> -->
           <a href="/">
-            <img src="../assets/img/logo.png"
-              alt="star hotels logo" />
+
+
+            <img
+              src="https://res.cloudinary.com/joshuafolorunsho/image/upload/v1591615159/star_hotels_logo.png"
+              alt="star hotels logo"
+            />
+
           </a>
         </div>
         <!-- ========================================================== -->
         <div id="gnbMenu">
           <ul class="header-nav-lists">
+          
             <li class="header-nav-list"  >
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/about' }" href="about" >About</a>
 
@@ -30,43 +35,45 @@
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/banquethall' }"
-                href="banquethall"  @click = "subgnb2 = true">banquet hall</a>
+                href="banquethall"  @click = "subgnb2 = true">banquet hall</a>         
 
+</li>
+            <li class="header-nav-list">
+              <a
+                class="header-nav-link"
+                :class="{ 'header-active': currentRoute === '/reservation' }"
+                href="reservation"
+                >Reservation</a
+              >
             </li>
             <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/reservation' }"
-                href="reservation">Reservation</a>
-
+              <a
+                class="header-nav-link"
+                :class="{ 'header-active': currentRoute === '/newsevent' }"
+                href="newsevent"
+                >news&event</a
+              >
             </li>
-            <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/newsevent' }"
-                href="newsevent">news&event</a>
-            </li>
-
-
           </ul>
         </div>
-
-
-
-
-
-
-
-
-
       </nav>
       <div>
         <ul class="header-top-gnb">
           <div class="top-menu">
-          <li><a class="header-nav-link" :class="{ 'header-active': currentRoute === '/mypage' }"
-                href="mypage">myPage</a></li>
-          <li><a href="#">LogIn</a></li>
-          <li><a href="#">회원가입</a></li>
-          <li><a href="#">회원가입</a></li>
-          <li><a href="#">회원가입</a></li>
-        </div>
-         <li> <button class="top-btn">Books Now</button></li>
+            <li>
+              <a
+                class="header-nav-link"
+                :class="{ 'header-active': currentRoute === '/mypage' }"
+                href="mypage"
+                >myPage</a
+              >
+            </li>
+            <li><a href="/login">LogIn</a></li>
+            <li><a href="/joinmember">회원가입</a></li>
+            <li><a href="#">회원가입</a></li>
+            <li><a href="#">회원가입</a></li>
+          </div>
+          <li><button class="top-btn">Books Now</button></li>
         </ul>
         <div class="header-hamburger-icon" @click="toggle">
           <div class="header-hamburger-line-1"></div>
@@ -149,14 +156,11 @@ export default {
 
 #gnbMenu {
   display: flex;
-
 }
 
 #gnbMenu ul {
   list-style: none;
-
 }
-
 
 #gnbMenu a {
   text-decoration: none;
@@ -172,7 +176,7 @@ export default {
   border-radius: 5%;
   width: 180px;
   margin-left: 30px;
-	background-color: #d4af37;
+  background-color: #d4af37;
   color: white;
   float: right;
 }

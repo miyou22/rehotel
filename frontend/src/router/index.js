@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About'
+import Location from '../views/Location'
 import Accommodation from '../views/Accommodation'
 import Reservation from '../views/Reservation'
 import Facility from '../views/Facility'
@@ -9,25 +10,37 @@ import Faq from '../views/news/faq/Faq'
 import Board from '../views/news/board/BoardList'
 import Banquethall from '../views/Banquethall'
 import Mypage from '../views/Mypage'
+import Joinmember from '../views/join/Joinmember'
 
 
 import BoardDetail from '../views/news/board/BoardDetail'
 import BoardWrite from '../views/news/board/BoardWrite'
+import BoardUpdate from '../views/news/board/BoardUpdate'
 
-import Payment from '../views/Payment'
-import Admin from '../admin/home/Admin'
-
+import Payment from "../views/Payment";
+import Admin from "../admin/home/Admin";
+import Check from "../views/Checklist.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home
+    path: "/",
+    name: "home",
+    component: Home,
+  },
+  {
+    path: "/checkList",
+    name: "checkList",
+    component: Check,
   },
   {
     path: '/about',
     name: 'about',
     component: About
+  },
+  {
+    path: '/location',
+    name: 'location',
+    component: Location
   },
   {
     path: '/accommodation',
@@ -81,6 +94,11 @@ const routes = [
     component: BoardWrite
   },
   {
+    path: '/:pageType/update',
+    name: 'update',
+    component: BoardUpdate
+  },
+  {
     path: '/admin',
     name: 'admin',
     component: Admin
@@ -90,7 +108,11 @@ const routes = [
     name: 'mypage',
     component: Mypage
   },
-
+  {
+    path: '/joinmember',
+    name: 'joinmember',
+    component: Joinmember
+  },
 
 
   // {
@@ -101,11 +123,11 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   // }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
