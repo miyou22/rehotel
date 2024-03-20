@@ -1,33 +1,9 @@
-
-.sub-gnb {
-    display: flex;
-    height: 60px;
-    outline: 1px solid #d3d1d1;
-    align-items: center;
-      /* color: #d4af37; */
-    
-  }
-  .sub-gnb-name {
-    font-weight: bold;
-    font-size: 18px;
-    margin: 0 140px 0 40px;
-  }
-  .sub-gnb-list {
-    display: flex;
-    list-style: none;
-  }
-  .sub-gnb-list li {
-    margin: 0 20px 0 20px;
-  }
-  .sub-gnb-list li a {
-    font-size: 16px;
-    text-decoration: none;
-  }
   /* =========================================== */
   .accName {
-    margin: 50px 0 50px 0;
-    font-size: 30px;
+    margin-bottom: 50px;
     font-weight: bold;
+    font-size: 40px;
+    text-align: center;
   }
   .information {
     outline: 1px solid #b1afaf;

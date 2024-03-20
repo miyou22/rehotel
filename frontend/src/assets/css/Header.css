@@ -54,13 +54,16 @@ body {
   transform: translateY(-10px);
 
 }
+.sub-nav-list{
+  color: black;
+}
 .header-nav-link {
 	text-decoration: none;
 	color: #ffffff;
 	font-size: 20px;
 }
 .header-nav-lists:first-child {
-	margin-left: 100px;
+	margin-left: 50px;
 }
 
 .header-active {
@@ -68,7 +71,7 @@ body {
 }
 
 .header-nav-logo {
-	width: 80px;
+	
 	position: relative;
 	z-index: 11;
 }

@@ -7,30 +7,30 @@
         <div class="header-nav-logo">
           <!-- <a href="index.html"> -->
           <a href="/">
-            <img src="https://res.cloudinary.com/joshuafolorunsho/image/upload/v1591615159/star_hotels_logo.png"
+            <img src="../assets/img/logo.png"
               alt="star hotels logo" />
           </a>
         </div>
         <!-- ========================================================== -->
         <div id="gnbMenu">
           <ul class="header-nav-lists">
-            <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/about' }" href="about">About</a>
+            <li class="header-nav-list"  >
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/about' }" href="about" >About</a>
 
             </li>
             <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation' }"
-                href="accommodation">Accommodation</a>
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation'  }"
+                href="accommodation"  @click = "subgnb2 = true" >Accommodation</a>
 
             </li>
-            <li class="header-nav-list">
+            <li class="header-nav-list" >
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Facility' }"
-                href="Facility">Facility</a>
+                href="Facility"  @click = "subgnb2 = true">Facility</a>
 
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/banquethall' }"
-                href="banquethall">banquet hall</a>
+                href="banquethall"  @click = "subgnb2 = true">banquet hall</a>
 
             </li>
             <li class="header-nav-list">
@@ -76,6 +76,31 @@
       </div>
     </div>
   </header>
+  <div class="sub-gnb" v-if="subgnb1">
+      <p class="sub-gnb-name">어바웃</p>
+      <ul class="sub-gnb-list">
+        <li><a href="#">호텔 소개</a></li>
+        <li><a href="#">오시는 길</a></li>
+      </ul>
+  </div>
+
+  <div class="sub-gnb" v-if="subgnb2">
+      <p class="sub-gnb-name" >시설 소개</p>
+      <ul class="sub-gnb-list">
+        <li><a href="accommodation" >객실</a></li>
+        <li><a href="Facility">부대시설</a></li>
+        <li><a href="banquethall">연회장</a></li>
+      </ul>
+  </div>
+
+  <div class="sub-gnb" v-if="subgnb3">
+      <p class="sub-gnb-name">3</p>
+      <ul class="sub-gnb-list">
+        <li><a href="#">3</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">3</a></li>
+      </ul>
+  </div>
 </template>
 
 <script>
@@ -85,12 +110,26 @@ export default {
   data() {
     return {
       currentRoute: this.$route.path,
+      subgnb1 :false,
+      subgnb2 :false,
+      subgnb3 :false,
+      // ------------------------------------------
+
     };
   },
   watch: {
     $route(to) {
       this.currentRoute = to.path;
-      console.log(this.currentRoute);
+      if(to.path == '/about'){
+        this.subgnb1 = true
+      } else if(to.path == '/accommodation' || to.path == '/Facility' || to.path == '/banquethall'){
+        this.subgnb2 = true
+      } else if(to.path == '/reservation'){
+        this.subgnb3 = true
+      }
+ 
+
+
     },
   },
   methods: {
@@ -100,6 +139,7 @@ export default {
       ul.classList.toggle("show");
       hamburger.classList.toggle("show");
     },
+    
   },
 };
 </script>
@@ -122,26 +162,10 @@ export default {
   text-decoration: none;
 }
 
-#gnbMenu li:hover .subMenu {
-  width: 150px;
-  display: block;
-}
 
-.subMenu {
-  position: absolute;
-  display: none;
-  z-index: 100;
-  list-style: none;
-  background-color: white;
-  border-radius: 3%;
-  outline: 1px solid black;
-}
 
-.subMenu li a p {
-  font-size: 14px;
-  color: black;
-  padding: 10px;
-}
+
+
 
 .top-btn {
   height: 60px;
@@ -154,9 +178,7 @@ export default {
 }
 
 
-.subMenu li a p:hover {
-  color: #D4AF37;
-}
+
 
 .aaa {
   display: flex;
@@ -171,4 +193,27 @@ export default {
 .news {
   width: 100px;
 }
+.sub-gnb {
+    display: flex;
+    height: 60px;
+    outline: 1px solid #d3d1d1;
+    align-items: center;
+    margin-bottom: 85px;
+  }
+  .sub-gnb-name {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0 140px 0 40px;
+  }
+  .sub-gnb-list {
+    display: flex;
+    list-style: none;
+  }
+  .sub-gnb-list li {
+    margin: 0 20px 0 20px;
+  }
+  .sub-gnb-list li a {
+    font-size: 16px;
+    text-decoration: none;
+  }
 </style>

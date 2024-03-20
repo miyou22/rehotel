@@ -1,15 +1,8 @@
 <template>
   <main>
-    <div class="sub-gnb">
-      <p class="sub-gnb-name">시설 소개</p>
-      <ul class="sub-gnb-list">
-        <li><a href="#">객실</a></li>
-        <li><a href="#">부대시설</a></li>
-        <li><a href="#">연회장</a></li>
-      </ul>
-    </div>
-    <div class="container">
-      <h2 class="accName">객실</h2>
+  
+    <div class="container-full">
+      <h1 class="accName">객실</h1>
 
       <div class="menu">
         <a v-for="(info, index) in menus" :key="index">{{ info }}</a>
@@ -103,7 +96,7 @@ export default {
 <style scoped>
 @import "../assets/css/Rooms.css";
 
-.container {
+.container-full {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1.5rem 0.5rem;
