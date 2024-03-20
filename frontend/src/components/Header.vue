@@ -77,8 +77,8 @@
                 >myPage</a
               >
             </li>
-            <li><a href="#">LogIn</a></li>
-            <li><a href="#">회원가입</a></li>
+            <li><a href="/login">LogIn</a></li>
+            <li><a href="/joinmember">회원가입</a></li>
             <li><a href="#">회원가입</a></li>
             <li><a href="#">회원가입</a></li>
           </div>
