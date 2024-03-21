@@ -14,10 +14,11 @@
               <option value>선택</option>
               <option value="칭찬">공지사항</option>
               <option value="문의">문의하기</option>
+              <option value="faq">FAQ</option>
             </select>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th>카테고리</th>
           <td>
             <select required name="category" class="selectCategory">
@@ -28,7 +29,7 @@
               <option value="기타">기타</option>
             </select>
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <th>제목</th>
           <td>

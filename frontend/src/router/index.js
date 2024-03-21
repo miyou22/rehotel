@@ -26,6 +26,7 @@ import Admin from "../admin/home/Admin";
 import AdminBoard from "../admin/board/AdminBoardList"
 import AdminBoardWrite from "../admin/board/AdminBoardWrite"
 import AdminBoardDetail from "../admin/board/AdminBoardDetail"
+import AdminBoardUpdate from "../admin/board/AdminBoardUpdate.vue"
 import AdminMember from "../admin/member/AdminMember"
 import AdminMemberDetail from "../admin/member/AdminMemberDetail"
 import AdminReservation from "../admin/reservation/ReservationList"
@@ -137,13 +138,18 @@ const routes = [
   },
   {
     path: '/admin/:categoryType(board|comments|deletepost)',
-    name: 'categoryTitle',
+    name: 'categoryType',
     component: AdminBoard
   },
   {
     path: '/admin/:categoryType(board|comments|deletepost)/detail',
     name: 'Admindetail',
     component: AdminBoardDetail
+  },
+  {
+    path: '/admin/board/update',
+    name: 'Adminupdate',
+    component: AdminBoardUpdate
   },
   {
     path: '/admin/board/write',
