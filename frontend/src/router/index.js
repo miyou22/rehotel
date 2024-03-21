@@ -125,7 +125,7 @@ const routes = [
     path: '/findidpw',
     name: 'findidpw',
     component: Findidpw,
-  }
+  },
   {
     path: '/admin',
     name: 'admin',
