@@ -5,7 +5,7 @@
       <h1 class="page-header">{{ categoryTitle }}</h1>
     </div>
     <!--체크박스 삽입 할까 말까?-->
-    <!-- 공지사항 -->
+    <!-- 게시글관리 -->
     <div class="allBoard" v-if="categoryType === 'board'">
       <!-- Board -->
       <div class="board-list">
@@ -13,7 +13,7 @@
           <button
             type="button"
             class="w3-button w3-white w3-border w3-hover-white"
-            @click="$router.push(categoryType + '/write')"
+            @click="$router.push('board/write')"
           >
             게시글 작성
           </button>
@@ -26,27 +26,44 @@
         </div>
         <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
           <colgroup>
-            <col width="110px" />
-            <col width="180px" />
+            <col width="80px" />
+            <col width="100px" />
+            <col width="200px" />
+            <col width="200px" />
             <col width="auto" />
-            <col width="180px" />
+            <col width="200px" />
+            <col width="150px" />
           </colgroup>
           <thead>
             <tr class="w3-light-grey w3-border-top w3-border-black">
+              <th class="w3-center">
+                <input
+                  type="checkbox"
+                  id="selectAll"
+                  @change="selectAllItems"
+                />
+              </th>
               <th class="w3-center">번호</th>
+              <th class="w3-center">게시판</th>
               <th class="w3-center">카테고리</th>
               <th class="w3-center">제목</th>
+              <th class="w3-center">작성자ID</th>
               <th class="w3-center">작성일</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in 10" :key="item">
-              <td class="w3-center">{{ item }}</td>
               <td class="w3-center">
-                <a>hey</a>
+                <input type="checkbox" id="select" />
               </td>
-              <td class="w3-center"><a href="/notice/detail">about</a></td>
+              <td class="w3-center">{{ 10 - item + 1 }}</td>
+              <td class="w3-center">문의하기</td>
+              <td class="w3-center">객실</td>
+              <td class="w3-center">
+                <a href="/admin/board/detail">about</a>
+              </td>
               <td class="w3-center">nyaa</td>
+              <td class="w3-center">2024/03/21</td>
             </tr>
           </tbody>
         </table>
@@ -60,9 +77,8 @@
         <a href="#" class="w3-button w3-hover-black">4</a>
         <a href="#" class="w3-button w3-hover-orange circle">»</a>
       </div>
-      <!-- SearchBar -->
     </div>
-    <!-- 문의사항 -->
+    <!-- 댓글관리 -->
     <div class="allBoard" v-if="categoryType === 'comments'">
       <!-- Board -->
       <div class="board-list">
@@ -70,34 +86,50 @@
           <button
             type="button"
             class="w3-button w3-round w3-margin-bottom w3-hover-white w3-text-red w3-border-red"
-            @click="$router.push(categoryType + '/write')"
           >
             삭제하기
           </button>
         </div>
         <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
           <colgroup>
-            <col width="110px" />
-            <col width="180px" />
+            <col width="80px" />
+            <col width="100px" />
+            <col width="200px" />
+            <col width="200px" />
             <col width="auto" />
-            <col width="180px" />
+            <col width="200px" />
+            <col width="150px" />
           </colgroup>
           <thead>
             <tr class="w3-light-grey w3-border-top w3-border-black">
+              <th class="w3-center">
+                <input
+                  type="checkbox"
+                  id="selectAll"
+                  @change="selectAllItems"
+                />
+              </th>
               <th class="w3-center">번호</th>
-              <th class="w3-center">고양이</th>
-              <th class="w3-center">사자</th>
-              <th class="w3-center">강아지</th>
+              <th class="w3-center">게시판</th>
+              <th class="w3-center">카테고리</th>
+              <th class="w3-center">제목</th>
+              <th class="w3-center">작성자ID</th>
+              <th class="w3-center">작성일</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in 10" :key="item">
-              <td class="w3-center">{{ item }}</td>
               <td class="w3-center">
-                <a>hey</a>
+                <input type="checkbox" id="select" />
               </td>
-              <td class="w3-center"><a href="/inquiry/detail">about</a></td>
+              <td class="w3-center">{{ item }}</td>
+              <td class="w3-center">문의하기</td>
+              <td class="w3-center">객실</td>
+              <td class="w3-center">
+                <a href="/admin/board/detail">about</a>
+              </td>
               <td class="w3-center">nyaa</td>
+              <td class="w3-center">2024/03/21</td>
             </tr>
           </tbody>
         </table>
@@ -121,41 +153,56 @@
           <button
             type="button"
             class="w3-button w3-round w3-margin-bottom w3-hover-white"
-            @click="$router.push(categoryType + '/write')"
           >
             선택 글 복원하기
           </button>
           <button
             type="button"
             class="w3-button w3-round w3-margin-bottom w3-hover-white w3-hover-text-red w3-text-red w3-border-red"
-            @click="$router.push(categoryType + '/write')"
           >
             영구 삭제
           </button>
         </div>
         <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
           <colgroup>
-            <col width="110px" />
-            <col width="180px" />
+            <col width="80px" />
+            <col width="100px" />
+            <col width="200px" />
+            <col width="200px" />
             <col width="auto" />
-            <col width="180px" />
+            <col width="200px" />
+            <col width="150px" />
           </colgroup>
           <thead>
             <tr class="w3-light-grey w3-border-top w3-border-black">
+              <th class="w3-center">
+                <input
+                  type="checkbox"
+                  id="selectAll"
+                  @change="selectAllItems"
+                />
+              </th>
               <th class="w3-center">번호</th>
-              <th class="w3-center">고양이</th>
-              <th class="w3-center">사자</th>
-              <th class="w3-center">강아지</th>
+              <th class="w3-center">게시판</th>
+              <th class="w3-center">카테고리</th>
+              <th class="w3-center">제목</th>
+              <th class="w3-center">작성자ID</th>
+              <th class="w3-center">작성일</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in 10" :key="item">
-              <td class="w3-center">{{ item }}</td>
               <td class="w3-center">
-                <a>hey</a>
+                <input type="checkbox" id="select" />
               </td>
-              <td class="w3-center"><a href="/inquiry/detail">about</a></td>
+              <td class="w3-center">{{ item }}</td>
+              <td class="w3-center">문의하기</td>
+              <td class="w3-center">객실</td>
+              <td class="w3-center">
+                <a href="/admin/board/detail">about</a>
+              </td>
               <td class="w3-center">nyaa</td>
+              <td class="w3-center">2024/03/21</td>
             </tr>
           </tbody>
         </table>
@@ -201,6 +248,16 @@ export default {
       this.categoryType = "deletePost";
     }
   },
+  methods: {
+    selectAllItems() {
+      const item = document.querySelectorAll('input[type="checkbox"]');
+      const firstBox = document.querySelector('input[id="selectAll"]');
+      item.forEach((box) => {
+        box.checked = firstBox.checked;
+      });
+      console.log(item);
+    },
+  },
   // setup() {
   //   axios.get("/notice").then((res) => {
   //     console.log(res);
@@ -210,6 +267,10 @@ export default {
 </script>
 
 <style scoped>
+table th,
+table td {
+  font-size: 16px;
+}
 .board-container {
   max-width: 1200px;
   margin: 0 auto;

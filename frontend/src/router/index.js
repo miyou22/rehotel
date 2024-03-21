@@ -26,6 +26,10 @@ import Admin from "../admin/home/Admin";
 import AdminBoard from "../admin/board/AdminBoardList"
 import AdminBoardWrite from "../admin/board/AdminBoardWrite"
 import AdminBoardDetail from "../admin/board/AdminBoardDetail"
+import AdminMember from "../admin/member/AdminMember"
+import AdminMemberDetail from "../admin/member/AdminMemberDetail"
+import AdminReservation from "../admin/reservation/ReservationList"
+import AdminReservationDetail from "../admin/reservation/ReservationDetail"
 
 
 const routes = [
@@ -75,9 +79,26 @@ const routes = [
     component: Faq
   },
   {
-    path: '/:pageType',
+    path: '/:pageType(notice|inquiry)',
     name: 'pageType',
     component: Board
+  },
+
+  {
+    path: '/:pageType(notice|inquiry)/update',
+    name: 'update',
+    component: BoardUpdate
+  },
+  {
+    path: '/:pageType(notice|inquiry)/detail',
+    name: 'detail',
+    component: BoardDetail
+  },
+
+  {
+    path: '/:pageType(notice|inquiry)/write',
+    name: 'write',
+    component: BoardWrite
   },
   {
     path: '/banquethall',
@@ -88,23 +109,6 @@ const routes = [
     path: "/payment",
     name: "payment",
     component: Payment,
-  },
-
-  {
-    path: '/:pageType/detail',
-    name: 'detail',
-    component: BoardDetail
-  },
-
-  {
-    path: '/:pageType/write',
-    name: 'write',
-    component: BoardWrite
-  },
-  {
-    path: '/:pageType/update',
-    name: 'update',
-    component: BoardUpdate
   },
   {
     path: '/mypage',
@@ -132,20 +136,51 @@ const routes = [
     component: Admin
   },
   {
-    path: '/admin/:categoryType',
+    path: '/admin/:categoryType(board|comments|deletepost)',
     name: 'categoryTitle',
     component: AdminBoard
   },
   {
-    path: '/admin/:categoryType/write',
-    name: 'write',
+    path: '/admin/:categoryType(board|comments|deletepost)/detail',
+    name: 'Admindetail',
+    component: AdminBoardDetail
+  },
+  {
+    path: '/admin/board/write',
+    name: 'Adminwrite',
     component: AdminBoardWrite
   },
   {
-    path: '/admin/:categoryType/detail',
-    name: 'detail',
-    component: AdminBoardDetail
+    path: '/admin/member',
+    name: 'AdminMember',
+    component: AdminMember
   },
+  {
+    path: '/admin/member/detail',
+    name: 'AdminMemberDetail',
+    component: AdminMemberDetail
+  },
+  {
+    path: '/admin/reservation',
+    name: 'AdminReservation',
+    component: AdminReservation
+  },
+  {
+    path: '/admin/reservation/detail',
+    name: 'AdminReservationDetail',
+    component: AdminReservationDetail
+  },
+  // {
+  //   path: '/admin/:categoryType(board|comments|deletepost)/detail',
+  //   name: 'Admindetail',
+  //   component: AdminBoardDetail
+  // },
+  // {
+  //   path: '/admin/board/write',
+  //   name: 'Adminwrite',
+  //   component: AdminBoardWrite
+  // },
+
 
   // {
   //   path: '/about',
