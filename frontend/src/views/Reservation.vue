@@ -83,6 +83,7 @@
             <ul>
               <li>{{ list.type }}</li>
               <li>최대 인원: {{ list.member }}</li>
+               <li>남은 객실 수: <b>{{ list.count }}</b></li>
             </ul>
           </div>
           <div class="price">
@@ -180,6 +181,7 @@ export default {
           type: "더블 1개",
           member: 2,
           price: 140000,
+          count:6
         },
         {
           img: require("../assets/img/deluxFull.jpg"),
@@ -187,6 +189,7 @@ export default {
           type: "더블 2개",
           member: 2,
           price: 260000,
+          count:6
         },
         {
           img: require("../assets/img/loyalsweet.jpg"),
@@ -194,6 +197,7 @@ export default {
           type: "더블 1개",
           member: 2,
           price: 280000,
+          count:6
         },
         {
           img: require("../assets/img/deluxsweet.jpg"),
@@ -201,6 +205,7 @@ export default {
           type: "더블 2개",
           member: 3,
           price: 230000,
+          count:6
         },
         {
           img: require("../assets/img/grandDelux.jpg"),
@@ -208,6 +213,7 @@ export default {
           type: "더블 3개",
           member: 4,
           price: 400000,
+          count:6
         },
       ],
     };
@@ -240,6 +246,9 @@ export default {
 }
 main {
   width: 100%;
+}
+.txt-group b{
+color:#d4af37;
 }
 .check-box {
   background-color: white;

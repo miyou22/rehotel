@@ -10,10 +10,12 @@
   "dependencies": {
     "@toast-ui/editor": "^3.2.2",
     "@vuepic/vue-datepicker": "^8.2.0",
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
+    "chart.js": "^4.4.2",
     "core-js": "^3.8.3",
     "swiper": "^11.0.7",
     "vue": "^3.2.13",
+    "vue-chartjs": "^5.3.0",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"
@@ -41,6 +43,7 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {
+      "no-unused-vars": "off",
       "vue/multi-word-component-names": "off",
       "no-mixed-spaces-and-tabs": 0
     }
