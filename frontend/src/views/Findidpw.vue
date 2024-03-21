@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <input type="email" id="findPwUseremail" v-model="findPwUseremail" required placeholder="이메일">
                     </div>
-                    <button type="submit" class="submit" @click.prevent="findPw">아이디 찾기</button>
+                    <button type="submit" class="submit" @click.prevent="findPw">비밀번호 찾기</button>
                 </form>
             </div>
         </section>

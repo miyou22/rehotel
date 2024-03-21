@@ -137,7 +137,7 @@
               <p><img src="../assets/img/tel.png">&ensp;031-1234-5678</p>
             </div>
           </div>
-         <button class="btn" @click="$router.push('/location'), inp">자세히보기</button>
+         <button class="btn" @click="goToLocation">자세히보기</button>
         </section>
     </div>
   </body>
@@ -165,6 +165,16 @@ export default {
       // 컴포넌트가 마운트된 후에 최상단으로 스크롤 이동
       this.$nextTick(() => {
         window.scrollTo(0, 0);
+      });
+    },
+
+    goToLocation() {
+      // '/location' 경로로 이동
+      this.$router.push("/location");
+
+      // 컴포넌트가 마운트된 후에  1/4 위치에 스크롤 이동
+      this.$nextTick(() => {
+        window.scrollTo(0, window.innerHeight/4);
       });
     },
 
