@@ -15,23 +15,21 @@ import java.time.LocalDateTime;
 public class Reservation {
     @Id
     @Column(nullable = false)
-    private  int resId;
+    private  String resId;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private Member userId;
-
-    @ManyToOne
-    @JoinColumn(name = "roomNum")
-    private Room roomNum;
+//    @ManyToOne
+//    @JoinColumn(name = "userId")
+//    private Member userId;
 
     @ManyToOne
     @JoinColumn(name = "guestEmail")
     private Guest guestEmail;
+    private String roomName;
+    private String roomPrice;
 
-    @OneToOne
-    @JoinColumn(name = "facType")
-    private Facility facType;
+    private String userName;
+    private String userTel;
+    private String userEmail;
 
     @Column(nullable = false)
     private LocalDateTime resCheckin;
@@ -41,7 +39,7 @@ public class Reservation {
 
     @Column(nullable = false)
     private int resPerson;
-
+    private String resRequest;
     @Column(nullable = false)
     private LocalDateTime resDate;
 
@@ -51,6 +49,6 @@ public class Reservation {
     @Column(nullable = false, length = 1)
     private int payCheck;
 
-    @Column(nullable = false, length = 1)
-    private int userFlag;
+//    @Column(nullable = false, length = 1)
+//    private int userFlag;
 }
