@@ -91,7 +91,7 @@
 
 <style scoped>
     *{
-        font-family: "Noto Sans KR", sans-serif;
+         font-family: "Noto Sans KR", sans-serif;
     }
     .wrap {
         max-width: 1200px;
@@ -100,7 +100,7 @@
     }
 
     .header {
-        font-size: 40px;
+        font-size: 36px;
         font-weight: 500;
         margin-top: 85px;
     }
@@ -228,6 +228,7 @@
     }
 
     .submit {
+        margin-top: 10px;
         height: 50px;
         padding: 10px 20px;
         font-size: 15px;

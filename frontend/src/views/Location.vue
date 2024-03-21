@@ -72,6 +72,10 @@ export default {
 </script>
 
 <style scoped>
+*{
+  font-family: "Noto Sans KR", sans-serif;
+}
+
   .wrap {
     max-width: 1200px;
     margin: auto;
@@ -103,7 +107,7 @@ export default {
   }
 
   p {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .addr {

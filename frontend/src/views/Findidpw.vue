@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <input type="email" id="findPwUseremail" v-model="findPwUseremail" required placeholder="이메일">
                     </div>
-                    <button type="submit" class="submit" @click.prevent="findPw">아이디 찾기</button>
+                    <button type="submit" class="submit" @click.prevent="findPw">비밀번호 찾기</button>
                 </form>
             </div>
         </section>
@@ -87,7 +87,7 @@ export default {
     }
 
     .header {
-        font-size: 40px;
+        font-size: 36px;
         font-weight: 500;
         margin-top: 85px;
     }
@@ -129,6 +129,7 @@ export default {
     }
 
     .submit {
+        margin-top: 10px;
         height: 50px;
         padding: 10px 20px;
         font-size: 15px;

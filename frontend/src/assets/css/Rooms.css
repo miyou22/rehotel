@@ -1,5 +1,9 @@
   /* =========================================== */
+  *{
+    font-family: "Noto Sans KR", sans-serif;
+  }
   .accName {
+    font-family: "Noto Sans KR", sans-serif;
     margin-bottom: 50px;
     font-weight: bold;
     font-size: 40px;

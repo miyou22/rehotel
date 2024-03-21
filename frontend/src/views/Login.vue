@@ -29,9 +29,9 @@
                         <input type="text" id="reservation-number" v-model="reservationNumber" required placeholder="예약번호">
                     </div>
                     <div class="form-group">
-                        <input type="email" id="udseremail" v-model="email" required placeholder="이메일">
+                        <input type="email" id="udseremail" v-model="useremail" required placeholder="이메일">
                     </div>
-                    <button type="submit" class="submit">예약 확인</button>
+                    <button type="submit" class="submit" @click.prevent="checkReservation">예약 확인</button>
                     </form>
                 </div>
             </div>
@@ -61,14 +61,18 @@ export default {
   methods: {
     login: function () {
         if (!this.userid || !this.password) {
-                alert('아이디와 비밀번호가 일치하지 않습니다.')
-                return;
-            }
-                alert(this.userid + '님 환영합니다!')
-                this.$router.push('/');
+            alert('아이디와 비밀번호가 일치하지 않습니다.')
+            return;
+        }
+            alert(this.userid + '님 환영합니다!')
+            this.$router.push('/');
     },
-    checkReservation() {
-      // 예약 확인 로직
+    checkReservation: function() {
+        if (!this.reservationNumber || !this.useremail) {
+            alert('예약번호와 이메일을 확인해주세요.')
+            return;
+        }
+            this.$router.push('/checklist')
     }
   }
 
@@ -86,7 +90,7 @@ export default {
     }
 
     .header {
-        font-size: 40px;
+        font-size: 36px;
         font-weight: 500;
         margin-top: 85px;
     }
@@ -152,6 +156,7 @@ export default {
     }
 
     .submit {
+        margin-top: 10px;
         height: 50px;
         padding: 10px 20px;
         font-size: 15px;
@@ -190,7 +195,7 @@ export default {
     .text p {
         color: #555;
         font-size: 16px;
-        margin-bottom: 50px;
+        margin-bottom: 70px;
     }
 
     .signup-link a {
