@@ -1,7 +1,6 @@
-* {
-	font-family: 'Source Sans Pro';
+*{
+  font-family: "Noto Sans KR", sans-serif;
 }
-
 
 /*Loader*/
 #loader {
@@ -299,6 +298,7 @@ h2 {
 }
 
 .btn {
+    font-family: "Noto Sans KR", sans-serif;
 	border-radius: 3px;
 	border: 1px solid #d4af37;
 	text-transform: uppercase;

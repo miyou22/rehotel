@@ -80,6 +80,9 @@ export default {
 </script>
 
 <style scoped>
+*{
+  font-family: "Noto Sans KR", sans-serif;
+}
 
 .wrap {
   max-width: 1200px;

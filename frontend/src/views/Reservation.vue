@@ -235,6 +235,9 @@ export default {
 </script>
 
 <style scoped>
+*{
+  font-family: "Noto Sans KR", sans-serif;
+}
 main {
   width: 100%;
 }

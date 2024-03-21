@@ -11,7 +11,7 @@
     </div>
 
     <div class="info-tit">
-      <p>Informaiton</p>
+      <p>Information</p>
     </div>
 
     <div class="info-con">
@@ -92,6 +92,7 @@ ul {
   padding: 14px 0 3px;
 }
 .head-tit {
+  font-family: "Noto Sans KR", sans-serif;
   text-align: center;
   font-size: 40px;
   font-weight: bold;

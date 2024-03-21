@@ -87,7 +87,7 @@ export default {
     }
 
     .header {
-        font-size: 40px;
+        font-size: 36px;
         font-weight: 500;
         margin-top: 85px;
     }
@@ -129,6 +129,7 @@ export default {
     }
 
     .submit {
+        margin-top: 10px;
         height: 50px;
         padding: 10px 20px;
         font-size: 15px;
