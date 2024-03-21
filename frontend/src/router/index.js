@@ -107,26 +107,6 @@ const routes = [
     component: BoardUpdate
   },
   {
-    path: '/admin',
-    name: 'admin',
-    component: Admin
-  },
-  {
-    path: '/admin/:categoryType',
-    name: 'categoryTitle',
-    component: AdminBoard
-  },
-  {
-    path: '/admin/:categoryType/write',
-    name: 'write',
-    component: AdminBoardWrite
-  },
-  {
-    path: '/admin/:categoryType/detail',
-    name: 'detail',
-    component: AdminBoardDetail
-  },
-  {
     path: '/mypage',
     name: 'mypage',
     component: Mypage
@@ -146,6 +126,26 @@ const routes = [
     name: 'findidpw',
     component: Findidpw,
   }
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin
+  },
+  {
+    path: '/admin/:categoryType',
+    name: 'categoryTitle',
+    component: AdminBoard
+  },
+  {
+    path: '/admin/:categoryType/write',
+    name: 'write',
+    component: AdminBoardWrite
+  },
+  {
+    path: '/admin/:categoryType/detail',
+    name: 'detail',
+    component: AdminBoardDetail
+  },
 
   // {
   //   path: '/about',
