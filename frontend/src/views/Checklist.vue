@@ -56,7 +56,7 @@
                 <p>{{ item.resId }}</p>
                 <p>{{ item.roomPrice }}</p>
                 <p>{{ item.checkinDate }}</p>
-              </div>
+      </div>
     </div>
   </main>
 </template>
