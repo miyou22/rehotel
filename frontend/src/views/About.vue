@@ -43,8 +43,8 @@
             휴식과 여행의 만족도를 높이는 다양한 편의시설과 함께하세요.
           </p>
         </div>
-        <button class="btn b2" @click="$router.push('/Facility'), inp">
-          <p>자세히보기</p>
+        <button class="btn b2">  <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Facility'  }"
+                href="Facility"  @click = "subgnb2 = true" ><p>자세히보기</p></a>
         </button>
       </div>
     </section>
@@ -61,8 +61,8 @@
           </p>
         </div>
         <button class="btn b3">
-          <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Banquethall' }"
-                href="Banquethall"  @click = "subgnb2 = true"><p>자세히보기</p></a>
+          <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/banquethall' }"
+                href="banquethall"  @click = "subgnb2 = true"><p>자세히보기</p></a>        
         </button>
       </div>
       <div class="img-wrapper">
