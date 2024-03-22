@@ -13,7 +13,7 @@
           <button
             type="button"
             class="w3-button w3-white w3-border-red w3-border w3-text-red"
-             @click="cancelSelectedReservations"
+            @click="itemchange"
           >
             선택예약 취소
           </button>
@@ -35,7 +35,7 @@
                 <input
                   type="checkbox"
                   id="selectAll"
-                  @change="selectAllItems"
+                  @change="selectAllItems($event.target.checked)"
                 />
               </th>
               <th class="w3-center">번호</th>
@@ -48,19 +48,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr :key='idx' v-for='(item, idx) in resList'>
+            <tr :key="idx" v-for="(item, idx) in resList">
               <td class="w3-center">
                 <input type="checkbox" id="select" v-model="item.selected" />
               </td>
-              <td class="w3-center">{{ idx+1 }}</td>
-              <td class="w3-center">{{ item.resId }}</td>
+              <td class="w3-center">{{ idx + 1 }}</td>
+              <td class="w3-center detail" @click="saveSelectedItem(item)">
+                {{ item.resId }}
+              </td>
               <td class="w3-center">{{ item.userName }}</td>
-              <td class="w3-center">{{ item.resCheckin.split('T')[0] }}</td>
-              <td class="w3-center">{{ item.resCheckout.split('T')[0] }}</td>
-              <td class="w3-center">{{ item.resDate.split('T')[0] }}</td>
-              <td class="w3-center">{{item.payCheck === 1 ? '예약' : '취소'}}</td>
+              <td class="w3-center">{{ item.resCheckin.split("T")[0] }}</td>
+              <td class="w3-center">{{ item.resCheckout.split("T")[0] }}</td>
+              <td class="w3-center">{{ item.resDate.split("T")[0] }}</td>
+              <td class="w3-center">
+                {{ item.payCheck === 1 ? "예약" : "취소" }}
+              </td>
             </tr>
-
           </tbody>
         </table>
       </div>
@@ -74,55 +77,99 @@
         <a href="#" class="w3-button w3-hover-orange circle">»</a>
       </div>
       <!-- SearchBar -->
-
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import Swal from 'sweetalert2'
-
+import axios from "axios";
+import { mapActions } from "vuex";
 export default {
- data() {
+  data() {
     return {
       resList: [],
       selectedReservations: [],
-    }
+      selectedIds: [],
+    };
   },
-   mounted() {
-      this.getResList()
-    },
+  mounted() {
+    this.getResList();
+  },
   methods: {
+    saveSelectedItem(item) {
+      this.setSelectedResItem(item); // Vuex 액션 호출
+      this.$router.push("/admin/reservation/detail");
+    },
+    ...mapActions(["setSelectedResItem"]),
+    itemchange() {
+      const selectedIds = this.getSelected(); // 선택된 예약의 ID 목록을 가져오기
+      if (selectedIds.length === 0) {
+        alert("아무것도 선택을 하지 않습니다.");
+        return;
+      }
+      axios
+        .post(
+          "http://localhost:8081/api/reservation/updatePayCheck",
+          selectedIds
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            alert("선택된 예약의 결제 상태가 취소로 변경되었습니다.");
+            // 변경된 상태를 다시 불러옵니다.
+            this.getResList();
+          } else {
+            alert("예약 취소에 실패했습니다.");
+          }
+        })
+        .catch((error) => {
+          console.error("예약 취소에 실패했습니다.", error);
+        });
+    },
+    getSelected() {
+      // 선택한 라인의 아이디 가져오기
+      let itemIdx = [];
+      for (let i in this.resList) {
+        if (this.resList[i].selected) {
+          itemIdx.push(this.resList[i].resId);
+        }
+      }
+      return itemIdx;
+    },
+    selectAllItems(checked) {
+      this.allChecked = checked;
+      for (let i in this.resList) {
+        this.resList[i].selected = this.allChecked;
+      }
+    },
 
-   selectAllItems() {
-     const firstBox = document.querySelector('input[id="selectAll"]');
-     this.resList.forEach(item => {
-       item.selected = firstBox.checked;
-       this.selectItem(item);
-     });
-   },
-     getResList() {
-              // alert("getresList 시작.....")
-              this.$axios
-                .get('http://localhost:8081/api/reservation/resInfo')
-                .then((res) => {
-                  this.resList = res.data
-                  // alert('getData() 수신데이터 ==> ' + res.data)
-                  console.log(res.data)
-                })
-                .catch((error) => {
-                  console.log(error)
-                })
-                .finally(() => {
-                  console.log('항상 마지막에 실행')
-                })
-        },
+    getResList() {
+      // alert("getresList 시작.....")
+      this.$axios
+        .get("http://localhost:8081/api/reservation/resInfo")
+        .then((res) => {
+          this.resList = res.data;
+          // alert('getData() 수신데이터 ==> ' + res.data)
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
   },
 };
 </script>
 
 <style scoped>
+.detail {
+  cursor: pointer;
+  font-weight: bold;
+}
+.detail:hover {
+  color: #d4af37;
+}
 table th,
 table td {
   font-size: 16px;
