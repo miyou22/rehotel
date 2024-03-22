@@ -12,14 +12,19 @@ const store = createStore({
       checkoutDate: null,
       selectedRoomImageData: null,
       totalmember: null,
+      selectedResItem: null,
     };
   },
   getters: {
     getSelectedMembers(state) {
       return state.selectedMembers;
     },
+    getSelectedResItem: (state) => state.selectedResItem,
   },
   mutations: {
+    setSelectedResItem(state, item) {
+      state.selectedResItem = item; // 선택된 예약 항목을 설정하는 뮤테이션
+    },
     setYmd(state, payload) {
       state.fromDate = payload;
     },
@@ -50,7 +55,10 @@ const store = createStore({
       commit("setSelectedMembers", value);
     },
     saveSelectedRoomImageData({ commit }, imageData) {
-      commit('setSelectedRoomImageData', imageData);
+      commit("setSelectedRoomImageData", imageData);
+    },
+    setSelectedResItem({ commit }, item) {
+      commit("setSelectedResItem", item); // 선택된 예약 항목을 설정하는 액션
     },
   },
 });
