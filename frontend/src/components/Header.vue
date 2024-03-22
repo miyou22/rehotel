@@ -170,20 +170,14 @@ export default {
 }
 
 
-
-
-
-
 .top-btn {
-  height: 60px;
-  border-radius: 5%;
+  height: 50px;
+  border: none;
   width: 180px;
   background-color: #d4af37;
   color: white;
   float: right;
-  text-align: center;
 }
-
 
 
 
@@ -227,8 +221,10 @@ export default {
     font-size: 16px;
     text-align: center;
     margin: 0;
-    font-weight: bold;
+    font-weight: 500;
+    color: white;
   }
+
   .booksNow:hover{
     color: black;
   }

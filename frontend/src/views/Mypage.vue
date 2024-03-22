@@ -2,12 +2,9 @@
   <main>
     <div class="container-full">
       <h1>마이페이지</h1>
-
-
       <div class="mypage-info">
+        <h3>회원 정보 수정</h3>
         <form>
-      <h3>회원 정보 수정</h3>
-
           <div>
             <label for="username" class="label-username">아이디</label>
             <input type="text" id="username" name="username" required class="input-username" />
@@ -76,14 +73,17 @@ export default {
 .container-full {
   margin: auto;
   width: 1200px;
-  padding: 1.5rem 0.5rem;
-  
 }
+
 .container-full  h1{
   margin-top: 85px;
   text-align: center;
-
 }
+
+.mypage-info {
+    display: flex;
+}
+
 form {
   margin: auto;
   width: 1000px;
