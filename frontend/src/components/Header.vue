@@ -72,8 +72,8 @@
             <li><a href="/joinmember">회원가입</a></li>
             <li><a href="/checkList">예약확인</a></li>
             <li><a href="#">오시는길</a></li>
-            <li><a href="#">사이트맵</a></li>
-            <li><a href="#">관리자 홈</a></li>
+            <li><a href="/sitemap">사이트맵</a></li>
+            <li><a href="/admin">관리자 홈</a></li>
           </div>
           <li><button class="top-btn"><a href="/reservation" class="booksNow">Books Now!!!</a></button></li>
 

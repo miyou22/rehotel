@@ -12,6 +12,7 @@ import Mypage from '../views/Mypage'
 import Joinmember from '../views/join/Joinmember'
 import Login from '../views/Login'
 import Findidpw from '../views/Findidpw.vue'
+import Sitemap from '../views/Sitemap.vue'
 
 
 import Board from '../views/news/board/BoardList'
@@ -175,6 +176,11 @@ const routes = [
     path: '/admin/reservation/detail',
     name: 'AdminReservationDetail',
     component: AdminReservationDetail
+  },
+  {
+    path: '/sitemap',
+    name: 'sitemap',
+    component: Sitemap
   },
   // {
   //   path: '/admin/:categoryType(board|comments|deletepost)/detail',

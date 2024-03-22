@@ -16,8 +16,9 @@
             다양한 객실에서 특별한 순간과 최상의 휴식과 여유를 경험해 보세요.
           </p>
         </div>
-        <button class="btn b1" @click="$router.push('/accommodation'), inp">
-          자세히보기
+        <button class="btn b1">  <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation'  }"
+                href="accommodation"  @click = "subgnb2 = true" ><p>자세히보기</p></a>
+
         </button>
       </div>
       <div class="img-wrapper">
@@ -42,8 +43,8 @@
             휴식과 여행의 만족도를 높이는 다양한 편의시설과 함께하세요.
           </p>
         </div>
-        <button class="btn b2" @click="goToFacility">
-          자세히보기
+        <button class="btn b2">  <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Facility'  }"
+                href="Facility"  @click = "subgnb2 = true" ><p>자세히보기</p></a>
         </button>
       </div>
     </section>
@@ -59,8 +60,9 @@
             품격있는 분위기와 함께 여행의 특별한 순간을 즐기세요.
           </p>
         </div>
-        <button class="btn b3" @click="goToBanquethall">
-          자세히보기
+        <button class="btn b3">
+          <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/banquethall' }"
+                href="banquethall"  @click = "subgnb2 = true"><p>자세히보기</p></a>        
         </button>
       </div>
       <div class="img-wrapper">
@@ -76,23 +78,6 @@
 export default {
   name: 'about',
 
-  methods: {
-    goToBanquethall() {
-      this.$router.push("/banquethall");
-
-      this.$nextTick(() => {
-        window.scrollTo(0, 0);
-      });
-    },
-
-    goToFacility() {
-      this.$router.push("/facility");
-
-      this.$nextTick(() => {
-        window.scrollTo(0, 0);
-      });
-    }
-  }
 }
 </script>
 
@@ -261,6 +246,14 @@ p {
     margin: 10px 0 80px 0;
   }
 }
+.btn p{
+  font-size: 14px;
+  color: white;
+}
+
+
+
+
 
 </style>
 

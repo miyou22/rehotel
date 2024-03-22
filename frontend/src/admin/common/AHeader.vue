@@ -5,10 +5,10 @@
         <!-- ========================================================== -->
         <div class="header-nav-logo">
           <!-- <a href="index.html"> -->
-          <a href="/">
+          <a href="/admin">
             <img
-              src="https://res.cloudinary.com/joshuafolorunsho/image/upload/v1591615159/star_hotels_logo.png"
-              alt="star hotels logo"
+              src="../../assets/img/logo.png"
+              alt="kings hotel logo"
             />
           </a>
         </div>
@@ -25,24 +25,27 @@
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/accommodation' }"
-                href="accommodation"
+                :class="{ 'header-active': currentRoute === '/admin/member' }"
+                href="/admin/member"
+                @click="subgnb2 = true"
                 >회원관리</a
               >
             </li>
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/Facility' }"
-                href="Facility"
+                :class="{ 'header-active': currentRoute === '/admin/reservation' }"
+                href="/admin/reservation"
+                @click="subgnb2 = true"
                 >예약관리</a
               >
             </li>
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/admin/board' }"
+                :class="{ 'header-active': currentRoute === '/board' }"
                 href="/admin/board"
+                @click="subgnb3 = true"
                 >게시판관리</a
               >
             </li>
@@ -60,6 +63,11 @@
             </li>
           </div>
         </ul>
+        <div class="header-hamburger-icon" @click="toggle">
+          <div class="header-hamburger-line-1"></div>
+          <div class="header-hamburger-line-2"></div>
+          <div class="header-hamburger-line-3"></div>
+        </div>
       </div>
     </div>
   </header>
@@ -67,9 +75,9 @@
   <div class="sub-gnb" v-if="subgnb3">
     <p class="sub-gnb-name">3</p>
     <ul class="sub-gnb-list">
-      <li><a href="#">3</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">3</a></li>
+      <li><a href="#">게시글관리</a></li>
+      <li><a href="#">댓글관리</a></li>
+      <li><a href="#">삭제된 글 관리</a></li>
     </ul>
   </div>
 </template>
@@ -80,6 +88,7 @@
 export default {
   data() {
     return {
+      currentRoute: this.$route.path,
       subgnb3: false,
       // ------------------------------------------
     };
@@ -88,15 +97,24 @@ export default {
   watch: {
     $route(to) {
       this.currentRoute = to.path;
-      console.log(to);
-      if (to.path === "/admin/board") {
+      console.log(to.path)
+
+      if (to.path == "/admin/board") {
+
         this.subgnb3 = true;
-      } else {
-        this.subgnb3 = false; // this 키워드 추가
+      }else{
+        this.subgnb3 = false;
       }
     },
   },
-  methods: {},
+  methods: {
+    toggle() {
+      const ul = document.querySelector(".header-nav-lists");
+      const hamburger = document.querySelector(".header-hamburger-icon");
+      ul.classList.toggle("show");
+      hamburger.classList.toggle("show");
+    },
+  },
 };
 </script>
 
