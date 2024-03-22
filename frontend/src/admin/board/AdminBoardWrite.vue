@@ -14,6 +14,7 @@
               <option value>선택</option>
               <option value="칭찬">공지사항</option>
               <option value="문의">문의하기</option>
+              <option value="faq">FAQ</option>
             </select>
           </td>
         </tr>

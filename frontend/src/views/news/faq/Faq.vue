@@ -7,46 +7,68 @@
     <!-- Acodian -->
     <div
       id="accordions"
-      v-for="item in 3"
-      :key="item"
-      :class="[`accor item${item}`, { 'w3-show': isOpen[item] }]"
+      v-for="(item, idx) in faqList"
+      :key="idx"
+      :class="[`accor item${idx}`, { 'w3-show': isOpen[idx] }]"
     >
       <button
         class="w3-btn w3-block w3-white w3-left-align w3-padding-24 w3-border-top w3-border-bottom"
-        @click="toggleAccordion(item)"
+        @click="toggleAccordion(idx)"
         id="accBtn"
-        :class="{ opened: isOpen[item] }"
+        :class="{ opened: isOpen[idx] }"
       >
         <span class="ico"
           ><img src="../../../assets/img/ico_q.png" />
-          <span class="btnSpan"> Open Section 1</span></span
+          <span class="btnSpan">{{ item.boardTitle }}</span></span
         >
         <span class="plus"></span>
       </button>
       <div
         id="panel"
         class="w3-container w3-border-bottom"
-        v-show="isOpen[item]"
+        v-show="isOpen[idx]"
       >
-        <h4>Section {{ item }}</h4>
-        <p class="w3-margin-bottom">Some text..</p>
+        <!-- <h4>Section {{ item }}</h4> -->
+        <p class="w3-margin-bottom">{{ item.boardContent }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+const url = "http://localhost:3081";
+
 export default {
   data() {
     return {
       // isOpen객체의 값은 빈값이다. 빈값은 false로 반환한다.
       isOpen: {},
+      faqList: [],
     };
   },
+  created() {
+    this.getFaqList();
+  },
   methods: {
-    toggleAccordion(item) {
+    toggleAccordion(idx) {
       // 아코디언 열림 상태를 토글
-      this.isOpen[item] = !this.isOpen[item];
+      this.isOpen[idx] = !this.isOpen[idx];
+    },
+    getFaqList() {
+      this.$axios
+        .get("http://localhost:8081/api/faq")
+        .then((res) => {
+          this.faqList = res.data;
+          alert("faqList 수신데이터 => " + res.data);
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("마지막 실행");
+        });
     },
   },
 };

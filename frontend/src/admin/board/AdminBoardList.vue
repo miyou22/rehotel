@@ -52,18 +52,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10" :key="item">
+            <tr v-for="(item, idx) in reverseData" :key="idx">
               <td class="w3-center">
                 <input type="checkbox" id="select" />
               </td>
-              <td class="w3-center">{{ 10 - item + 1 }}</td>
-              <td class="w3-center">문의하기</td>
+              <td class="w3-center">{{ item.boardSn }}</td>
+              <td class="w3-center">{{ item.boardCategory }}</td>
               <td class="w3-center">객실</td>
               <td class="w3-center">
-                <a href="/admin/board/detail">about</a>
+                <a href="/admin/board/detail">{{ item.boardTitle }}</a>
               </td>
               <td class="w3-center">nyaa</td>
-              <td class="w3-center">2024/03/21</td>
+              <td class="w3-center">{{ formatDate(item.createdAt) }}</td>
             </tr>
           </tbody>
         </table>
@@ -227,7 +227,16 @@ export default {
     return {
       categoryTitle: "", // 페이지 제목
       categoryType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      boardList: [],
     };
+  },
+  mounted() {
+    this.getBoardList();
+  },
+  computed: {
+    reverseData() {
+      return this.boardList.slice().reverse();
+    },
   },
   created() {
     // 라우터를 통해 페이지 유형을 결정합니다.
@@ -256,6 +265,23 @@ export default {
         box.checked = firstBox.checked;
       });
       console.log(item);
+    },
+    getBoardList() {
+      this.$axios
+        .get("http://localhost:8081/api/admin/board")
+        .then((res) => {
+          this.boardList = res.data;
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
+    formatDate(dateTimeString) {
+      return dateTimeString.slice(0, 10);
     },
   },
   // setup() {

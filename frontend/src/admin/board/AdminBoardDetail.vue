@@ -9,7 +9,7 @@
         <button
           type="button"
           class="w3-button w3-white w3-border w3-hover-white"
-          @click="$router.push(categoryType + '/update')"
+          @click="$router.push('/admin/board/update')"
         >
           수정
         </button>
@@ -121,7 +121,7 @@ export default {
   created() {
     // 라우터를 통해 페이지 유형을 결정합니다.
 
-    const categoryType = this.$route.params.pageType;
+    const categoryType = this.$route.params.categoryType;
 
     console.log(categoryType);
 

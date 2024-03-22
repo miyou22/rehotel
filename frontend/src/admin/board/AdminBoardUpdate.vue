@@ -164,7 +164,7 @@ button {
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /*for firefox*/
   appearance: none;
-  background-image: url(../../../assets/img/dropdown.svg);
+  /* background-image: url(../../../assets/img/dropdown.svg); */
   background-repeat: no-repeat;
   background-position: 95% center;
   background-size: 14px;

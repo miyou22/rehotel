@@ -93,14 +93,14 @@ export default {
       // ------------------------------------------
     };
   },
-  
+
   watch: {
     $route(to) {
       this.currentRoute = to.path;
       console.log(to.path)
 
       if (to.path == "/admin/board") {
-        
+
         this.subgnb3 = true;
       }else{
         this.subgnb3 = false;
