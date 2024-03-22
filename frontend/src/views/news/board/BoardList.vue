@@ -5,7 +5,7 @@
       <h1 class="page-header">{{ pageTitle }}</h1>
     </div>
     <!-- 공지사항 -->
-    <div class="allBoard" v-if="pageType === 'notice'">
+    <div class="allBoard">
       <!-- Board -->
       <div class="board-list">
         <div class="common-buttons">
@@ -20,91 +20,25 @@
         <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
           <colgroup>
             <col width="110px" />
-            <col width="180px" />
             <col width="auto" />
             <col width="180px" />
           </colgroup>
           <thead>
             <tr class="w3-light-grey w3-border-top w3-border-black">
               <th class="w3-center">번호</th>
-              <th class="w3-center">카테고리</th>
               <th class="w3-center">제목</th>
               <th class="w3-center">작성일</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10" :key="item">
-              <td class="w3-center">{{ item }}</td>
+            <tr v-for="(item, idx) in boardList" :key="idx">
+              <td class="w3-center">{{ idx + 1 }}</td>
               <td class="w3-center">
-                <a>hey</a>
+                <a href="notice/detail">{{ item.boardTitle }}</a>
               </td>
-              <td class="w3-center"><a href="/notice/detail">about</a></td>
-              <td class="w3-center">nyaa</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- Pagination -->
-      <div class="w3-bar pagin">
-        <a href="#" class="w3-button w3-hover-purple circle">«</a>
-        <a href="#" class="w3-button w3-hover-green">1</a>
-        <a href="#" class="w3-button w3-hover-red">2</a>
-        <a href="#" class="w3-button w3-hover-blue">3</a>
-        <a href="#" class="w3-button w3-hover-black">4</a>
-        <a href="#" class="w3-button w3-hover-orange circle">»</a>
-      </div>
-      <!-- SearchBar -->
-      <div class="searchBar">
-        <select name="typeDetail">
-          <option value="all" style="font-size: 14px">전체</option>
-          <option value="칭찬" style="font-size: 14px">칭찬</option>
-          <option value="문의" style="font-size: 14px">문의</option>
-          <option value="제안" style="font-size: 14px">제안</option>
-          <option value="기타" style="font-size: 14px">기타</option>
-        </select>
-        <div class="inputButton">
-          <input type="text" placeholder="검색어를 입력하세요" id="search" />
-          <button type="button" class="w3-button">검색</button>
-        </div>
-      </div>
-    </div>
-    <!-- 문의사항 -->
-    <div class="allBoard" v-if="pageType === 'inquiry'">
-      <!-- Board -->
-      <div class="board-list">
-        <div class="common-buttons">
-          <button
-            type="button"
-            class="w3-button w3-round w3-margin-bottom buttonWrite"
-            v-if="pageType !== 'notice'"
-            @click="$router.push(pageType + '/write')"
-          >
-            작성하기
-          </button>
-        </div>
-        <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
-          <colgroup>
-            <col width="110px" />
-            <col width="180px" />
-            <col width="auto" />
-            <col width="180px" />
-          </colgroup>
-          <thead>
-            <tr class="w3-light-grey w3-border-top w3-border-black">
-              <th class="w3-center">번호</th>
-              <th class="w3-center">고양이</th>
-              <th class="w3-center">사자</th>
-              <th class="w3-center">강아지</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in 10" :key="item">
-              <td class="w3-center">{{ item }}</td>
               <td class="w3-center">
-                <a>hey</a>
+                {{ formatDate(item.createdAt) }}
               </td>
-              <td class="w3-center"><a href="/inquiry/detail">about</a></td>
-              <td class="w3-center">nyaa</td>
             </tr>
           </tbody>
         </table>
@@ -142,7 +76,11 @@ export default {
     return {
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      boardList: [],
     };
+  },
+  mounted() {
+    this.getBoardList();
   },
   created() {
     // 라우터를 통해 페이지 유형을 결정합니다.
@@ -160,11 +98,42 @@ export default {
       this.pageType = "inquiry";
     }
   },
-  // setup() {
-  //   axios.get("/notice").then((res) => {
-  //     console.log(res);
-  //   });
-  // },
+  methods: {
+    getBoardList() {
+      if (this.pageType == "notice") {
+        this.$axios
+          .get("http://localhost:8081/api/notice")
+          .then((res) => {
+            this.boardList = res.data;
+            // alert('getData() 수신데이터 ==> ' + res.data)
+            console.log(res.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            console.log("항상 마지막에 실행");
+          });
+      } else if (this.pageType == "inquiry") {
+        this.$axios
+          .get("http://localhost:8081/api/inquiry")
+          .then((res) => {
+            this.boardList = res.data;
+            // alert('getData() 수신데이터 ==> ' + res.data)
+            console.log(res.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            console.log("항상 마지막에 실행");
+          });
+      }
+    },
+    formatDate(dateTimeString) {
+      return dateTimeString.slice(0, 10);
+    },
+  },
 };
 </script>
 

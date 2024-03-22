@@ -27,7 +27,6 @@
                 class="header-nav-link"
                 :class="{ 'header-active': currentRoute === '/accommodation' }"
                 href="accommodation"
-                @click="subgnb2 = true"
                 >회원관리</a
               >
             </li>
@@ -36,16 +35,14 @@
                 class="header-nav-link"
                 :class="{ 'header-active': currentRoute === '/Facility' }"
                 href="Facility"
-                @click="subgnb2 = true"
                 >예약관리</a
               >
             </li>
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/board' }"
+                :class="{ 'header-active': currentRoute === '/admin/board' }"
                 href="/admin/board"
-                @click="subgnb2 = true"
                 >게시판관리</a
               >
             </li>
@@ -63,11 +60,6 @@
             </li>
           </div>
         </ul>
-        <div class="header-hamburger-icon" @click="toggle">
-          <div class="header-hamburger-line-1"></div>
-          <div class="header-hamburger-line-2"></div>
-          <div class="header-hamburger-line-3"></div>
-        </div>
       </div>
     </div>
   </header>
@@ -88,37 +80,23 @@
 export default {
   data() {
     return {
-      currentRoute: this.$route.path,
-      subgnb1: false,
-      subgnb2: false,
       subgnb3: false,
       // ------------------------------------------
     };
   },
+
   watch: {
     $route(to) {
       this.currentRoute = to.path;
-      if (to.path == "/about") {
-        this.subgnb1 = true;
-      } else if (
-        to.path == "/accommodation" ||
-        to.path == "/Facility" ||
-        to.path == "/banquethall"
-      ) {
-        this.subgnb2 = true;
-      } else if (to.path == "/reservation") {
+      console.log(to);
+      if (to.path === "/admin/board") {
         this.subgnb3 = true;
+      } else {
+        this.subgnb3 = false; // this 키워드 추가
       }
     },
   },
-  methods: {
-    toggle() {
-      const ul = document.querySelector(".header-nav-lists");
-      const hamburger = document.querySelector(".header-hamburger-icon");
-      ul.classList.toggle("show");
-      hamburger.classList.toggle("show");
-    },
-  },
+  methods: {},
 };
 </script>
 

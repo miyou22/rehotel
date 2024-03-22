@@ -18,7 +18,7 @@
             </select>
           </td>
         </tr>
-        <!-- <tr>
+        <tr>
           <th>카테고리</th>
           <td>
             <select required name="category" class="selectCategory">
@@ -29,7 +29,7 @@
               <option value="기타">기타</option>
             </select>
           </td>
-        </tr> -->
+        </tr>
         <tr>
           <th>제목</th>
           <td>

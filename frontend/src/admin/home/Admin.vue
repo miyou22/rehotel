@@ -1,5 +1,5 @@
 <template>
-  <AHeader />
+  <!-- <AHeader /> -->
   <div class="board-container">
     <div class="page-header-container">
       <h1 class="page-header">관리자 홈</h1>

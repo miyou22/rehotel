@@ -19,7 +19,7 @@ public class Member {
 
     @Id
     @Column(length = 20, nullable = false)
-    private String userId;
+        private String userId;
 
     @Column(length = 20, nullable = false)
     private String userPwd;
