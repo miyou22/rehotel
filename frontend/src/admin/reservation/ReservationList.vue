@@ -94,63 +94,7 @@ export default {
       this.getResList()
     },
   methods: {
-  selectItem(item) {
-    if (item.selected) {
-      this.selectedReservations.push(item.resId);
-    } else {
-      const index = this.selectedReservations.indexOf(item.resId);
-      if (index !== -1) {
-        this.selectedReservations.splice(index, 1);
-      }
-    }
-  },
-      cancelSelectedReservations() {
-          if (this.selectedReservations.length === 0) {
-            Swal.fire({
-              icon: 'warning',
-              title: '취소할 예약을 선택하세요.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-            return;
-          }
 
-          Swal.fire({
-            title: '선택한 예약을 취소하시겠습니까?',
-            text: '취소 후에는 복구할 수 없습니다.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: '취소',
-            cancelButtonText: '취소 안 함'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              axios.post('http://localhost:8081/api/reservation/cancel', this.selectedReservations)
-                .then(response => {
-                  Swal.fire({
-                    icon: 'success',
-                    title: '취소되었습니다.',
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-                  // 선택 해제
-                  this.selectedReservations = [];
-                  // 예약목록 다시 불러오기
-                  this.getResList();
-                })
-                .catch(error => {
-                  console.error('예약 취소 중 오류가 발생했습니다:', error);
-                  Swal.fire({
-                    icon: 'error',
-                    title: '취소 중 오류가 발생했습니다.',
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-                });
-            }
-          });
-        },
    selectAllItems() {
      const firstBox = document.querySelector('input[id="selectAll"]');
      this.resList.forEach(item => {
