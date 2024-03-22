@@ -9,34 +9,34 @@
       <h3>회원 정보 수정</h3>
 
           <div>
-            <label for="username" class="label-username">아이디:</label>
+            <label for="username" class="label-username">아이디</label>
             <input type="text" id="username" name="username" required class="input-username" />
           </div>
           <div>
-            <label for="email" class="label-email">이메일 주소:</label>
+            <label for="email" class="label-email">이메일 주소</label>
             <input type="email" id="useremail" name="useremail" required class="input-email" />
             <button type="button" @click="sendVerificationCode" class="button-send-verification">인증번호 발송</button>
           </div>
           <div>
-            <label for="verification-code" class="label-verification-code">인증번호:</label>
+            <label for="verification-code" class="label-verification-code">인증번호</label>
             <input type="text" id="verification-code" name="verification-code" required
               class="input-verification-code" />
           </div>
           <div>
-            <label for="password" class="label-password">비밀번호:</label>
+            <label for="password" class="label-password">비밀번호</label>
             <input type="password" id="password" name="password" required class="input-password" />
           </div>
           <div>
-            <label for="confirm-password" class="label-confirm-password">비밀번호 확인:</label>
+            <label for="confirm-password" class="label-confirm-password">비밀번호 확인</label>
             <input type="password" id="confirm-password" name="confirm-password" required
               class="input-confirm-password" />
           </div>
           <div>
-            <label for="name" class="label-name">이름:</label>
+            <label for="name" class="label-name">이름</label>
             <input type="text" id="username" name="name" required class="input-name" />
           </div>
           <div>
-            <label for="gender" class="label-gender">성별:</label>
+            <label for="gender" class="label-gender">성별</label>
             <select id="gender" name="gender" required class="select-gender">
               <option value="">성별 선택</option>
               <option value="male">남성</option>
@@ -46,7 +46,7 @@
           </div>
 
           <div class="button-container">
-            <button type="button" class="complete-button">수정 완료</button>
+            <button type="button" @click="completeUpdate" class="complete-button">수정 완료</button>
           </div>
         </form>
 
@@ -62,6 +62,11 @@ export default {
     sendVerificationCode() {
       // 인증번호 발송 버튼 클릭 시 수행할 동작을 여기에 작성
       console.log("Verification code sent");
+      alert("인증번호가 발송되었습니다")
+    },
+    completeUpdate(){
+       //수정완료 버튼 클릭시 alert로 수정이 완료되었습니다 라는 문구생김
+       alert("수정이 완료되었습니다")
     }
   }
 };
@@ -179,5 +184,8 @@ div {
 
 .mypage-info {
   display: flex;
+}
+.mypage-info h3{
+  margin-bottom: 50px;
 }
 </style>
