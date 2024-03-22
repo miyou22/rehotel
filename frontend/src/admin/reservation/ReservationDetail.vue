@@ -10,87 +10,50 @@
         <tr>
           <th>예약번호</th>
           <td>
-            <input
-              type="number"
-              class="reservationNumber"
-              name="reservationNumber"
-              placeholder="나중에수정못하도록 input이 아닌 데이터값을 넣어야함."
-              value
-            />
+            <p>{{ selectedResItem.resId }}</p>
           </td>
         </tr>
         <tr>
           <th>예약일</th>
-          <td>
-            <input
-              type="text"
-              class="memberName"
-              name="memberName"
-              placeholder="나중에수정못하도록 input이 아닌 데이터값을 넣어야함."
-              value
-            />
-          </td>
+          <td>{{ selectedResItem.resDate.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>체크인</th>
-          <td>
-            <input
-              type="password"
-              class="password"
-              name="password"
-              placeholder="나중에수정못하도록 input이 아닌 데이터값을 넣어야함."
-              value
-            />
-          </td>
+          <td>{{ selectedResItem.resCheckin.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>체크아웃</th>
-          <td>
-            <input
-              type="password"
-              class="passwordCheck"
-              name="passwordCheck"
-              placeholder="나중에수정못하도록 input이 아닌 데이터값을 넣어야함."
-              value
-            />
-          </td>
+          <td>{{ selectedResItem.resCheckout.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>예약상품</th>
-          <td>
-            <input type="email" class="email" name="email" value />
-          </td>
+          <td>{{ selectedResItem.roomName }}</td>
         </tr>
         <tr>
           <th>예약자명</th>
-          <td>
-            <input type="text" class="namename" name="namename" value />
-          </td>
+          <td>{{ selectedResItem.userName }}</td>
         </tr>
         <tr>
           <th>연락처</th>
-          <td>
-            <input type="tel" class="tell" name="tell" value />
-          </td>
+          <td>{{ formatPhoneNumber(selectedResItem.userTel) }}</td>
         </tr>
         <tr>
           <th>요청사항</th>
-          <td>
-            <input type="text" class="request" name="request" value />
-          </td>
+          <td>{{ selectedResItem.resRequest }}</td>
         </tr>
         <tr>
           <th>결제금액</th>
+          <td>{{ numberWithCommas(selectedResItem.roomPrice) }}원</td>
+        </tr>
+        <tr>
+          <th>연회장이용</th>
           <td>
-            <input
-              type="text"
-              class="join"
-              name="join"
-              placeholder="input이아닌데이터값"
-              required
-              value
-            />
+            {{ selectedResItem.facCheck === 1 ? "이용" : "이용하지않음" }}
           </td>
+        </tr>
+        <tr>
+          <th>예약상태</th>
+          <td>{{ selectedResItem.payCheck === 1 ? "예약" : "취소" }}</td>
         </tr>
       </tbody>
     </table>
@@ -108,8 +71,31 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  methods: {},
+  computed: {
+    // Vuex 게터를 사용하여 선택된 예약 항목을 가져옵니다.
+    ...mapGetters(["getSelectedResItem"]),
+    selectedResItem() {
+      return this.getSelectedResItem;
+    },
+  },
+  methods: {
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    formatPhoneNumber(phoneNumber) {
+      // 전화번호에서 숫자만 추출
+      const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+      // 정규식을 사용하여 전화번호 형식에 맞게 변환
+      const match = cleaned.match(/^(\d{3})(\d{4})(\d{4})$/);
+      if (match) {
+        return match[1] + "-" + match[2] + "-" + match[3];
+      }
+      return phoneNumber;
+    },
+  },
 };
 </script>
 

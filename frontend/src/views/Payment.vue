@@ -25,6 +25,7 @@
                 placeholder="고객명 (필수)"
                 required
                 v-model="customerName"
+                oninput="this.value = this.value.replace(/[0-9]/g, '');"
               />
               <input
                 name="phoneNumber"
@@ -32,6 +33,7 @@
                 placeholder="연락처 (필수)"
                 required
                 v-model="phoneNumber"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
               />
               <input
                 name="email"
@@ -42,7 +44,12 @@
               />
             </div>
             <div class="want">
-              <input name="notice" placeholder="요청사항" type="text" v-model="request"/>
+              <input
+                name="notice"
+                placeholder="요청사항"
+                type="text"
+                v-model="request"
+              />
             </div>
           </div>
 
@@ -260,7 +267,7 @@
 
 <script>
 import { mapState } from "vuex";
-import axios from 'axios';
+import axios from "axios";
 export default {
   data() {
     return {
@@ -270,21 +277,36 @@ export default {
       info: false,
       repay: false,
       banquetReservation: false,
-      // 나머지 입력값에 대한 데이터도 추가할 수 있습니다.
+      validEmail: false, // 이메일 유효성 검사 여부를 나타내는 변수 추가
+      validName: false, // 사용자 이름 유효성 검사 여부를 나타내는 변수 추가
     };
   },
-  methods: {generateResId() {
-                // 현재 날짜 정보 가져오기
-                const currentDate = new Date();
+  methods: {
+    validateEmail(email) {
+      // 이메일 유효성 검사 정규식
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email);
+    },
+    validateName(name) {
+      // 사용자 이름 유효성 검사 정규식
+      const nameRegex = /^[a-zA-Z가-힣]+$/;
+      return nameRegex.test(name);
+    },
 
-                // 현재 날짜 정보를 기반으로 랜덤한 숫자 생성 (0 이상 10000 미만)
-                const randomNum = Math.floor(Math.random() * 10000);
+    generateResId() {
+      // 현재 날짜 정보 가져오기
+      const currentDate = new Date();
 
-                // 날짜 정보와 랜덤 숫자를 조합하여 resId 생성
-                const resId = `${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate.getDate()}${randomNum}`;
+      // 현재 날짜 정보를 기반으로 랜덤한 숫자 생성 (0 이상 10000 미만)
+      const randomNum = Math.floor(Math.random() * 10000);
 
-                return resId;
-              },
+      // 날짜 정보와 랜덤 숫자를 조합하여 resId 생성
+      const resId = `${currentDate.getFullYear()}${
+        currentDate.getMonth() + 1
+      }${currentDate.getDate()}${randomNum}`;
+
+      return resId;
+    },
     updateTotalRoomPrice() {
       // 체크박스 상태에 따라 결제 금액 업데이트
       if (this.banquetReservation) {
@@ -309,7 +331,7 @@ export default {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     KGpay: function () {
- const resId = this.generateResId();
+      const resId = this.generateResId();
 
       if (!this.customerName || !this.phoneNumber || !this.email) {
         alert("고객 정보를 모두 입력해주세요.");
@@ -317,6 +339,14 @@ export default {
       }
       if (!this.info || !this.repay) {
         alert("약관 동의에 체크해주세요");
+        return;
+      }
+      if (!this.validateEmail(this.email)) {
+        alert("올바른 이메일 주소를 입력해주세요.");
+        return;
+      }
+      if (!this.validateName(this.customerName)) {
+        alert("올바른 사용자 이름을 입력해주세요.");
         return;
       }
 
@@ -333,17 +363,18 @@ export default {
         resRequest: this.request,
         resDate: new Date().toISOString(),
         facCheck: this.banquetReservation ? 1 : 0,
-        payCheck:1
-      }
+        payCheck: 1,
+      };
 
-      this.$axios.post('http://localhost:8081/api/reservation/reserve', data)
-        .then(function(response) {
-          console.log(response)
+      this.$axios
+        .post("http://localhost:8081/api/reservation/reserve", data)
+        .then(function (response) {
+          console.log(response);
         })
-        .catch(function(error) {
-          alert('실패')
-          console.log(error)
-        })
+        .catch(function (error) {
+          alert("실패");
+          console.log(error);
+        });
 
       var IMP = window.IMP; // 생략 가능
       var name2 = document.getElementById("tit").innerText;

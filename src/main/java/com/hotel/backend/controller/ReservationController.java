@@ -4,6 +4,8 @@ import com.hotel.backend.entity.Reservation;
 import com.hotel.backend.service.ReservationService;
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.hotel.backend.repository.ReservationRepository;
@@ -21,6 +23,7 @@ public class ReservationController {
 
     @Autowired
     ReservationService reservationService;
+
 
     @PostMapping("/reserve")
    public void saveReservation(@RequestBody Reservation reservation) {
@@ -53,13 +56,11 @@ public class ReservationController {
         return resList;
     }
 
-//    @CrossOrigin(origins = "http://localhost:3081", allowedHeaders = "*")
-//    @DeleteMapping("/${reservationId}")
-//    public void delete(@PathVariable("resId") Long resId) {
-//        System.out.println("삭제 요청으로 받은 id : " + resId);
-//        reservationService.delete(resId);
-//    }
+    @PostMapping("/updatePayCheck")
+    public void updatePayCheck(@RequestBody List<Long> reservationIds) {
+        System.out.println("updatePayCheck ==> ");
 
-
+        reservationService.updatePayCheck(reservationIds);
+    }
 
 }

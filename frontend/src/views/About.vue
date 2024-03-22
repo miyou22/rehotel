@@ -26,45 +26,45 @@
       </div>
     </section>
 
-    <!-- 다이닝 소개 섹션 -->
+    <!-- 부대시설 소개 섹션 -->
     <section class="info dining">
       <div class="img-wrapper">
-        <img src="../assets/img/hotel2.jpg" alt="다이닝 소개 이미지">
+        <img src="../assets/img/hotel1.jpg" alt="부대시설 소개 이미지">
         <div class="overlay over2"></div>
       </div>
       <div class="content">
         <div class="text">
-          <h2>Dining</h2>
+          <h2>Facility</h2>
           <p>
-            셰프의 손맛이 느껴지는 다채로운 요리와 함께 편안한 식사를 즐겨보세요.<br/>
-            정갈한 인테리어와 함께 편안한 식사를 즐길 수 있습니다.<br/>
-            여행에 특별한 맛과 기억을 더해보세요 .
+            현대적인 디자인과 최신 시설의 부대시설<br/>
+            피트니스 센터, 셀프 세탁실, 편의점 등의 다양한 편의 시설과<br/>
+            정갈한 인테리어와 함께 다이닝 룸에서의 편안한 식사를 즐길 수 있습니다.<br/>
+            휴식과 여행의 만족도를 높이는 다양한 편의시설과 함께하세요.
           </p>
         </div>
-        <button class="btn b2" @click="$router.push('/dining'), inp">
+        <button class="btn b2" @click="goToFacility">
           자세히보기
         </button>
       </div>
     </section>
 
-    <!-- 부대 시설 소개 섹션 -->
+    <!-- 연회장 소개 섹션 -->
     <section class="info facility">
       <div class="content">
         <div class="text">
-          <h2>Facility</h2>
+          <h2>Banquethall</h2>
           <p>
-            다양한 행사를 위한 최적의 장소를 제공합니다.<br/>
-            넓고 현대적인 디자인과 최신 시설을 갖추고 있어<br/>
-            비지니스 회의, 연회 및 기타 이벤트에 완벽한 장소입니다.<br/>
-            휴식과 여행의 만족도를 높이는 다양한 편의시설과 함께하세요.
+            우리 킹스호텔의 연회장은 아름다운 인테리어와<br/>
+            넓은 공간으로 고객 여러분께 특별한 순간을 제공합니다.<br/>
+            품격있는 분위기와 함께 여행의 특별한 순간을 즐기세요.
           </p>
         </div>
-        <button class="btn b3" @click="$router.push('/facility'), inp">
+        <button class="btn b3" @click="goToBanquethall">
           자세히보기
         </button>
       </div>
       <div class="img-wrapper">
-        <img src="../assets/img/hotel1.jpg" alt="부대 시설 소개 이미지">
+        <img src="../assets/img/hotel2.jpg" alt="연회장 소개 이미지">
         <div class="overlay over3"></div>
       </div>
     </section>
@@ -76,6 +76,23 @@
 export default {
   name: 'about',
 
+  methods: {
+    goToBanquethall() {
+      this.$router.push("/banquethall");
+
+      this.$nextTick(() => {
+        window.scrollTo(0, 0);
+      });
+    },
+
+    goToFacility() {
+      this.$router.push("/facility");
+
+      this.$nextTick(() => {
+        window.scrollTo(0, 0);
+      });
+    }
+  }
 }
 </script>
 
