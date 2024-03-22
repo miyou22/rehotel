@@ -1,23 +1,13 @@
 <template>
   <main>
-    <div class="container-full">
-      <h1>마이페이지</h1>
+    <div class="wrap">
+      <h1 class="header">마이페이지</h1>
       <div class="mypage-info">
         <h3>회원 정보 수정</h3>
-        <form>
+        <form class="user-info">
           <div>
             <label for="username" class="label-username">아이디</label>
             <input type="text" id="username" name="username" required class="input-username" />
-          </div>
-          <div>
-            <label for="email" class="label-email">이메일 주소</label>
-            <input type="email" id="useremail" name="useremail" required class="input-email" />
-            <button type="button" @click="sendVerificationCode" class="button-send-verification">인증번호 발송</button>
-          </div>
-          <div>
-            <label for="verification-code" class="label-verification-code">인증번호</label>
-            <input type="text" id="verification-code" name="verification-code" required
-              class="input-verification-code" />
           </div>
           <div>
             <label for="password" class="label-password">비밀번호</label>
@@ -26,28 +16,40 @@
           <div>
             <label for="confirm-password" class="label-confirm-password">비밀번호 확인</label>
             <input type="password" id="confirm-password" name="confirm-password" required
-              class="input-confirm-password" />
+            class="input-confirm-password" />
           </div>
           <div>
             <label for="name" class="label-name">이름</label>
             <input type="text" id="username" name="name" required class="input-name" />
           </div>
-          <div>
-            <label for="gender" class="label-gender">성별</label>
-            <select id="gender" name="gender" required class="select-gender">
-              <option value="">성별 선택</option>
-              <option value="male">남성</option>
-              <option value="female">여성</option>
-              <option value="other">기타</option>
-            </select>
-          </div>
-
-          <div class="button-container">
-            <button type="button" @click="completeUpdate" class="complete-button">수정 완료</button>
-          </div>
-        </form>
-
-   
+          <label for="email" class="label-email">이메일 주소</label>
+          <div class="email-verify">
+                <input type="email" id="useremail" name="useremail" required class="input-email" />
+                <button type="button" @click="sendVerificationCode" class="button-send-verification">인증번호 발송</button>
+            </div>
+            <div>
+                <input type="text" id="verification-code" name="verification-code" required
+                class="input-verification-code" placeholder="인증번호를 입력하세요."/>
+            </div>
+            <div>
+              <label for="tel" class="label-tel">연락처</label>
+              <input type="text" id="usertel" name="name" required class="input-tel" />
+            </div>
+            <div>
+              <label for="birth" class="label-birth">생년월일</label>
+              <input type="text" id="userbirth" name="name" required class="input-birth" />
+            </div>
+            <div>
+                <label for="gender" class="label-gender">성별</label>
+                <select id="gender" name="gender" required class="select-gender">
+                    <option value="" selected disabled hidden>성별 선택</option>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                    <option value="other">기타</option>
+                </select>
+            </div>
+                <button type="button" @click="completeUpdate" class="complete-button">회원 정보 수정</button>
+            </form>
       </div>
     </div>
   </main>
@@ -70,46 +72,57 @@ export default {
 </script>
 
 <style scoped>
-.container-full {
-  margin: auto;
-  width: 1200px;
+*{
+    font-family: "Noto Sans KR", sans-serif;
 }
 
-.container-full  h1{
-  margin-top: 85px;
-  text-align: center;
+.wrap {
+  margin: auto;
+  max-width: 1200px;
+}
+
+.header {
+    font-size: 40px;
+    font-weight: 500;
+    margin-top: 85px;
+    margin-bottom: 70px;
 }
 
 .mypage-info {
+    padding: 0 250px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-form {
-  margin: auto;
-  width: 1000px;
-  height: 800px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  min-width: 580px;
-  margin-top: 30px;
+.mypage-info h3 {
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 400;
 }
 
-div {
+.user-info {
   margin-bottom: 15px;
+}
+
+.email-verify {
+    display: flex;
+    flex-direction: row;
 }
 
 .label-username,
 .label-email,
-.label-verification-code,
 .label-password,
 .label-confirm-password,
 .label-name,
+.label-tel,
+.label-birth,
 .label-gender {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-size: 16px;
-  /* 라벨 폰트 크기 설정 */
+  color:#444444
 }
 
 .input-username,
@@ -118,27 +131,37 @@ div {
 .input-password,
 .input-confirm-password,
 .input-name,
+.input-tel,
+.input-birth,
 .select-gender {
-  width: calc(100% - 135px);
-  /* 버튼 폭과 여백만큼 감소 */
-  padding: 8px;
-  font-size: 16px;
-  /* 인풋 폰트 크기 설정 */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  /* 입력 내용의 크기가 패딩 및 테두리 포함될 수 있도록 함 */
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    font-size: 14px;
+    border: 1px solid #ccc;
 }
 
-.button-container {
-  display: flex;
-  justify-content: flex-end;
+.input-email {
+    margin-bottom: 10px;
 }
 
-.button-send-verification,
-.complete-button {
-  width: 120px;
-  /* 버튼의 고정된 너비 */
+.input-verification-code {
+    margin-top: 0;
+}
+
+.select-gender {
+    text-align: start;
+    color: #555555;
+}
+
+ option {
+    font-size: 14px
+ }
+
+.button-send-verification {
+  width: 130px;
+  height: 50px;
   padding: 10px;
   margin-left: 10px;
   font-size: 14px;
@@ -154,38 +177,23 @@ div {
 }
 
 .complete-button {
-
-  width: 120px;
-  /* 버튼의 고정된 너비 */
-  padding: 10px;
-  margin-left: 10px;
-  font-size: 14px;
-  color: black;
-  background-color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  border-radius: 0;
-  /* 사각형 모양으로 만들기 */
-  outline: 1px solid black;
+    width: 100%;
+    margin-top: 20px;
+    height: 50px;
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    background-color: #d4af37;
+    color: #fff;
+    cursor: pointer;
 }
 
-.button-send-verification:hover,
-.complete-button:hover {
-  background-color: #d4af37;
+.button-send-verification:hover {
+    background-color: black;
+    color: white;
 }
 
 .complete-button:hover {
-  background-color: #d4af37;
-  /* 수정 완료 버튼 hover 색상 */
-}
-
-
-
-.mypage-info {
-  display: flex;
-}
-.mypage-info h3{
-  margin-bottom: 50px;
+    background-color: #c2a031;
 }
 </style>
