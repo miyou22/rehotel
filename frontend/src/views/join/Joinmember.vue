@@ -34,7 +34,10 @@
                     <input type="password" id="password" v-model="password" required placeholder="비밀번호">
                     <input type="password" id="password-confirm" v-model="passwordConfirm" required placeholder="비밀번호 확인">
                     <input type="text" id="username" v-model="username" required placeholder="이름">
-                    <input type="email" id="useremail" v-model="useremail" required placeholder="이메일">
+                    <div class="input-email">
+                        <input type="email" id="useremail" v-model="useremail" required placeholder="이메일">
+                        <button type="button" @click="sendVerificationCode" class="button-send-verification">인증번호 발송</button>
+                    </div>
                     <input type="text" id="tel" v-model="tel" required placeholder="연락처">
                     <input type="text" id="birth" name="birth" placeholder="생년월일">
                     <input type="text" id="gender" name="gender" placeholder="성별">
@@ -66,10 +69,13 @@
         }
     },
     methods: {
-        /*checkDuplicate() {
-             아이디중복확인 로직 추가
-           },
-           */
+        checkDuplicate() {
+        },
+
+        sendVerificationCode() {
+            alert("인증번호가 발송되었습니다")
+        },
+
         submitForm: function () {
             if (!this.agreedTerms || !this.agreedPrivacy) {
                 alert('약관 동의에 체크해주세요.')
@@ -207,11 +213,11 @@
         border: 1px solid #ccc;
     }
 
-    .input-id {
+    .input-id, .input-email {
         display: flex;
     }
 
-    .input-id button {
+    .input-id button, .input-email button {
         min-width: 110px;
         height: 50px;
         font-size: 14px;
@@ -222,7 +228,8 @@
         background-color: white;
     }
 
-   .input-id button:hover {
+   .input-id button:hover,
+   .input-email button:hover {
         background-color: black;
         color: white;
     }
