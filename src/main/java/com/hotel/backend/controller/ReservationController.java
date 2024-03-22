@@ -53,12 +53,12 @@ public class ReservationController {
         return resList;
     }
 
-    @CrossOrigin(origins = "http://localhost:3081", allowedHeaders = "*")
-    @DeleteMapping("/${reservationId}")
-    public void delete(@PathVariable("resId") Long resId) {
-        System.out.println("삭제 요청으로 받은 id : " + resId);
-        reservationService.delete(resId);
-    }
+//    @CrossOrigin(origins = "http://localhost:3081", allowedHeaders = "*")
+//    @DeleteMapping("/${reservationId}")
+//    public void delete(@PathVariable("resId") Long resId) {
+//        System.out.println("삭제 요청으로 받은 id : " + resId);
+//        reservationService.delete(resId);
+//    }
 
 
 
