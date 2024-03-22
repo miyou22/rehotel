@@ -5,10 +5,10 @@
         <!-- ========================================================== -->
         <div class="header-nav-logo">
           <!-- <a href="index.html"> -->
-          <a href="/">
+          <a href="/admin">
             <img
-              src="https://res.cloudinary.com/joshuafolorunsho/image/upload/v1591615159/star_hotels_logo.png"
-              alt="star hotels logo"
+              src="../../assets/img/logo.png"
+              alt="kings hotel logo"
             />
           </a>
         </div>
@@ -25,8 +25,8 @@
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/accommodation' }"
-                href="accommodation"
+                :class="{ 'header-active': currentRoute === '/admin/member' }"
+                href="/admin/member"
                 @click="subgnb2 = true"
                 >회원관리</a
               >
@@ -34,8 +34,8 @@
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/Facility' }"
-                href="Facility"
+                :class="{ 'header-active': currentRoute === '/admin/reservation' }"
+                href="/admin/reservation"
                 @click="subgnb2 = true"
                 >예약관리</a
               >
@@ -45,7 +45,7 @@
                 class="header-nav-link"
                 :class="{ 'header-active': currentRoute === '/board' }"
                 href="/admin/board"
-                @click="subgnb2 = true"
+                @click="subgnb3 = true"
                 >게시판관리</a
               >
             </li>
@@ -75,9 +75,9 @@
   <div class="sub-gnb" v-if="subgnb3">
     <p class="sub-gnb-name">3</p>
     <ul class="sub-gnb-list">
-      <li><a href="#">3</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">3</a></li>
+      <li><a href="#">게시글관리</a></li>
+      <li><a href="#">댓글관리</a></li>
+      <li><a href="#">삭제된 글 관리</a></li>
     </ul>
   </div>
 </template>
@@ -89,25 +89,21 @@ export default {
   data() {
     return {
       currentRoute: this.$route.path,
-      subgnb1: false,
-      subgnb2: false,
       subgnb3: false,
       // ------------------------------------------
     };
   },
+  
   watch: {
     $route(to) {
       this.currentRoute = to.path;
-      if (to.path == "/about") {
-        this.subgnb1 = true;
-      } else if (
-        to.path == "/accommodation" ||
-        to.path == "/Facility" ||
-        to.path == "/banquethall"
-      ) {
-        this.subgnb2 = true;
-      } else if (to.path == "/reservation") {
+      console.log(to.path)
+
+      if (to.path == "/admin/board") {
+        
         this.subgnb3 = true;
+      }else{
+        this.subgnb3 = false;
       }
     },
   },
