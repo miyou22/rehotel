@@ -8,10 +8,7 @@
           <a href="/">
 
 
-            <img
-              src="https://res.cloudinary.com/joshuafolorunsho/image/upload/v1591615159/star_hotels_logo.png"
-              alt="star hotels logo"
-            />
+            <img src="../assets/img/logo.png" alt="logo">
 
           </a>
         </div>
@@ -49,9 +46,9 @@
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/newsevent' }"
-                href="newsevent"
-                >news&event</a
+                :class="{ 'header-active': currentRoute === '/notice' }"
+                href="notice"
+                >notice</a
               >
             </li>
           </ul>
@@ -60,20 +57,26 @@
       <div>
         <ul class="header-top-gnb">
           <div class="top-menu">
-            <li>
+<!-- ------------------------------------------------------------------------------------------------------------------------- -->
+            <!-- <li>
               <a
                 class="header-nav-link"
                 :class="{ 'header-active': currentRoute === '/mypage' }"
                 href="mypage"
                 >myPage</a
               >
-            </li>
+            </li> -->
+<!-- ------------------------------------------------------------------------------------------------------------------------- -->
+
             <li><a href="/login">LogIn</a></li>
             <li><a href="/joinmember">회원가입</a></li>
-            <li><a href="#">회원가입</a></li>
-            <li><a href="#">회원가입</a></li>
+            <li><a href="/checkList">예약확인</a></li>
+            <li><a href="#">오시는길</a></li>
+            <li><a href="#">사이트맵</a></li>
+            <li><a href="#">관리자 홈</a></li>
           </div>
-          <li><button class="top-btn">Books Now</button></li>
+          <li><button class="top-btn"><a href="/reservation" class="booksNow">Books Now!!!</a></button></li>
+
         </ul>
         <div class="header-hamburger-icon" @click="toggle">
           <div class="header-hamburger-line-1"></div>
@@ -101,11 +104,11 @@
   </div>
 
   <div class="sub-gnb" v-if="subgnb3">
-      <p class="sub-gnb-name">3</p>
+      <p class="sub-gnb-name">고객지원</p>
       <ul class="sub-gnb-list">
-        <li><a href="#">3</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">3</a></li>
+        <li><a href="/notice">공지사항</a></li>
+        <li><a href="/">문의사항</a></li>
+        <li><a href="/faq">faq</a></li>
       </ul>
   </div>
 </template>
@@ -131,7 +134,7 @@ export default {
         this.subgnb1 = true
       } else if(to.path == '/accommodation' || to.path == '/Facility' || to.path == '/banquethall'){
         this.subgnb2 = true
-      } else if(to.path == '/reservation'){
+      } else if(to.path == '/notice' || to.path == '/faq'){
         this.subgnb3 = true
       }
  
@@ -175,10 +178,10 @@ export default {
   height: 60px;
   border-radius: 5%;
   width: 180px;
-  margin-left: 30px;
   background-color: #d4af37;
   color: white;
   float: right;
+  text-align: center;
 }
 
 
@@ -219,5 +222,14 @@ export default {
   .sub-gnb-list li a {
     font-size: 16px;
     text-decoration: none;
+  }
+  .booksNow{
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
+  }
+  .booksNow:hover{
+    color: black;
   }
 </style>
