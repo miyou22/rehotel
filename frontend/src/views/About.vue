@@ -16,9 +16,12 @@
             다양한 객실에서 특별한 순간과 최상의 휴식과 여유를 경험해 보세요.
           </p>
         </div>
-        <button class="btn b1" @click="$router.push('/accommodation'), inp">
-          자세히보기
+        <button class="btn b1">  <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation'  }"
+                href="accommodation"  @click = "subgnb2 = true" ><p>자세히보기</p></a>
+          
         </button>
+
+      
       </div>
       <div class="img-wrapper">
         <img src="../assets/img/hotel5.jpg" alt="객실 소개 이미지">
@@ -42,7 +45,7 @@
           </p>
         </div>
         <button class="btn b2" @click="$router.push('/dining'), inp">
-          자세히보기
+          <p>자세히보기</p>
         </button>
       </div>
     </section>
@@ -59,8 +62,9 @@
             휴식과 여행의 만족도를 높이는 다양한 편의시설과 함께하세요.
           </p>
         </div>
-        <button class="btn b3" @click="$router.push('/facility'), inp">
-          자세히보기
+        <button class="btn b3">
+          <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Facility' }"
+                href="Facility"  @click = "subgnb2 = true"><p>자세히보기</p></a>
         </button>
       </div>
       <div class="img-wrapper">
@@ -244,6 +248,14 @@ p {
     margin: 10px 0 80px 0;
   }
 }
+.btn p{
+  font-size: 14px;
+  color: white;
+}
+
+
+
+
 
 </style>
 

@@ -245,6 +245,7 @@ export default {
   font-family: "Noto Sans KR", sans-serif;
 }
 main {
+  margin-top: 85px;
   width: 100%;
 }
 .txt-group b{
