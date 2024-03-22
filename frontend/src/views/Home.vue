@@ -128,6 +128,17 @@
       <div class="review-header">
         <h2 class="review-title">Location</h2>
       </div>
+     <!-- 지도 섹션 -->
+        <section class="map-container">
+          <h1 class="map-title">킹스호텔로 오시는 길을 안내해드립니다.</h1>
+          <div id="map" class="map">
+            <div class="overlay">
+              <p class="addr"><img src="../assets/img/location.png">&ensp;경기도 안산시 단원구 중앙대로 921</p>
+              <p><img src="../assets/img/tel.png">&ensp;031-1234-5678</p>
+            </div>
+          </div>
+         <button class="btn" @click="goToLocation">자세히보기</button>
+        </section>
     </div>
   </body>
 </template>
@@ -141,6 +152,11 @@ import store from "@/store";
 
 export default {
   components: { VueDatePicker },
+  mounted() {
+      window.kakao && window.kakao.maps
+        ? this.initMap()
+        : this.addKakaoMapScript();
+  },
   methods: {
     goToReservation() {
       // '/reservation' 경로로 이동
@@ -151,6 +167,42 @@ export default {
         window.scrollTo(0, 0);
       });
     },
+
+    goToLocation() {
+      // '/location' 경로로 이동
+      this.$router.push("/location");
+
+      // 컴포넌트가 마운트된 후에  1/4 위치에 스크롤 이동
+      this.$nextTick(() => {
+        window.scrollTo(0, window.innerHeight/4);
+      });
+    },
+
+    // 카카오맵 추가
+    addKakaoMapScript() {
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src =
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=3b7f26af60406871998ff2336ce17a3f";
+      document.head.appendChild(script);
+    },
+    initMap() {
+      var container = document.getElementById("map"); //지도를 담을 영역
+      var options = {
+        center: new kakao.maps.LatLng(37.3170, 126.8395), //중심좌표
+        level: 4 //지도의 레벨(확대, 축소)
+      };
+
+      var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+      //좌표에 마커 생성해서 표시
+      var markerPosition = new kakao.maps.LatLng(37.3170, 126.8395);
+      var marker = new kakao.maps.Marker({
+        position: markerPosition
+      });
+      marker.setMap(map);
+    }
   },
   setup() {
     const checkin = ref(new Date());
@@ -192,8 +244,8 @@ export default {
 </script>
 
 <style scoped>
-* {
-  font-family: "Source Sans Pro";
+*{
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .check-box {
@@ -671,6 +723,65 @@ h2 {
 .review-title {
   margin-bottom: 10px;
 }
+/* location start*/
+.map-container {
+    margin: auto;
+    width: 1200px;
+    text-align: center;
+}
+.map-container .map-title {
+    font-size: 16px;
+    color: #686868;
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
+.map {
+    position: relative;
+    margin: 40px auto 50px;
+    width: 100%;
+    height: 500px;
+}
+.overlay {
+    position: absolute;
+    text-align: left;
+    top: 20px;
+    left: 20px;
+    background: white;
+    z-index: 10;
+    padding: 20px 24px;
+    line-height: 1.6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: rgb(102, 102, 102);
+}
+.overlay p {
+    font-size: 14px;
+}
+.addr {
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.overlay img {
+    margin-top: -3px;
+    vertical-align: middle;
+    width: 16px;
+    color: #b3b3b3;
+}
+.map-container .btn {
+    width: 180px;
+    height: 45px;
+    margin-bottom: 96px;
+    border: 0;
+    font-size: 14px;
+    background-color: #d4af37;
+    border-radius: 0%;
+    color: white;
+    cursor: pointer;
+}
+.map-container .btn:hover {
+  background-color: #c9a635;
+}
+/* location end*/
+
 /* End----------------------------------------- */
 
 /* @media queries */

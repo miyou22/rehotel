@@ -7,19 +7,30 @@ import Reservation from '../views/Reservation'
 import Facility from '../views/Facility'
 import Newsevent from '../views/Newsevent'
 import Faq from '../views/news/faq/Faq'
-import Board from '../views/news/board/BoardList'
 import Banquethall from '../views/Banquethall'
 import Mypage from '../views/Mypage'
 import Joinmember from '../views/join/Joinmember'
+import Login from '../views/Login'
+import Findidpw from '../views/Findidpw.vue'
 
 
+import Board from '../views/news/board/BoardList'
 import BoardDetail from '../views/news/board/BoardDetail'
 import BoardWrite from '../views/news/board/BoardWrite'
 import BoardUpdate from '../views/news/board/BoardUpdate'
 
 import Payment from "../views/Payment";
-import Admin from "../admin/home/Admin";
 import Check from "../views/Checklist.vue";
+
+import Admin from "../admin/home/Admin";
+import AdminBoard from "../admin/board/AdminBoardList"
+import AdminBoardWrite from "../admin/board/AdminBoardWrite"
+import AdminBoardDetail from "../admin/board/AdminBoardDetail"
+import AdminMember from "../admin/member/AdminMember"
+import AdminMemberDetail from "../admin/member/AdminMemberDetail"
+import AdminReservation from "../admin/reservation/ReservationList"
+import AdminReservationDetail from "../admin/reservation/ReservationDetail"
+
 
 const routes = [
   {
@@ -68,9 +79,26 @@ const routes = [
     component: Faq
   },
   {
-    path: '/:pageType',
+    path: '/:pageType(notice|inquiry)',
     name: 'pageType',
     component: Board
+  },
+
+  {
+    path: '/:pageType(notice|inquiry)/update',
+    name: 'update',
+    component: BoardUpdate
+  },
+  {
+    path: '/:pageType(notice|inquiry)/detail',
+    name: 'detail',
+    component: BoardDetail
+  },
+
+  {
+    path: '/:pageType(notice|inquiry)/write',
+    name: 'write',
+    component: BoardWrite
   },
   {
     path: '/banquethall',
@@ -82,27 +110,6 @@ const routes = [
     name: "payment",
     component: Payment,
   },
-
-  {
-    path: '/:pageType/detail',
-    name: 'detail',
-    component: BoardDetail
-  },
-  {
-    path: '/:pageType/write',
-    name: 'write',
-    component: BoardWrite
-  },
-  {
-    path: '/:pageType/update',
-    name: 'update',
-    component: BoardUpdate
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: Admin
-  },
   {
     path: '/mypage',
     name: 'mypage',
@@ -113,6 +120,66 @@ const routes = [
     name: 'joinmember',
     component: Joinmember
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+ {
+    path: '/findidpw',
+    name: 'findidpw',
+    component: Findidpw,
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin
+  },
+  {
+    path: '/admin/:categoryType(board|comments|deletepost)',
+    name: 'categoryTitle',
+    component: AdminBoard
+  },
+  {
+    path: '/admin/:categoryType(board|comments|deletepost)/detail',
+    name: 'Admindetail',
+    component: AdminBoardDetail
+  },
+  {
+    path: '/admin/board/write',
+    name: 'Adminwrite',
+    component: AdminBoardWrite
+  },
+  {
+    path: '/admin/member',
+    name: 'AdminMember',
+    component: AdminMember
+  },
+  {
+    path: '/admin/member/detail',
+    name: 'AdminMemberDetail',
+    component: AdminMemberDetail
+  },
+  {
+    path: '/admin/reservation',
+    name: 'AdminReservation',
+    component: AdminReservation
+  },
+  {
+    path: '/admin/reservation/detail',
+    name: 'AdminReservationDetail',
+    component: AdminReservationDetail
+  },
+  // {
+  //   path: '/admin/:categoryType(board|comments|deletepost)/detail',
+  //   name: 'Admindetail',
+  //   component: AdminBoardDetail
+  // },
+  // {
+  //   path: '/admin/board/write',
+  //   name: 'Adminwrite',
+  //   component: AdminBoardWrite
+  // },
 
 
   // {

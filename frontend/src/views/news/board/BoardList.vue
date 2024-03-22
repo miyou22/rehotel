@@ -41,22 +41,6 @@
               <td class="w3-center"><a href="/notice/detail">about</a></td>
               <td class="w3-center">nyaa</td>
             </tr>
-            <!-- <tr>
-              <td class="w3-center">1</td>
-              <td class="w3-center">
-                <a>hey</a>
-              </td>
-              <td class="w3-center">about</td>
-              <td class="w3-center">nyaa</td>
-            </tr>
-            <tr>
-              <td class="w3-center">1</td>
-              <td class="w3-center">
-                <a>hey</a>
-              </td>
-              <td class="w3-center">about</td>
-              <td class="w3-center">nyaa</td>
-            </tr> -->
           </tbody>
         </table>
       </div>

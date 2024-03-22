@@ -52,12 +52,25 @@
         <a href="#" class="w3-button w3-hover-orange circle">»</a>
       </div>
       <!-- SearchBar -->
+      <div  :key='idx' v-for='(item, idx) in resList'>
+                <p>{{ item.resId }}</p>
+                <p>{{ item.roomPrice }}</p>
+                <p>{{ item.checkinDate }}</p>
+      </div>
     </div>
   </main>
 </template>
 
 <script>
 export default {
+ data() {
+    return {
+      resList: [],
+    }
+  },
+   mounted() {
+      this.getResList()
+    },
   methods: {
     checkRe() {
       if (confirm("삭제하시겠습니까?") == true) {
@@ -68,8 +81,24 @@ export default {
         return;
       }
     },
-  },
-};
+    getResList() {
+          // alert("getresList 시작.....")
+          this.$axios
+            .get('http://localhost:8081/api/reservation/resInfo')
+            .then((res) => {
+              this.resList = res.data
+              // alert('getData() 수신데이터 ==> ' + res.data)
+              console.log(res.data)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+            .finally(() => {
+              console.log('항상 마지막에 실행')
+            })
+    },
+  }
+}
 </script>
 
 <style scoped>

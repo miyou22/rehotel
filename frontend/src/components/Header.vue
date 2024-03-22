@@ -87,10 +87,10 @@
     </div>
   </header>
   <div class="sub-gnb" v-if="subgnb1">
-      <p class="sub-gnb-name">어바웃</p>
+      <p class="sub-gnb-name">킹스 호텔</p>
       <ul class="sub-gnb-list">
-        <li><a href="#">호텔 소개</a></li>
-        <li><a href="#">오시는 길</a></li>
+        <li><a href="about">호텔 소개</a></li>
+        <li><a href="location">오시는 길</a></li>
       </ul>
   </div>
 
@@ -130,7 +130,7 @@ export default {
   watch: {
     $route(to) {
       this.currentRoute = to.path;
-      if(to.path == '/about'){
+      if(to.path == '/about' || to.path == '/location'){
         this.subgnb1 = true
       } else if(to.path == '/accommodation' || to.path == '/Facility' || to.path == '/banquethall'){
         this.subgnb2 = true
