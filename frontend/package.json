@@ -18,6 +18,7 @@
     "vue": "^3.2.13",
     "vue-chartjs": "^5.3.0",
     "vue-router": "^4.0.3",
+    "vuejs-paginate": "^2.1.0",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"
   },

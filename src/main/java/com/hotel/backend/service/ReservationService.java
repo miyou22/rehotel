@@ -16,6 +16,7 @@ public class ReservationService {
     @Autowired
     ReservationRepository reservationRepository;
 
+    // DB값 변경
     public void updatePayCheck(List<Long> reservationIds) {
         List<Reservation> reservations = reservationRepository.findAllById(reservationIds);
         for (Reservation reservation : reservations) {
