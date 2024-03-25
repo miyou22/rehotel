@@ -6,48 +6,23 @@
         <div class="header-nav-logo">
           <!-- <a href="index.html"> -->
           <a href="/admin">
-            <img
-              src="../../assets/img/logo.png"
-              alt="kings hotel logo"
-            />
+            <img src="../../assets/img/logo.png" alt="kings hotel logo" />
           </a>
         </div>
         <!-- ========================================================== -->
         <div id="gnbMenu">
           <ul class="header-nav-lists">
             <li class="header-nav-list">
-              <a
-                class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/about' }"
-                href="about"
-              ></a>
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/admin/member' }"
+                href="/admin/member" @click="color1=true">회원관리</a>
             </li>
             <li class="header-nav-list">
-              <a
-                class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/admin/member' }"
-                href="/admin/member"
-                @click="subgnb2 = true"
-                >회원관리</a
-              >
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/admin/reservation' }"
+                href="/admin/reservation" @click="color1=true">예약관리</a>
             </li>
             <li class="header-nav-list">
-              <a
-                class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/admin/reservation' }"
-                href="/admin/reservation"
-                @click="subgnb2 = true"
-                >예약관리</a
-              >
-            </li>
-            <li class="header-nav-list">
-              <a
-                class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/board' }"
-                href="/admin/board"
-                @click="subgnb3 = true"
-                >게시판관리</a
-              >
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/board' }"
+                href="/admin/board" @click="color1=true">게시판관리</a>
             </li>
           </ul>
         </div>
@@ -88,25 +63,21 @@
 export default {
   data() {
     return {
-      currentRoute: this.$route.path,
-      subgnb3: false,
-      // ------------------------------------------
+      color1:false,
+      subgnb3: false
     };
   },
 
-  watch: {
-    $route(to) {
-      this.currentRoute = to.path;
-      console.log(to.path)
-
-      if (to.path == "/admin/board") {
-
-        this.subgnb3 = true;
-      }else{
-        this.subgnb3 = false;
-      }
-    },
+  beforeMount: function () {
+    let url = window.location.pathname
+    console.log(url)
+    if (url === "/admin/board") {
+      this.subgnb3 = true;
+    } else {
+      this.subgnb3 = false;
+    }
   },
+
   methods: {
     toggle() {
       const ul = document.querySelector(".header-nav-lists");
@@ -157,6 +128,7 @@ export default {
 .news {
   width: 100px;
 }
+
 .sub-gnb {
   display: flex;
   height: 60px;
@@ -164,25 +136,31 @@ export default {
   align-items: center;
   margin-bottom: 85px;
 }
+
 .sub-gnb-name {
   font-weight: bold;
   font-size: 18px;
   margin: 0 140px 0 40px;
 }
+
 .sub-gnb-list {
   display: flex;
   list-style: none;
 }
+
 .sub-gnb-list li {
   margin: 0 20px 0 20px;
 }
+
 .sub-gnb-list li a {
   font-size: 16px;
   text-decoration: none;
 }
+
 .top-menu {
   transform: translateY(0);
 }
+
 .loginLink {
   display: block;
   width: 90px;
@@ -200,6 +178,7 @@ export default {
     display: none;
   }
 }
+
 @media (max-width: 10000px) {
   .header-top-gnb {
     display: flex;

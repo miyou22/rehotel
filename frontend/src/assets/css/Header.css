@@ -142,7 +142,7 @@ header ul.show li {
 
 
 
-@media (min-width: 1400px) {
+@media (min-width: 1520px) {
 	.header-nav-lists {
 		display: flex;
 	}
@@ -154,7 +154,7 @@ header ul.show li {
 
 
 }
-@media(max-width:1400px){
+@media(max-width:1520px){
 
 .header-top-gnb{
 	display: none;

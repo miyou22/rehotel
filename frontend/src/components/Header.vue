@@ -89,16 +89,16 @@
   <div class="sub-gnb" v-if="subgnb1">
       <p class="sub-gnb-name">킹스 호텔</p>
       <ul class="sub-gnb-list">
-        <li><a href="about">호텔 소개</a></li>
-        <li><a href="location">오시는 길</a></li>
+        <li><router-link to="/about" :class="{ 'active': color1 }" @click="color1 =true, color2 =false">호텔 소개</router-link></li>
+        <li><router-link to="/location" :class="{ 'active': color2 }" @click="color2 =true, color1 =false">오시는 길</router-link></li>
       </ul>
   </div>
 
   <div class="sub-gnb" v-if="subgnb2">
       <p class="sub-gnb-name" >시설 소개</p>
       <ul class="sub-gnb-list">
-        <li><a href="accommodation" >객실</a></li>
-        <li><a href="Facility">부대시설</a></li>
+        <li><a href="accommodation"  >객실</a></li>
+        <li><a href="Facility" >부대시설</a></li>
         <li><a href="banquethall">연회장</a></li>
       </ul>
   </div>
@@ -107,7 +107,7 @@
       <p class="sub-gnb-name">고객지원</p>
       <ul class="sub-gnb-list">
         <li><a href="/notice">공지사항</a></li>
-        <li><a href="/">문의사항</a></li>
+        <li><a href="/inquiry">문의사항</a></li>
         <li><a href="/faq">faq</a></li>
       </ul>
   </div>
@@ -124,7 +124,8 @@ export default {
       subgnb2 :false,
       subgnb3 :false,
       // ------------------------------------------
-
+      color1 :false,
+      color2 :false,
     };
   },
   watch: {
@@ -137,10 +138,9 @@ export default {
       } else if(to.path == '/notice' || to.path == '/faq'){
         this.subgnb3 = true
       }
- 
-
-
+      
     },
+
   },
   methods: {
     toggle() {
@@ -149,7 +149,9 @@ export default {
       ul.classList.toggle("show");
       hamburger.classList.toggle("show");
     },
+
     
+
   },
 };
 </script>
@@ -228,4 +230,7 @@ export default {
   .booksNow:hover{
     color: black;
   }
+  .active {
+  color: red; /* 변경할 색상 지정 */
+}
 </style>
