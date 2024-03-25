@@ -75,7 +75,7 @@ import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    // Vuex 게터를 사용하여 선택된 예약 항목을 가져옵니다.
+    // Vuex 게터를 사용하여 선택된 예약 항목을 가져오기
     ...mapGetters(["getSelectedResItem"]),
     selectedResItem() {
       return this.getSelectedResItem;

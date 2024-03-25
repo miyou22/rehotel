@@ -24,7 +24,7 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
-
+// 예약정보들 DB에 저장
     @PostMapping("/reserve")
    public void saveReservation(@RequestBody Reservation reservation) {
         System.out.println("예약정보 ==> Start ");
@@ -46,6 +46,7 @@ public class ReservationController {
         reservationRepository.save(reservation);
     }
 
+    // DB에 저장되어있는 데이터들 가져오기
     @GetMapping("/resInfo")
     public List<Reservation> resList(Model model) {
         System.out.println("Vue Gethering Test.....");
@@ -55,7 +56,8 @@ public class ReservationController {
         model.addAttribute("checkList", resList);
         return resList;
     }
-
+    
+    // service를 이용해서 DB값 변경
     @PostMapping("/updatePayCheck")
     public void updatePayCheck(@RequestBody List<Long> reservationIds) {
         System.out.println("updatePayCheck ==> ");

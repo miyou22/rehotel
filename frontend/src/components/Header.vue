@@ -97,8 +97,8 @@
   <div class="sub-gnb" v-if="subgnb2">
       <p class="sub-gnb-name" >시설 소개</p>
       <ul class="sub-gnb-list">
-        <li><a href="accommodation"  >객실</a></li>
-        <li><a href="Facility" >부대시설</a></li>
+        <li><a href="accommodation" >객실</a></li>
+        <li><a href="Facility">부대시설</a></li>
         <li><a href="banquethall">연회장</a></li>
       </ul>
   </div>
@@ -120,12 +120,11 @@ export default {
   data() {
     return {
       currentRoute: this.$route.path,
-      subgnb1 :false,
-      subgnb2 :false,
-      subgnb3 :false,
+      subgnb1: false,
+      subgnb2: false,
+      subgnb3: false,
       // ------------------------------------------
-      color1 :false,
-      color2 :false,
+
     };
   },
   watch: {
@@ -138,9 +137,7 @@ export default {
       } else if(to.path == '/notice' || to.path == '/faq'){
         this.subgnb3 = true
       }
-      
     },
-
   },
   methods: {
     toggle() {
@@ -149,9 +146,7 @@ export default {
       ul.classList.toggle("show");
       hamburger.classList.toggle("show");
     },
-
     
-
   },
 };
 </script>
