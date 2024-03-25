@@ -187,7 +187,7 @@ p {
   max-width: 100%;
   font-size: 16px;
   line-height: 1.5;
-  color: #555555;
+  color: #696969;
 }
 
 .btn {

@@ -740,6 +740,8 @@ h2 {
     margin: 40px auto 50px;
     width: 100%;
     height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 .overlay {
     position: absolute;

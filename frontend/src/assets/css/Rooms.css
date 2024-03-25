@@ -25,11 +25,12 @@
   }
   .name {
     font-size: 30px;
-    font-weight: bold;
+    font-weight: 500;
   }
   .sub-information {
     font-size: 14px;
-    color: #888;
+    color: #696969;
+    line-height: 1.6;
     margin: 20px 0 20px 0;
   }
   .sub-bottom p {
@@ -40,6 +41,6 @@
   }
   .sub-bottom {
     font-size: 14px;
-    color: #888;
+    color: #696969;
     margin-top: 10px;
   }

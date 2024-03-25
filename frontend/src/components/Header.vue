@@ -71,7 +71,7 @@
             <li><a href="/login">LogIn</a></li>
             <li><a href="/joinmember">회원가입</a></li>
             <li><a href="/checkList">예약확인</a></li>
-            <li><a href="#">오시는길</a></li>
+            <li><a href="/location">오시는길</a></li>
             <li><a href="/sitemap">사이트맵</a></li>
             <li><a href="/admin">관리자 홈</a></li>
           </div>
