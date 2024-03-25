@@ -73,6 +73,7 @@
       <div class="headtxt2">
         <h4>객실예약</h4>
       </div>
+
       <div class="list" v-for="list in filteredRoom" :key="list">
         <div class="content">
           <div class="img">
@@ -112,6 +113,47 @@ import "../assets/css/root.css";
 export default {
   components: { VueDatePicker },
   methods: {
+    decrementRoomCount() {
+      // 오늘 날짜 가져오기
+      const today = new Date();
+      this.resList.forEach((reservation) => {
+        // DB에 저장해놓은 roomName컬럼이랑 html에 있는 room.title이랑 같은것 개수를 변수에 저장
+        const roomIndex = this.room.findIndex(
+          (room) => room.title === reservation.roomName
+        );
+
+        if (roomIndex !== -1) {
+          const selectedRoom = this.room[roomIndex];
+          const checkoutDate = new Date(reservation.resCheckout);
+          if (checkoutDate.getTime() >= today.getTime()) {
+            if (selectedRoom.count > 0) {
+              selectedRoom.count--;
+              if (selectedRoom.count < 0) {
+                selectedRoom.count = 0;
+              }
+            }
+          }
+        }
+      });
+    },
+
+    getResList() {
+      // alert("getresList 시작.....")
+      this.$axios
+        .get("http://localhost:8081/api/reservation/resInfo")
+        .then((res) => {
+          this.resList = res.data.filter((item) => item.payCheck === 1);
+          // alert('getData() 수신데이터 ==> ' + res.data)
+          this.decrementRoomCount();
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
     filterList() {
       const selectedMember = parseInt(document.getElementById("member").value); // 선택된 인원수 가져오기
       this.selectedRoom = this.room.filter(
@@ -175,6 +217,7 @@ export default {
   },
   data() {
     return {
+      resList: [],
       selectedRoom: null,
       room: [
         {
@@ -238,6 +281,7 @@ export default {
     this.checkin = this.setYmd;
     this.checkout = this.setYmd2;
     this.selectedMembers = this.setSelectedMembers;
+    this.getResList();
   },
 };
 </script>
@@ -245,6 +289,9 @@ export default {
 <style scoped>
 * {
   font-family: "Noto Sans KR", sans-serif;
+}
+.hidden {
+  /* display: none; */
 }
 main {
   margin-top: 85px;

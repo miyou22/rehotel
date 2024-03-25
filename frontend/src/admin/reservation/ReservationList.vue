@@ -48,11 +48,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr :key="idx" v-for="(item, idx) in resList">
+            <tr :key="idx" v-for="(item, idx) in paginatedResList">
               <td class="w3-center">
                 <input type="checkbox" id="select" v-model="item.selected" />
               </td>
-              <td class="w3-center">{{ idx + 1 }}</td>
+              <td class="w3-center">{{ getNumber(idx) }}</td>
               <td class="w3-center detail" @click="saveSelectedItem(item)">
                 {{ item.resId }}
               </td>
@@ -69,13 +69,34 @@
       </div>
       <!-- Pagination -->
       <div class="w3-bar pagin">
-        <a href="#" class="w3-button w3-hover-purple circle">«</a>
-        <a href="#" class="w3-button w3-hover-green">1</a>
-        <a href="#" class="w3-button w3-hover-red">2</a>
-        <a href="#" class="w3-button w3-hover-blue">3</a>
-        <a href="#" class="w3-button w3-hover-black">4</a>
-        <a href="#" class="w3-button w3-hover-orange circle">»</a>
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber"
+          @click="prevPage"
+          >&laquo;</a
+        >
+        <a
+          v-for="page in pageCount"
+          :key="page"
+          href="#"
+          class="w3-button"
+          :class="{
+            'w3-text-black  w3-white w3-border w3-hover-white hofont':
+              page === currentPage,
+            'w3-text-black  w3-white w3-hover-white w3-hover-text-amber nofont':
+              page !== currentPage,
+          }"
+          @click="changePage(page)"
+          >{{ page }}</a
+        >
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber w3-center"
+          @click="nextPage"
+          >&raquo;</a
+        >
       </div>
+
       <!-- SearchBar -->
     </div>
   </div>
@@ -88,14 +109,44 @@ export default {
   data() {
     return {
       resList: [],
-      selectedReservations: [],
-      selectedIds: [],
+      itemsPerPage: 10,
+      currentPage: 1,
     };
   },
   mounted() {
     this.getResList();
   },
+  computed: {
+    pageCount() {
+      return Math.ceil(this.resList.length / this.itemsPerPage);
+    },
+    paginatedResList() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.resList.slice(startIndex, endIndex);
+    },
+  },
   methods: {
+    changePage(page) {
+      this.currentPage = page;
+    },
+    nextPage() {
+      if (this.currentPage < this.pageCount) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    getNumber(index) {
+      const reversedIndex =
+        this.resList.length -
+        (index + (this.currentPage - 1) * this.itemsPerPage);
+      return reversedIndex;
+    },
+
     saveSelectedItem(item) {
       this.setSelectedResItem(item); // Vuex 액션 호출
       this.$router.push("/admin/reservation/detail");
@@ -126,7 +177,7 @@ export default {
         });
     },
     getSelected() {
-      // 선택한 라인의 아이디 가져오기
+      // 선택한 인풋의 아이디 가져오기
       let itemIdx = [];
       for (let i in this.resList) {
         if (this.resList[i].selected) {
@@ -143,13 +194,16 @@ export default {
     },
 
     getResList() {
-      // alert("getresList 시작.....")
       this.$axios
         .get("http://localhost:8081/api/reservation/resInfo")
         .then((res) => {
-          this.resList = res.data;
-          // alert('getData() 수신데이터 ==> ' + res.data)
-          console.log(res.data);
+          this.resList = res.data.sort((a, b) => {
+            const dateA = new Date(a.resDate);
+            const dateB = new Date(b.resDate);
+            const today = new Date();
+            // 오늘 날짜와의 차이를 계산하여 오름차순으로 정렬합니다.
+            return Math.abs(dateA - today) - Math.abs(dateB - today);
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -163,6 +217,12 @@ export default {
 </script>
 
 <style scoped>
+.hofont {
+  font-weight: 500;
+}
+.nofont {
+  font-weight: 300;
+}
 .detail {
   cursor: pointer;
   font-weight: bold;

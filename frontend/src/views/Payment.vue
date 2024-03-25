@@ -268,6 +268,7 @@
 <script>
 import { mapState } from "vuex";
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -392,6 +393,7 @@ export default {
           buyer_email: this.email,
           buyer_name: this.nickname,
         },
+
         (rsp) => {
           // callback
           if (rsp.success) {
@@ -400,6 +402,7 @@ export default {
             // 결제 성공 시 로직,
           } else {
             // 결제 실패 시 로직,
+            this.$router.push("/checkList");
             console.log("실패");
           }
         }
