@@ -38,6 +38,8 @@
                         <input type="email" id="useremail" v-model="useremail" required placeholder="이메일">
                         <button type="button" @click="sendVerificationCode" class="button-send-verification">인증번호 발송</button>
                     </div>
+                    <input type="text" id="verification-code" name="verification-code" required
+                                    class="input-verification-code" placeholder="인증번호를 입력하세요."/>
                     <input type="text" id="tel" v-model="tel" required placeholder="연락처">
                     <input type="text" id="birth" name="birth" placeholder="생년월일">
                     <input type="text" id="gender" name="gender" placeholder="성별">

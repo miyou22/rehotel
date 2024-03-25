@@ -102,6 +102,9 @@ export default {
 </script>
 
 <style scoped>
+*{
+    font-family: "Noto Sans KR", sans-serif;
+}
 .container-check {
   width: 1200px;
   margin: auto;
@@ -148,7 +151,9 @@ export default {
 }
 .page-header {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 85px;
   margin-bottom: 80px;
+  font-weight: 500;
+  font-size: 36px;
 }
 </style>

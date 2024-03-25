@@ -2,16 +2,16 @@
   <footer>
     <div class="footer-top">
       <div class="top-left">
-        <p>COSTOMER CENTER</p>
+        <p class="customer">CUSTOMER CENTER</p>
         <div class="top-tell">
-          객실예약 031-123-4567 &nbsp;&nbsp;&nbsp;&nbsp;문의하기 031-1234-5678
+          <b>객실예약</b> 031-123-4567 &nbsp;&nbsp;&nbsp;&nbsp;<b>문의하기</b> 031-1234-5678
         </div>
         <div class="top-sub">
-          FAX 031-123-4567
+          <b>FAX</b> 031-123-4567
         </div>
       </div>
       <div class="top-right">
-        <p>SOCIAL</p>
+        <p class="social">SOCIAL</p>
         <img src="../assets/img/instagram.svg" alt="">
         <img src="../assets/img/twitter.svg" alt="">
         <img src="../assets/img/facebook.svg" alt="">
@@ -27,12 +27,12 @@
       <div class="middle bottom">
         <li><a href="#">오시는길</a></li>
         <li><a href="#">개인정보 처리방침</a></li>
-        <li><a href="#">통신판매업신고번호 : 제2019-성남분당B-0224호대표이사(팀장) : 이동규대표번호 : 031-600-8586이메일 : contact@goorm.io</a></li>
+        <li><a href="#">통신판매업신고번호 : 제2019-경기안산B-0224호&ensp;대표이사(팀장) : 이동규&ensp;대표번호 : 031-600-8586&ensp;이메일 : contact@kings.io</a></li>
       </div>
       <div class="right bottom">
         <li><a href="#">문의하기</a></li>
         <li><a href="#">사이트맵</a></li>
-        <li><a href="#">Copyright © 1조(연지훈, 박강영, 전대섭,권지윤). All rights reserved. </a></li>
+        <li><a href="#">Copyright © 1조(연지훈, 박강영, 전대섭, 권지윤). All rights reserved. </a></li>
       </div>
     </div>
 
@@ -63,13 +63,29 @@ footer {
   margin: auto;
 }
 
+.customer, .social, .top-tell, .top-sub {
+  font-size: 18px;
+}
+
+b {
+ font-weight: normal;
+ font-size: 16px;
+}
+
+.top-sub {
+    margin-top: 10px
+}
+
 .top-left {
   width: 450px;
 }
 .top-left p{
   margin-bottom:20px ;
   color: #d4af37;
+}
 
+.text {
+ font-size: 16px;
 }
 
 .top-right {
@@ -86,7 +102,7 @@ footer {
 .footer-bottom {
   max-width: 1200px;
   margin: auto;
-  
+  color: #ccc;
 }
 .bottom{
   display: flex;

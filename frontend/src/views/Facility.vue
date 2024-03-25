@@ -13,8 +13,8 @@
             <div class="name">{{ fac.name }}</div>
             <div class="sub-information">{{ fac.information }}</div>
             <div class="fac-bottom">
-              <p>
-                <img src="../assets/img/time.png" alt="" />운영시간:
+              <p class="img-content">
+                <img src="../assets/img/time.png" alt="" /> 운영시간 :
                 <img src="../assets/img/place.png" alt="" />
               </p>
               {{ fac.time }}
@@ -66,7 +66,7 @@ export default {
         {
           name: "피트니스 센터",
           information:
-            "Techno Gym사의 최신 운동기구를 비치하여 여행에 지친 몸과 마음에 활력을 충전할 수 있는 공간입니다. 유산소 운동에 적합한 실내 사이클과 각종 근력운동을 위한 기구들이 준비되어 있습니다.",
+            "Techno Gym사의 최신 운동기구와 함께 여행에 지친 몸과 마음에 활력을 충전할 수 있는 공간입니다. 유산소 운동에 적합한 실내 사이클과 각종 근력운동을 위한 기구들이 준비되어 있습니다.",
           time: "11:30~22:00",
           img: require("../assets/img/health1.jpg"),
           img2: require("../assets/img/health2.jpg"),
@@ -115,7 +115,7 @@ export default {
 .container-full {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.5rem 0.5rem;
+  padding: 0 0.5rem;
 }
 
 .sub-gnb {
@@ -146,6 +146,10 @@ export default {
   text-decoration: none;
 }
 
+.img-content>img {
+    margin : -3.5px 0 0 0;
+}
+
 .img {
   width: 800px;
   height: 370px;
@@ -156,5 +160,12 @@ export default {
   font-weight: bold;
   font-size: 40px;
   text-align: center;
+}
+
+.name {
+    font-weight: 500;
+}
+.sub-information {
+    font-size: 15px;
 }
 </style>

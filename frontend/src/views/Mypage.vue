@@ -45,7 +45,6 @@
                     <option value="" selected disabled hidden>성별 선택</option>
                     <option value="male">남성</option>
                     <option value="female">여성</option>
-                    <option value="other">기타</option>
                 </select>
             </div>
                 <button type="button" @click="completeUpdate" class="complete-button">회원 정보 수정</button>
