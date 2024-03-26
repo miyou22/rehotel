@@ -10,15 +10,25 @@
         <tr>
           <th>게시판</th>
           <td>
-            <select required name="board" class="selectCategory">
-              <option value>선택</option>
-              <option value="칭찬">공지사항</option>
-              <option value="문의">문의하기</option>
-              <option value="faq">FAQ</option>
+            <select
+              required
+              v-model="selectValue"
+              @change="change"
+              class="selectCategory"
+            >
+              <option value="">선택</option>
+
+              <option
+                v-for="(option, idx) in options"
+                :key="idx"
+                :value="option"
+              >
+                {{ option.name }}
+              </option>
             </select>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th>카테고리</th>
           <td>
             <select required name="category" class="selectCategory">
@@ -29,11 +39,17 @@
               <option value="기타">기타</option>
             </select>
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <th>제목</th>
           <td>
-            <input type="text" class="titleLong" name="title" required value />
+            <input
+              type="text"
+              class="titleLong"
+              v-model="title"
+              required
+              value
+            />
           </td>
         </tr>
         <tr>
@@ -42,7 +58,7 @@
             <input
               type="text"
               class="boardWriter"
-              name="boardWriter"
+              v-model="writer"
               required
               value
             />
@@ -54,7 +70,12 @@
     <div id="editor" class="w3-border-bottom w3-border-black"></div>
     <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">
-      <button class="w3-button w3-round y w3-margin-bottom" style="width: 20%">
+      <button
+        type="submit"
+        class="w3-button w3-round y w3-margin-bottom"
+        style="width: 20%"
+        @click.prevent="fnSave"
+      >
         작성하기
       </button>
       <button
@@ -71,6 +92,7 @@
 <script>
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import axios from "axios";
 
 export default {
   data() {
@@ -78,6 +100,15 @@ export default {
       editor: null,
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      selectValue: "",
+      options: [
+        { name: "공지사항", value: "notice" },
+        { name: "문의사항", value: "inquiry" },
+        { name: "FAQ", value: "faq" },
+      ],
+      category: "",
+      title: "",
+      createdAt: "",
     };
   },
   created() {
@@ -104,7 +135,30 @@ export default {
       previewStyle: "vertical",
     });
   },
-  methods: {},
+  methods: {
+    change() {
+      const category = this.selectValue.value;
+      console.log(category);
+    },
+    fnSave() {
+      var boardData = {
+        boardCategory: this.selectValue.value,
+        boardTitle: this.title,
+        createdAt: this.createdAt,
+      };
+      console.log(boardData);
+      axios
+        .post("http://localhost:8081/api/admin/board/write", boardData)
+        .then((res) => {
+          console.log("data sent", res.boardData);
+          alert("글작성이 완료되었습니다");
+          this.$router.push({ path: "/admin/board" }); // 페이지 이동
+        })
+        .catch((error) => {
+          console.log("에러닷!");
+        });
+    },
+  },
 };
 </script>
 
