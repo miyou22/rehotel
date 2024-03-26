@@ -17,7 +17,7 @@
           <ul class="header-nav-lists">
           
             <li class="header-nav-list"  >
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/about' }" href="about" >About</a>
+              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/about'||currentRoute === '/location' }" href="about" >About</a>
 
             </li>
             <li class="header-nav-list">
@@ -46,7 +46,7 @@
             <li class="header-nav-list">
               <a
                 class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/notice' }"
+                :class="{ 'header-active': currentRoute === '/notice' ||currentRoute === '/inquiry'||currentRoute === '/faq' }"
                 href="notice"
                 >notice</a
               >
@@ -89,7 +89,7 @@
   <div class="sub-gnb" v-if="subgnb1">
       <p class="sub-gnb-name">킹스 호텔</p>
       <ul class="sub-gnb-list">
-        <li><router-link to="/about" :class="{ 'active': color1 }" @click="color1 =true, color2 =false">호텔 소개</router-link></li>
+        <li><router-link to="/about" :class="{ 'header-active': currentRoute === '/about' }" @click="color1 =true, color2 =false">호텔 소개</router-link></li>
         <li><router-link to="/location" :class="{ 'active': color2 }" @click="color2 =true, color1 =false">오시는 길</router-link></li>
       </ul>
   </div>
@@ -97,18 +97,18 @@
   <div class="sub-gnb" v-if="subgnb2">
       <p class="sub-gnb-name" >시설 소개</p>
       <ul class="sub-gnb-list">
-        <li><a href="accommodation" >객실</a></li>
-        <li><a href="Facility">부대시설</a></li>
-        <li><a href="banquethall">연회장</a></li>
+        <li><a href="accommodation" :class="{ 'header-active':currentRoute ==='/accommodation'}" >객실</a></li>
+        <li><a href="Facility" :class="{ 'header-active':currentRoute ==='/Facility'}"  >부대시설</a></li>
+        <li><a href="banquethall" :class="{ 'header-active': currentRoute === '/banquethall' }">연회장</a></li>
       </ul>
   </div>
 
   <div class="sub-gnb" v-if="subgnb3">
       <p class="sub-gnb-name">고객지원</p>
       <ul class="sub-gnb-list">
-        <li><a href="/notice">공지사항</a></li>
-        <li><a href="/inquiry">문의사항</a></li>
-        <li><a href="/faq">faq</a></li>
+        <li><a href="/notice" :class="{ 'header-active':currentRoute ==='/notice'}">공지사항</a></li>
+        <li><a href="/inquiry" :class="{ 'header-active':currentRoute ==='/inquiry'}">문의사항</a></li>
+        <li><a href="/faq" :class="{ 'header-active':currentRoute ==='/faq'}">faq</a></li>
       </ul>
   </div>
 </template>
@@ -134,7 +134,7 @@ export default {
         this.subgnb1 = true
       } else if(to.path == '/accommodation' || to.path == '/Facility' || to.path == '/banquethall'){
         this.subgnb2 = true
-      } else if(to.path == '/notice' || to.path == '/faq'){
+      } else if(to.path == '/notice' || to.path == '/faq' || to.path =='/inquiry'){
         this.subgnb3 = true
       }
     },
@@ -226,6 +226,7 @@ export default {
     color: black;
   }
   .active {
-  color: red; /* 변경할 색상 지정 */
+	color: #d4af37;
+  
 }
 </style>
