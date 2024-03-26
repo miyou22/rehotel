@@ -60,7 +60,7 @@
               <td class="w3-center">{{ item.boardCategory }}</td>
               <td class="w3-center">객실</td>
               <td class="w3-center">
-                <a href="/admin/board/detail">{{ item.boardTitle }}</a>
+                <a @click="boardView(item.boardSn)">{{ item.boardTitle }}</a>
               </td>
               <td class="w3-center">nyaa</td>
               <td class="w3-center">{{ formatDate(item.createdAt) }}</td>
@@ -228,6 +228,7 @@ export default {
       categoryTitle: "", // 페이지 제목
       categoryType: "", // 페이지 유형 ('inquiry' 또는 'notice')
       boardList: [],
+      requestBody: {},
     };
   },
   mounted() {
@@ -282,6 +283,21 @@ export default {
     },
     formatDate(dateTimeString) {
       return dateTimeString.slice(0, 10);
+    },
+    fnView(idx) {
+      this.requestBody.idx = idx;
+      this.$router.push({
+        path: "/detail",
+        query: this.requestBody,
+      });
+    },
+    boardView(boardSn) {
+      alert("boardSn은 : " + boardSn);
+      this.requestBody.boardSn = boardSn;
+      this.$router.push({
+        query: this.requestBody,
+        path: "/admin/board/detail/" + boardSn,
+      });
     },
   },
   // setup() {

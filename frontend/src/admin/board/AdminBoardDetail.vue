@@ -22,7 +22,7 @@
       </div>
       <header class="w3-container w3-blue w3-padding-32">
         <span class="w3-left">[분류들어감]</span>
-        <span>&nbsp; 제목들어감</span>
+        <span>&nbsp; {{ boardTitle }}</span>
         <span class="w3-right">2024.03.15 11:59</span>
       </header>
       <!-- 작성자, 조회수 -->
@@ -111,16 +111,42 @@
 </template>
 
 <script>
+import axios from "axios";
+const serverUrl = "http://localhost:8081";
 export default {
   data() {
     return {
       categoryTitle: "", // 페이지 제목
       categoryType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      boardSn: this.$route.query.boardSn,
+      boardTitle: "",
+      requestBody: this.$route.query,
+      getListData: {},
     };
+  },
+  mounted() {
+    this.getDetail();
+  },
+  methods: {
+    getDetail(boardSn) {
+      alert("getList 넘버 : " + this.boardSn);
+      this.$axios
+        .get(serverUrl + "/api/admin/board/detail/" + this.boardSn, {
+          params: this.requestBody,
+        })
+        .then((res) => {
+          this.boardTitle = res.data.boardTitle;
+          console.log(res);
+          this.getListData = res.data;
+        })
+        .catch(function (error) {
+          alert("실패입니다.");
+          console.log(error);
+        });
+    },
   },
   created() {
     // 라우터를 통해 페이지 유형을 결정합니다.
-
     const categoryType = this.$route.params.categoryType;
 
     console.log(categoryType);

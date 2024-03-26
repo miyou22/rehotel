@@ -143,7 +143,7 @@ const routes = [
     component: AdminBoard
   },
   {
-    path: '/admin/:categoryType(board|comments|deletepost)/detail',
+    path: '/admin/:categoryType(board|comments|deletepost)/detail/:boardSn',
     name: 'Admindetail',
     component: AdminBoardDetail
   },
