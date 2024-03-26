@@ -249,6 +249,7 @@ table td {
   font-weight: bold;
 }
 .page-header-container {
+  margin-top: 85px;
   text-align: center;
   margin-bottom: 80px;
 }
