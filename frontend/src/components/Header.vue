@@ -226,6 +226,6 @@ export default {
     color: black;
   }
   .active {
-  color: red; /* 변경할 색상 지정 */
+  color: #d4af37; /* 변경할 색상 지정 */
 }
 </style>

@@ -33,11 +33,15 @@
             </div>
             <div>
               <label for="tel" class="label-tel">연락처</label>
-              <input type="text" id="usertel" name="name" required class="input-tel" />
+              <input type="text" id="usertel" name="usertel" required class="input-tel" />
+            </div>
+            <div>
+              <label for="addr" class="label-addr">주소</label>
+              <input type="text" id="useraddr" name="useraddr" required class="input-addr" />
             </div>
             <div>
               <label for="birth" class="label-birth">생년월일</label>
-              <input type="text" id="userbirth" name="name" required class="input-birth" />
+              <input type="text" id="userbirth" name="birth" required class="input-birth" />
             </div>
             <div>
                 <label for="gender" class="label-gender">성별</label>
@@ -116,6 +120,7 @@ export default {
 .label-confirm-password,
 .label-name,
 .label-tel,
+.label-addr,
 .label-birth,
 .label-gender {
   display: block;
@@ -131,6 +136,7 @@ export default {
 .input-confirm-password,
 .input-name,
 .input-tel,
+.input-addr,
 .input-birth,
 .select-gender {
     width: 100%;

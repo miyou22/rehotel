@@ -12,10 +12,10 @@
                 <div v-if="activeTab === 'member'" class="tab-content">
                     <form @submit.prevent="login">
                     <div class="form-group">
-                        <input type="text" id="userid" v-model="userid" required placeholder="아이디">
+                        <input type="text" id="user-id" v-model="userId" required placeholder="아이디">
                     </div>
                     <div class="form-group">
-                        <input type="password" id="password" v-model="password" required placeholder="비밀번호">
+                        <input type="password" id="user-pwd" v-model="userPwd" required placeholder="비밀번호">
                     </div>
                     <button type="submit" class="submit" @click.prevent="login">로그인</button>
                     <div class="forgot-password">
@@ -26,10 +26,10 @@
                 <div v-else class="tab-content">
                     <form @submit.prevent="checkReservation">
                     <div class="form-group">
-                        <input type="text" id="reservation-number" v-model="reservationNumber" required placeholder="예약번호">
+                        <input type="text" id="reservation-id" v-model="resId" required placeholder="예약번호">
                     </div>
                     <div class="form-group">
-                        <input type="email" id="udseremail" v-model="useremail" required placeholder="이메일">
+                        <input type="email" id="user-email" v-model="userEmail" required placeholder="이메일">
                     </div>
                     <button type="submit" class="submit" @click.prevent="checkReservation">예약 확인</button>
                     </form>
@@ -48,32 +48,61 @@
 </template>
 
 <script>
+import axios from 'axios'
+const serverUrl = 'http://localhost:8081'
+
 export default {
     data() {
     return {
       activeTab: 'member',
-      userid: '',
-      password: '',
-      reservationNumber: '',
-      useremail: '',
+      userId: '',
+      userPwd: '',
+      resId: '',
+      userEmail: '',
     };
   },
   methods: {
     login: function () {
-        if (!this.userid || !this.password) {
+        if (!this.userId || !this.userPwd) {
             alert('아이디와 비밀번호가 일치하지 않습니다.')
             return;
         }
-            alert(this.userid + '님 환영합니다!')
+            alert(this.userId + '님 환영합니다!')
             this.$router.push('/');
+
+        var data = {
+            userId: this.userId,
+            userPwd: this.userPwd
+        }
+
+        alert('로그인을 시작합니다!!!' + data.Id)
+        this.$axios.post(serverUrl + '/api/member/login', data)
+        //axios.post(serverUrl + '/api/member/login', data)
+        .then((response) => {
+          console.log('로그인 결과 : ' + response)
+
+          if(response.data == 0) {
+            alert('로그인 완료')
+            this.$router.push({
+              name: 'login'  // 회원가입 후 로그인화면으로 이동한다.
+            })
+          } else {
+            alert('아이디나 비밀번호가 맞지 않습니다.')
+          }
+        })
+        .catch(function(error) {
+          alert('실패')
+          console.log(error)
+        })
     },
     checkReservation: function() {
-        if (!this.reservationNumber || !this.useremail) {
+        if (!this.resId || !this.userEmail) {
             alert('예약번호와 이메일을 확인해주세요.')
             return;
         }
             this.$router.push('/checklist')
     }
+
   }
 
 }
@@ -90,7 +119,7 @@ export default {
     }
 
     .header {
-        font-size: 36px;
+        font-size: 40px;
         font-weight: 500;
         margin-top: 85px;
     }

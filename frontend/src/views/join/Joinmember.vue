@@ -28,21 +28,26 @@
                 <h2 class="input">회원정보 입력</h2>
                 <form>
                     <div class="input-id">
-                        <input type="text" id="userid" v-model="userid" required placeholder="아이디">
+                        <input type="text" id="user-id" v-model="userId" required placeholder="아이디">
                         <button type="confirm" @click="checkDuplicate">중복확인</button>
                     </div>
-                    <input type="password" id="password" v-model="password" required placeholder="비밀번호">
+                    <input type="password" id="user-pwd" v-model="userPwd" required placeholder="비밀번호">
                     <input type="password" id="password-confirm" v-model="passwordConfirm" required placeholder="비밀번호 확인">
-                    <input type="text" id="username" v-model="username" required placeholder="이름">
+                    <input type="text" id="user-name" v-model="userName" required placeholder="이름">
                     <div class="input-email">
-                        <input type="email" id="useremail" v-model="useremail" required placeholder="이메일">
+                        <input type="email" id="user-email" v-model="userEmail" placeholder="이메일">
                         <button type="button" @click="sendVerificationCode" class="button-send-verification">인증번호 발송</button>
                     </div>
-                    <input type="text" id="verification-code" name="verification-code" required
-                                    class="input-verification-code" placeholder="인증번호를 입력하세요."/>
-                    <input type="text" id="tel" v-model="tel" required placeholder="연락처">
-                    <input type="text" id="birth" name="birth" placeholder="생년월일">
-                    <input type="text" id="gender" name="gender" placeholder="성별">
+                    <input type="text" id="verification-code" name="verification-code"
+                                    v-model="verificationCode" required placeholder="인증번호를 입력하세요."/>
+                    <input type="text" id="user-tel" v-model="userTel" required placeholder="연락처">
+                    <input type="text" id="user-addr" v-model="userAddr" required placeholder="주소">
+                    <input type="date" id="user-birth" v-model="userBirth" required placeholder="생년월일">
+                    <select id="user-gender" v-model="userGender" required>
+                                <option value="">성별을 선택하세요</option>
+                                <option value="male">남성</option>
+                                <option value="female">여성</option>
+                              </select>
                     <button type="submit" class="submit" @click.prevent="submitForm">회원가입</button>
                 </form>
             </section>
@@ -53,49 +58,103 @@
 <script>
     import termsContent from './termsContent.vue';
     import privacyPolicyContent from './privacyPolicyContent.vue';
+    import axios from 'axios'
+    const serverUrl = 'http://localhost:8081'
 
     export default {
-        components:{termsContent, privacyPolicyContent},
+        components: { termsContent, privacyPolicyContent },
         data() {
             return {
                 agreedTerms: false,
                 agreedPrivacy: false,
                 userId: '',
-                password: '',
+                userPwd: '',
                 passwordConfirm: '',
                 userName: '',
-                userEmail: '',
-                tel: '',
-                birth: '',
-                gender: ''
-        }
-    },
-    methods: {
-        checkDuplicate() {
-        },
-
-        sendVerificationCode() {
-            alert("인증번호가 발송되었습니다")
-        },
-
-        submitForm: function () {
-            if (!this.agreedTerms || !this.agreedPrivacy) {
-                alert('약관 동의에 체크해주세요.')
-                return;
+                //userEmail: '',
+                userTel: '',
+                userAddr: '',
+                userBirth: '',
+                userGender: ''
             }
-            if (!this.userid || !this.password || !this.passwordConfirm || !this.username || !this.useremail || !this.tel){
-                alert('고객정보를 입력해주세요.')
-                return;
-            } else if (this.password !== this.passwordConfirm) {
-                alert('비밀번호가 일치하지 않습니다.')
-                return;
+        },
+        methods: {
+            checkDuplicate() {
+                // 만약 사용자가 입력한 아이디가 비어있다면 중복 확인하지 않고 반환합니다.
+                if (!this.userId) {
+                    alert('아이디를 입력하세요.');
+                    return;
+                }
+
+                // 서버로 보낼 데이터 객체 생성
+                const requestData = {
+                    userId: this.userId
+                };
+
+                // 서버로 중복 확인 요청을 보냅니다.
+                axios.post(serverUrl + '/api/member/checkDuplicate', requestData)
+                    .then(response => {
+                        // 응답이 성공적으로 도착했을 때의 처리
+                        if (response.data.isDuplicate) {
+                            // 만약 중복된 아이디라면 알림을 표시합니다.
+                            alert('이미 사용 중인 아이디입니다.');
+                        } else {
+                            // 중복되지 않은 아이디라면 알림을 표시합니다.
+                            alert('사용 가능한 아이디입니다.');
+                        }
+                    })
+                    .catch(error => {
+                        // 요청이 실패했을 때의 처리
+                        console.error('중복 확인 요청 실패:', error);
+                        alert('중복 확인 요청에 실패했습니다.');
+                    });
+            },
+
+            sendVerificationCode() {
+                alert("인증번호가 발송되었습니다")
+            },
+
+            submitForm: function () {
+                    if (!this.agreedTerms || !this.agreedPrivacy) {
+                        alert('약관 동의에 체크해주세요.')
+                        return;
+                    }
+                    if (!this.userId || !this.userPwd || !this.passwordConfirm || !this.userName  || !this.userEmail || !this.userTel || !this.userAddr || !this.userBirth || !this.userGender){
+                        alert('고객정보를 입력해주세요.')
+                        return;
+                    } else if (this.userPwd !== this.passwordConfirm) {
+                        alert('비밀번호가 일치하지 않습니다.')
+                        return;
+                    }
+                        var postData = {
+                            userId: this.userId,
+                            userPwd: this.userPwd,
+                            userName: this.userName,
+                            //userEmail: this.userEmail,
+                            userTel: this.userTel,
+                            userAddr: this.userAddr,
+                            userBirth: this.userBirth,
+                            userGender: this.userGender
+                        }
+                        alert(this.userName + '님의 회원가입을 시작합니다.')
+                        this.$axios.post(serverUrl + '/api/member/memberInsert', postData)
+                            .then(function(response) {
+                                console.log(response)
+                                alert('회원가입이 완료되었습니다.')
+                                this.$router.push({
+                                path: '/login',
+                                name: 'Login'  // 회원가입 후 로그인화면으로 이동한다.
+                                })
+                            })
+                            .catch(function(error) {
+                                alert('회원가입실패')
+                                console.log(error)
+                            })
+                }
             }
-                alert('회원가입이 완료되었습니다.')
-                this.$router.push('/login');
         }
-    }
-}
 </script>
+
 
 <style scoped>
     *{
@@ -206,13 +265,28 @@
     }
 
     /*input란 디자인 수정*/
-    input[type="text"], input[type="email"], input[type="password"] {
+    input[type="text"], input[type="email"], input[type="password"], input[type="date"] {
         width: 100%;
         height: 50px;
         margin-bottom: 10px;
         padding: 0 20px;
         font-size: 14px;
         border: 1px solid #ccc;
+    }
+
+    #user-gender, #user-birth {
+        width: 100%;
+        height: 50px;
+        margin-bottom: 10px;
+        padding: 0 15px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        color: #7e7e7e;
+    }
+
+    option {
+        font-size: 14px;
+        color: #555;
     }
 
     .input-id, .input-email {
