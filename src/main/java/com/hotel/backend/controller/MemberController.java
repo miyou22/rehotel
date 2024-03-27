@@ -4,8 +4,12 @@ import com.hotel.backend.dto.MemberFormDto;
 import com.hotel.backend.entity.Member;
 import com.hotel.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/member")
@@ -16,6 +20,8 @@ public class MemberController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+
 
     //  로그인
     //---------------------------------------------------------------------------------------------------------------------
@@ -57,6 +63,19 @@ public class MemberController {
         Member member = Member.createMember(memberFormDto, passwordEncoder);
         memberService.saveMember(member);
 
+    }
+    @PostMapping("/checkDuplicate")
+    public ResponseEntity<?> checkDuplicate(@RequestBody Map<String, String> requestData) {
+        // 클라이언트로부터 전달받은 아이디를 가져옵니다.
+        String userId = requestData.get("userId");
+
+        // 아이디 중복 여부를 검사합니다.
+        boolean isDuplicate = memberService.isUserIdDuplicate(userId);
+
+        // 결과를 JSON 형태로 반환합니다.
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isDuplicate", isDuplicate);
+        return ResponseEntity.ok(response);
     }
 
 
