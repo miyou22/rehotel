@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 public class BoardDto {
     private Long boardSn;
     private Role role;
+//    private Member userId;
     private String boardCategory;
     private String boardTitle;
     private String boardContent;
     private int boardCnt;
     private LocalDateTime createdAt;
+    private String boardStatus;
 }

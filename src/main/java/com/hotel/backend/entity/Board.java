@@ -16,14 +16,15 @@ import java.time.LocalDateTime;
 @ToString
 public class Board {
 
-    //관리자 id
-    //사용자 or 관리자 여부s
-    //게시판 카테고리
     //게시판 넘버 pk
+    //사용자 or 관리자 여부
+    //작성자
+    //게시판 카테고리
     //글 제목
     //글 내용
     //조회수
     //작성일
+    //상태변화
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,4 +57,7 @@ public class Board {
 
     @Column(name="created_at")
     private LocalDateTime createdAt;
+
+    @Column(name="board_status", length = 1)
+    private String boardStatus = "N";
 }

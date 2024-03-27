@@ -285,6 +285,7 @@ export default {
       return dateTimeString.slice(0, 10);
     },
     fnView(idx) {
+      D;
       this.requestBody.idx = idx;
       this.$router.push({
         path: "/detail",
@@ -293,9 +294,9 @@ export default {
     },
     boardView(boardSn) {
       alert("boardSn은 : " + boardSn);
-      this.requestBody.boardSn = boardSn;
+      // this.requestBody.boardSn = boardSn;
       this.$router.push({
-        query: this.requestBody,
+        // query: this.requestBody,
         path: "/admin/board/detail/" + boardSn,
       });
     },

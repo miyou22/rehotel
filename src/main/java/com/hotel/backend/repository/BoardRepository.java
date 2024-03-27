@@ -10,4 +10,8 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findByBoardCategory(String category);
 
+    List<Board> findByBoardStatus(String boardStatus);
+
+    List<Board> findByBoardCategoryAndBoardStatus(String boardCategory, String boardStatus);
+
 }

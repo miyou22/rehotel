@@ -68,6 +68,8 @@
     </table>
     <!-- 글작성 에이터 -->
     <div id="editor" class="w3-border-bottom w3-border-black"></div>
+    <button @click="saveContent">Save Content</button>
+
     <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">
       <button
@@ -90,7 +92,7 @@
 </template>
 
 <script>
-import Editor from "@toast-ui/editor";
+import { Editor } from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import axios from "axios";
 
@@ -109,6 +111,8 @@ export default {
       category: "",
       title: "",
       createdAt: "",
+      boardContent: "",
+      content: "",
     };
   },
   created() {
@@ -133,7 +137,18 @@ export default {
       height: "400px",
       initialEditType: "wysiwyg",
       previewStyle: "vertical",
+      // hooks: {
+      //   addImageBlobHook: async (blob, callback) => {
+      //     // 1. 다른 서버에 이미지 업로드 위임
+      //     //blob : 삽입을 하려는 이미지의 파라미터
+      //     const uploadResult = await this.uploadImage(blob);
+      //     // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
+      //     callback(uploadResult.imageAccessUrl);
+      //   },
+      // },
     });
+
+    // !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
   },
   methods: {
     change() {
@@ -145,6 +160,9 @@ export default {
         boardCategory: this.selectValue.value,
         boardTitle: this.title,
         createdAt: this.createdAt,
+        boardContent: this.content,
+        // boardContent: this.$refs.toastuiEditor.invoke("getHtml"),
+        boardContent: this.editor.getHTML(),
       };
       console.log(boardData);
       axios
@@ -157,6 +175,10 @@ export default {
         .catch((error) => {
           console.log("에러닷!");
         });
+    },
+    saveContent() {
+      this.content = this.editor.getHTML(); // 에디터의 HTML 내용을 가져와 변수에 할당
+      console.log("Saved content:", this.content);
     },
   },
 };
