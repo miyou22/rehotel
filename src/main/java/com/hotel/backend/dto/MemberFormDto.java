@@ -8,17 +8,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class MemberFormDto {
- @NotBlank(message = "이름은 필수 입력 항목입니다!")
- private String userName;
-
- // @NotEmpty(message = "이메일은 필수 입력 항목입니다.")
- @Email(message = "이메일 형식으로 입력하셔야 합니다.")
- private String userEmail;
 
  @NotBlank(message = "아이디는 필수 입력 항목입니다.")
  private String userId;
@@ -27,6 +22,16 @@ public class MemberFormDto {
  @Length(min = 8, max = 20, message = "비밀번호는 8자 이상 16자 이하로 입력하셔야 합니다.")
  private String userPwd;
 
+ @NotBlank(message = "이름은 필수 입력 항목입니다!")
+ private String userName;
+
+ @NotEmpty(message = "이메일은 필수 입력 항목입니다.")
+ @Email(message = "이메일 형식으로 입력하셔야 합니다.")
+ private String userEmail;
+
+@NotEmpty(message = "전화번호는 필수 입력 항목입니다.")
+ private int userTel;
+
  @NotEmpty(message = "주소는 필수 입력 항목입니다.")
  private String userAddr;
 
@@ -34,6 +39,18 @@ public class MemberFormDto {
  private String userGender;
 
  @NotEmpty(message = "생일은 필수 입력 사항입니다.")
- private LocalDateTime userBirth;
+ private LocalDate userBirth;
+
+ @NotEmpty
+ private LocalDateTime userJoin;
+
+ @NotEmpty(message = "인증번호는 필수 입력 항목입니다.")
+ private String verificationCode;
+
+ @NotEmpty(message = "비밀번호 확인은 필수 입력 항목입니다.")
+ private String passwordConfirm;
+
+ private boolean  userPrivate;
+ private boolean  userFlag;
 
 }

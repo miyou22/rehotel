@@ -4,6 +4,7 @@ import com.hotel.backend.dto.MemberFormDto;
 import com.hotel.backend.entity.Member;
 import com.hotel.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -57,13 +58,16 @@ public class MemberController {
     //---------------------------------------------------------------------------------------------------------------------
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     @PostMapping("/memberInsert")
-    public void itemInsert(@RequestBody MemberFormDto memberFormDto) {
-        System.out.println("회원가입 ==> " + memberFormDto);
-
-        Member member = Member.createMember(memberFormDto, passwordEncoder);
-        memberService.saveMember(member);
-
+    public void memberInsert(@RequestBody MemberFormDto memberFormDto) {
+        try {
+            System.out.println("회원가입 ==> " + memberFormDto);
+            Member member = Member.createMember(memberFormDto, passwordEncoder);
+            memberService.saveMember(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     @PostMapping("/checkDuplicate")
     public ResponseEntity<?> checkDuplicate(@RequestBody Map<String, String> requestData) {
         // 클라이언트로부터 전달받은 아이디를 가져옵니다.
@@ -71,6 +75,7 @@ public class MemberController {
 
         // 아이디 중복 여부를 검사합니다.
         boolean isDuplicate = memberService.isUserIdDuplicate(userId);
+        System.out.println("회원가입 ==> " + userId);
 
         // 결과를 JSON 형태로 반환합니다.
         Map<String, Boolean> response = new HashMap<>();
