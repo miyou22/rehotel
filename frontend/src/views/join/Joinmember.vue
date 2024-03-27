@@ -39,14 +39,14 @@
                         <button type="button" @click="sendVerificationCode" class="button-send-verification">인증번호 발송</button>
                     </div>
                     <input type="text" id="verification-code" name="verification-code"
-                                    v-model="verificationCode" required placeholder="인증번호를 입력하세요."/>
+                                    v-model="verificationCode"  placeholder="인증번호를 입력하세요."/>
                     <input type="text" id="user-tel" v-model="userTel" required placeholder="연락처">
                     <input type="text" id="user-addr" v-model="userAddr" required placeholder="주소">
                     <input type="date" id="user-birth" v-model="userBirth" required placeholder="생년월일">
                     <select id="user-gender" v-model="userGender" required>
                                 <option value="">성별을 선택하세요</option>
-                                <option value="male">남성</option>
-                                <option value="female">여성</option>
+                                <option value="m">남성</option>
+                                <option value="f">여성</option>
                               </select>
                     <button type="submit" class="submit" @click.prevent="submitForm">회원가입</button>
                 </form>
@@ -71,7 +71,8 @@
                 userPwd: '',
                 passwordConfirm: '',
                 userName: '',
-                //userEmail: '',
+                userEmail: '',
+                verificationCode: '',
                 userTel: '',
                 userAddr: '',
                 userBirth: '',
@@ -110,8 +111,13 @@
                     });
             },
 
-            sendVerificationCode() {
+           /*sendVerificationCode() {
                 alert("인증번호가 발송되었습니다")
+            },*/
+
+         formatDate() {
+                // 사용자가 선택한 날짜를 yyyy-MM-dd 형식으로 변환
+                this.userBirth = new Date(this.userBirth).toISOString().split('T')[0];
             },
 
             submitForm: function () {
@@ -119,7 +125,7 @@
                         alert('약관 동의에 체크해주세요.')
                         return;
                     }
-                    if (!this.userId || !this.userPwd || !this.passwordConfirm || !this.userName  || !this.userEmail || !this.userTel || !this.userAddr || !this.userBirth || !this.userGender){
+                    if (!this.userId || !this.userPwd || !this.passwordConfirm || !this.userName  || !this.userEmail || !this.verificationCode || !this.userTel || !this.userAddr || !this.userBirth || !this.userGender){
                         alert('고객정보를 입력해주세요.')
                         return;
                     } else if (this.userPwd !== this.passwordConfirm) {
@@ -130,26 +136,28 @@
                             userId: this.userId,
                             userPwd: this.userPwd,
                             userName: this.userName,
-                            //userEmail: this.userEmail,
+                            userEmail: this.userEmail,
                             userTel: this.userTel,
                             userAddr: this.userAddr,
-                            userBirth: this.userBirth,
-                            userGender: this.userGender
+                            // userBirth: this.userBirth,
+                            userGender: this.userGender,
+                            verificationCode: this.verificationCode,
+                            passwordConfirm: this.passwordConfirm
                         }
-                        alert(this.userName + '님의 회원가입을 시작합니다.')
-                        this.$axios.post(serverUrl + '/api/member/memberInsert', postData)
-                            .then(function(response) {
-                                console.log(response)
-                                alert('회원가입이 완료되었습니다.')
+                        alert(this.userName + '님의 회원가입을 시작합니다.');
+                        axios.post(serverUrl + '/api/member/memberInsert', postData)
+                            .then((response) => {
+                                console.log(response);
+                                alert('회원가입이 완료되었습니다.');
                                 this.$router.push({
-                                path: '/login',
-                                name: 'Login'  // 회원가입 후 로그인화면으로 이동한다.
-                                })
+                                    path: '/login',
+                                    name: 'login'  // 회원가입 후 로그인화면으로 이동
+                                });
                             })
-                            .catch(function(error) {
-                                alert('회원가입실패')
-                                console.log(error)
-                            })
+                            .catch((error) => {
+                                alert('회원가입 실패');
+                                console.log(error);
+                            });
                 }
             }
         }
