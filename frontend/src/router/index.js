@@ -148,7 +148,7 @@ const routes = [
     component: AdminBoardDetail
   },
   {
-    path: '/admin/board/update',
+    path: '/admin/board/update/:boardSn',
     name: 'Adminupdate',
     component: AdminBoardUpdate
   },

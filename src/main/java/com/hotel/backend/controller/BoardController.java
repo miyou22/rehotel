@@ -19,6 +19,7 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+    @Autowired
     private BoardService boardService;
 
 
@@ -27,9 +28,10 @@ public class BoardController {
     @GetMapping("/faq")
     public List<Board> faqList(){
         System.out.println("Vue Gethering Test.....");
-        List<Board> faqList = boardRepository.findByBoardCategory("faq");
+        List<Board> faqList = boardRepository.findByBoardCategoryAndBoardStatus("faq","N");
 //        List<Board> faqList = boardRepository.findAll();
         System.out.println("faq 리스트 ==> " + faqList);
+
 
         return faqList;
     }
@@ -37,21 +39,21 @@ public class BoardController {
     //공지사항 목록
     @GetMapping("/notice")
     public List<Board> noticeList(){
-        List<Board> noticeList = boardRepository.findByBoardCategory("공지사항");
+        List<Board> noticeList = boardRepository.findByBoardCategoryAndBoardStatus("공지사항","N");
         return noticeList;
     }
 
     //문의사항 목록
     @GetMapping("/inquiry")
     public List<Board> inquiryList(){
-        List<Board> inquiryList = boardRepository.findByBoardCategory("문의사항");
+        List<Board> inquiryList = boardRepository.findByBoardCategoryAndBoardStatus("문의사항","N");
         return inquiryList;
     }
 
     //게시판 전체 목록
     @GetMapping("/board")
     public List<Board> boardList(){
-        List<Board> boardList = boardRepository.findAll();
+        List<Board> boardList = boardRepository.findByBoardStatus("N");
         return boardList;
     }
 
@@ -74,9 +76,33 @@ public class BoardController {
         Optional<Board> board = boardRepository.findById(boardSn);
 
         System.out.println("게시판 리스트 ==> " + board);
+        System.out.println(boardSn);
 
         return board;
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------
+    //  게시판 정보 수정
+    //---------------------------------------------------------------------------------------------------------------------
+    @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
+    @PutMapping("/board/update/{boardSn}")
+    // @PatchMapping("/item")
+    public Board updateorChange(@RequestBody BoardDto boardDto) {
+        System.out.println("수정 요청으로 받은 정보 : " + boardDto);
+            return boardService.update(boardDto);
 
     }
+
+    //---------------------------------------------------------------------------------------------------------------------
+    //  게시판 글 삭제대기
+    //---------------------------------------------------------------------------------------------------------------------
+    @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
+    @PutMapping("/board/detail/{boardSn}")
+    public Board change(@RequestBody BoardDto boardDto) {
+        System.out.println("수정 요청으로 받은 정보 : " + boardDto);
+
+        return boardService.change(boardDto);
+    }
+
 
 }
