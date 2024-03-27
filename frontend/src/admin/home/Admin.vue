@@ -120,6 +120,7 @@ export default {
   },
   data() {
     return {
+      roomName: "",
       resList: [],
       PriceList: [],
       totalRoomPrice: 0,
@@ -159,6 +160,7 @@ export default {
           this.resList = res.data.filter((item) => {
             const checkoutDate = new Date(item.resCheckout);
             checkoutDate.setHours(0, 0, 0, 0); // checkout 날짜의 시간을 00:00:00 으로 설정
+
             return checkoutDate >= today && item.payCheck === 1;
           });
         })
