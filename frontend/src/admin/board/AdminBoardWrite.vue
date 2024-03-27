@@ -137,15 +137,13 @@ export default {
       height: "400px",
       initialEditType: "wysiwyg",
       previewStyle: "vertical",
-      // hooks: {
-      //   addImageBlobHook: async (blob, callback) => {
-      //     // 1. 다른 서버에 이미지 업로드 위임
-      //     //blob : 삽입을 하려는 이미지의 파라미터
-      //     const uploadResult = await this.uploadImage(blob);
-      //     // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
-      //     callback(uploadResult.imageAccessUrl);
-      //   },
-      // },
+      hooks: {
+        addImageBlobHook(blob, callback) {
+          // 이미지 업로드 로직 커스텀
+          console.log(blob);
+          console.log(callback);
+        },
+      },
     });
 
     // !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기

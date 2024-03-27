@@ -116,12 +116,6 @@ export default {
     }
   },
   mounted() {
-    this.editor = new Editor({
-      el: document.querySelector("#editor"),
-      height: "400px",
-      initialEditType: "wysiwyg",
-      previewStyle: "vertical",
-    });
     this.boardSn = this.$route.params.boardSn;
     this.getDetail();
   },
@@ -140,8 +134,7 @@ export default {
           this.boardContent = res.data.boardContent;
           this.role = res.data.role;
           this.createdAt = res.data.createdAt;
-          console.log(this.boardTitle);
-
+          this.renderMarkdown(this.boardContent);
           // 받은 데이터의 boardCategory 값을 select 요소에서 선택하도록 설정
           this.selectValue = this.options.find(
             (option) => option.value === this.boardCategory
@@ -151,6 +144,15 @@ export default {
           alert("실패입니다.");
           console.log(error);
         });
+    },
+    renderMarkdown(content) {
+      this.editor = new Editor({
+        el: document.querySelector("#editor"),
+        height: "400px",
+        initialEditType: "wysiwyg",
+        previewStyle: "vertical",
+        initialValue: content,
+      });
     },
 
     change() {

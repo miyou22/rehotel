@@ -40,7 +40,7 @@
                 <input
                   type="checkbox"
                   id="selectAll"
-                  @change="selectAllItems"
+                  @change="selectAllItems($event.target.checked)"
                 />
               </th>
               <th class="w3-center">번호</th>
@@ -54,7 +54,7 @@
           <tbody>
             <tr v-for="(item, idx) in reverseData" :key="idx">
               <td class="w3-center">
-                <input type="checkbox" id="select" />
+                <input type="checkbox" id="select" @click="selected" />
               </td>
               <td class="w3-center">{{ item.boardSn }}</td>
               <td class="w3-center">{{ item.boardCategory }}</td>
@@ -243,7 +243,6 @@ export default {
     // 라우터를 통해 페이지 유형을 결정합니다.
 
     const categoryType = this.$route.params.categoryType;
-
     console.log(categoryType);
 
     // 페이지의 유형에 따라 페이지 제목과 게시판 리스트 출력 여부를 설정합니다.
@@ -259,14 +258,14 @@ export default {
     }
   },
   methods: {
-    selectAllItems() {
-      const item = document.querySelectorAll('input[type="checkbox"]');
-      const firstBox = document.querySelector('input[id="selectAll"]');
-      item.forEach((box) => {
-        box.checked = firstBox.checked;
-      });
-      console.log(item);
+    selectAllItems(checked) {
+      this.allChecked = checked;
+      for (let i in this.boardList) {
+        this.boardList[i].selected = this.allChecked;
+        console.log(checked);
+      }
     },
+    selected() {},
     getBoardList() {
       this.$axios
         .get("http://localhost:8081/api/admin/board")

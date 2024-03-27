@@ -46,10 +46,7 @@
           id="viewer"
           ref="viewer"
           class="boardContent w3-padding-16 w3-container"
-          initialValue="boardContent"
-        >
-          <!-- {{ boardContent }} -->
-        </div>
+        ></div>
 
         <!-- <div class="boardContent w3-padding-16 w3-container">
         </div> -->
@@ -148,10 +145,10 @@ export default {
   mounted() {
     this.boardSn = this.$route.params.boardSn;
     this.getDetail();
-    const viewer = new Viewer({
-      el: this.$refs.viewer, // 이 부분을 수정했습니다.
-      // initialValue: this.boardContent, // 초기 내용을 설정합니다.
-    });
+    // const viewer = new Viewer({
+    //   el: this.$refs.viewer, // 이 부분을 수정했습니다.
+    //   initialValue: this.boardContent, // 초기 내용을 설정합니다.
+    // });
   },
   methods: {
     getDetail(boardSn) {
@@ -169,11 +166,22 @@ export default {
           this.role = res.data.role;
           this.createdAt = res.data.createdAt;
           this.boardStatus = res.data.boardStatus;
+          this.renderMarkdown(this.boardContent);
         })
         .catch(function (error) {
           alert("실패입니다.");
           console.log(error);
         });
+    },
+    renderMarkdown(content) {
+      // Markdown을 HTML로 변환하는 로직을 여기에 추가하세요.
+      // 예: 직접 구현하거나 다른 라이브러리 사용
+      // 필요한 경우 이미지 처리 로직도 추가하세요.
+      const viewer = new Viewer({
+        el: this.$el.querySelector("#viewer"),
+        initialValue: content,
+        // plugins: [[codeSyntaxHighlight, { hljs }]],
+      });
     },
     formatDate(dateTimeString) {
       return dateTimeString.slice(0, 10);

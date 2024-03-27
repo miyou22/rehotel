@@ -4,6 +4,7 @@ package com.hotel.backend.dto;
 
 import com.hotel.backend.constant.Role;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 @Getter
@@ -21,4 +22,14 @@ public class BoardDto {
     private int boardCnt;
     private LocalDateTime createdAt;
     private String boardStatus;
+    //파일첨부 여부(첨부 1, 미첨부0)
+    private int fileAttached;
+    //AdminBoardWrite.vue -> Controller파일 담는 용도
+    private MultipartFile boardFile;
+    //원본파일이름
+    private String originalFileName;
+    //서버 저장용 이름
+    private String storedFileName;
+
+
 }
