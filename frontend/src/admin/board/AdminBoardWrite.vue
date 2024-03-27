@@ -138,17 +138,36 @@ export default {
       initialEditType: "wysiwyg",
       previewStyle: "vertical",
       hooks: {
-        addImageBlobHook(blob, callback) {
-          // 이미지 업로드 로직 커스텀
-          console.log(blob);
-          console.log(callback);
+        addImageBlobHook: async (blob, callback) => {
+          // 1. 다른 서버에 이미지를 업로드
+          const uploadResult = await this.uploadImage(blob);
+          // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
+          callback(uploadResult.imageAccessUrl);
+          console.log("blob:::", blob);
+          console.log("callback:::", callback);
         },
       },
     });
-
-    // !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
   },
   methods: {
+    async uploadImage(blob) {
+      const formData = new FormData();
+      formData.append("image", blob);
+
+      const options = {
+        method: "POST",
+        body: formData,
+      };
+
+      let response = await fetch(
+        "http://localhost:8081/api/admin/board/write/upload",
+        options
+      );
+      let result = await response.json();
+      console.log("result::::", result);
+
+      return result;
+    },
     change() {
       const category = this.selectValue.value;
       console.log(category);

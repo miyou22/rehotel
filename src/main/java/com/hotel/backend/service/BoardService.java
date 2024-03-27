@@ -20,6 +20,11 @@ public class BoardService {
     @Autowired
     BoardRepository boardRepository;
 
+//    public void save(BoardDto boardDto){
+//        Board board = board.save(boardDto);
+//        boardRepository.save(board);
+//    }
+
 
     //---------------------------------------------------------------------------------------------------------------------
     // 게시글 수정

@@ -66,7 +66,7 @@ public class Board {
     @Column(name="file_attached")
     private int fileAttached;
 
-    //AdminBoardWrite.vue -> Controller파일 담는 용도
+//    AdminBoardWrite.vue -> Controller파일 담는 용도
 //    @Column(name="board_file")
 //    private MultipartFile boardFile;
 }
