@@ -76,6 +76,7 @@ public class Member {
         member.setUserPwd(password);
         member.setRole(Role.USER);
 
+
         return member;
     }
 }
