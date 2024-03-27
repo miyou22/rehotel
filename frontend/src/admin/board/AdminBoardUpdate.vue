@@ -1,28 +1,41 @@
 <template>
   <div class="board-container w3-margin-bottom">
     <div class="page-header-container">
-      <h1 class="page-header">{{ categoryTitle }}</h1>
+      <h1 class="page-header">게시글 작성</h1>
     </div>
 
     <!-- 글작성 메뉴 -->
     <table class="w3-border-top w3-margin-top w3-border-black">
       <tbody>
         <tr>
-          <th>카테고리</th>
+          <th>게시판</th>
           <td>
-            <select required name="category" class="selectCategory">
-              <option value>선택</option>
-              <option value="칭찬">칭찬</option>
-              <option value="문의">문의</option>
-              <option value="제안">제안</option>
-              <option value="기타">기타</option>
+            <select
+              required
+              v-model="selectValue"
+              @change="change"
+              class="selectCategory"
+            >
+              <option
+                v-for="(option, idx) in options"
+                :key="idx"
+                :value="option"
+              >
+                {{ option.name }}
+              </option>
             </select>
           </td>
         </tr>
         <tr>
           <th>제목</th>
           <td>
-            <input type="text" class="titleLong" name="title" required value />
+            <input
+              type="text"
+              class="titleLong"
+              v-model="boardTitle"
+              required
+              value
+            />
           </td>
         </tr>
         <tr>
@@ -31,7 +44,7 @@
             <input
               type="text"
               class="boardWriter"
-              name="boardWriter"
+              v-model="writer"
               required
               value
             />
@@ -43,13 +56,18 @@
     <div id="editor" class="w3-border-bottom w3-border-black"></div>
     <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">
-      <button class="w3-button w3-round y w3-margin-bottom" style="width: 20%">
+      <button
+        type="submit"
+        class="w3-button w3-round y w3-margin-bottom"
+        style="width: 20%"
+        @click.prevent="fnUpdate"
+      >
         수정하기
       </button>
       <button
         class="w3-button w3-round w3-margin-bottom"
         style="width: 20%"
-        @click="$router.push({ path: '/' + pageType })"
+        @click="$router.push({ path: '/admin/board/detail/' + boardSn })"
       >
         취소
       </button>
@@ -60,6 +78,8 @@
 <script>
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import axios from "axios";
+const serverUrl = "http://localhost:8081";
 
 export default {
   data() {
@@ -67,12 +87,22 @@ export default {
       editor: null,
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      selectValue: "",
+      options: [
+        { name: "공지사항", value: "notice" },
+        { name: "문의사항", value: "inquiry" },
+        { name: "FAQ", value: "faq" },
+      ],
+      category: "",
+      boardTitle: "",
+      createdAt: "",
     };
   },
   created() {
     // 라우터를 통해 페이지 유형을 결정합니다.
 
-    const pageType = this.$route.params.pageType;
+    // const pageType = this.$route.params.pageType;
+    const pageType = this.$route.params;
 
     console.log(pageType);
 
@@ -92,8 +122,66 @@ export default {
       initialEditType: "wysiwyg",
       previewStyle: "vertical",
     });
+    this.boardSn = this.$route.params.boardSn;
+    this.getDetail();
   },
-  methods: {},
+  methods: {
+    getDetail(boardSn) {
+      alert("getList 넘버 : " + this.boardSn);
+      this.$axios
+        .get(serverUrl + "/api/admin/board/detail/" + this.boardSn, {
+          // params: this.requestBody,
+        })
+        .then((res) => {
+          console.log(res);
+          this.boardCategory = res.data.boardCategory;
+          this.boardCnt = res.data.boardCnt;
+          this.boardTitle = res.data.boardTitle;
+          this.boardContent = res.data.boardContent;
+          this.role = res.data.role;
+          this.createdAt = res.data.createdAt;
+          console.log(this.boardTitle);
+
+          // 받은 데이터의 boardCategory 값을 select 요소에서 선택하도록 설정
+          this.selectValue = this.options.find(
+            (option) => option.value === this.boardCategory
+          );
+        })
+        .catch(function (error) {
+          alert("실패입니다.");
+          console.log(error);
+        });
+    },
+
+    change() {
+      const category = this.selectValue.value;
+      console.log(category);
+    },
+    fnUpdate() {
+      var boardData = {
+        boardSn: this.boardSn,
+        boardCategory: this.selectValue.value,
+        boardTitle: this.boardTitle,
+        createdAt: this.createdAt,
+        boardContent: this.editor.getHTML(),
+      };
+      console.log(boardData);
+      console.log(this.boardSn);
+      axios
+        .put(
+          "http://localhost:8081/api/admin/board/update/" + this.boardSn,
+          boardData
+        )
+        .then((res) => {
+          console.log("data sent", res.boardData);
+          alert("글작성이 완료되었습니다");
+          this.$router.push({ path: "/admin/board" }); // 페이지 이동
+        })
+        .catch((error) => {
+          console.log("에러닷!");
+        });
+    },
+  },
 };
 </script>
 
@@ -164,7 +252,7 @@ button {
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /*for firefox*/
   appearance: none;
-  /* background-image: url(../../../assets/img/dropdown.svg); */
+  background-image: url(../../assets/img/dropdown.svg);
   background-repeat: no-repeat;
   background-position: 95% center;
   background-size: 14px;

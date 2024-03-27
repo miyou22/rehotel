@@ -10,15 +10,25 @@
         <tr>
           <th>게시판</th>
           <td>
-            <select required name="board" class="selectCategory">
-              <option value>선택</option>
-              <option value="칭찬">공지사항</option>
-              <option value="문의">문의하기</option>
-              <option value="faq">FAQ</option>
+            <select
+              required
+              v-model="selectValue"
+              @change="change"
+              class="selectCategory"
+            >
+              <option value="">선택</option>
+
+              <option
+                v-for="(option, idx) in options"
+                :key="idx"
+                :value="option"
+              >
+                {{ option.name }}
+              </option>
             </select>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th>카테고리</th>
           <td>
             <select required name="category" class="selectCategory">
@@ -29,11 +39,17 @@
               <option value="기타">기타</option>
             </select>
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <th>제목</th>
           <td>
-            <input type="text" class="titleLong" name="title" required value />
+            <input
+              type="text"
+              class="titleLong"
+              v-model="title"
+              required
+              value
+            />
           </td>
         </tr>
         <tr>
@@ -42,7 +58,7 @@
             <input
               type="text"
               class="boardWriter"
-              name="boardWriter"
+              v-model="writer"
               required
               value
             />
@@ -52,9 +68,16 @@
     </table>
     <!-- 글작성 에이터 -->
     <div id="editor" class="w3-border-bottom w3-border-black"></div>
+    <button @click="saveContent">Save Content</button>
+
     <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">
-      <button class="w3-button w3-round y w3-margin-bottom" style="width: 20%">
+      <button
+        type="submit"
+        class="w3-button w3-round y w3-margin-bottom"
+        style="width: 20%"
+        @click.prevent="fnSave"
+      >
         작성하기
       </button>
       <button
@@ -69,8 +92,9 @@
 </template>
 
 <script>
-import Editor from "@toast-ui/editor";
+import { Editor } from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import axios from "axios";
 
 export default {
   data() {
@@ -78,6 +102,17 @@ export default {
       editor: null,
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      selectValue: "",
+      options: [
+        { name: "공지사항", value: "notice" },
+        { name: "문의사항", value: "inquiry" },
+        { name: "FAQ", value: "faq" },
+      ],
+      category: "",
+      title: "",
+      createdAt: "",
+      boardContent: "",
+      content: "",
     };
   },
   created() {
@@ -102,9 +137,50 @@ export default {
       height: "400px",
       initialEditType: "wysiwyg",
       previewStyle: "vertical",
+      // hooks: {
+      //   addImageBlobHook: async (blob, callback) => {
+      //     // 1. 다른 서버에 이미지 업로드 위임
+      //     //blob : 삽입을 하려는 이미지의 파라미터
+      //     const uploadResult = await this.uploadImage(blob);
+      //     // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
+      //     callback(uploadResult.imageAccessUrl);
+      //   },
+      // },
     });
+
+    // !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
   },
-  methods: {},
+  methods: {
+    change() {
+      const category = this.selectValue.value;
+      console.log(category);
+    },
+    fnSave() {
+      var boardData = {
+        boardCategory: this.selectValue.value,
+        boardTitle: this.title,
+        createdAt: this.createdAt,
+        boardContent: this.content,
+        // boardContent: this.$refs.toastuiEditor.invoke("getHtml"),
+        boardContent: this.editor.getHTML(),
+      };
+      console.log(boardData);
+      axios
+        .post("http://localhost:8081/api/admin/board/write", boardData)
+        .then((res) => {
+          console.log("data sent", res.boardData);
+          alert("글작성이 완료되었습니다");
+          this.$router.push({ path: "/admin/board" }); // 페이지 이동
+        })
+        .catch((error) => {
+          console.log("에러닷!");
+        });
+    },
+    saveContent() {
+      this.content = this.editor.getHTML(); // 에디터의 HTML 내용을 가져와 변수에 할당
+      console.log("Saved content:", this.content);
+    },
+  },
 };
 </script>
 

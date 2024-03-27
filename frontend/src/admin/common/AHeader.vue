@@ -14,15 +14,17 @@
           <ul class="header-nav-lists">
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/admin/member' }"
-                href="/admin/member" @click="color1=true">회원관리</a>
+                href="/admin/member">회원관리</a>
             </li>
             <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/admin/reservation' }"
-                href="/admin/reservation" @click="color1=true">예약관리</a>
+              <a class="header-nav-link" :class="{
+                'header-active': currentRoute === '/admin/reservation',
+              }" href="/admin/reservation">예약관리</a>
             </li>
             <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/board' }"
-                href="/admin/board" @click="color1=true">게시판관리</a>
+              <a class="header-nav-link"
+                :class="{ 'header-active': currentRoute === '/admin/board' || currentRoute === '/admin/comments' || currentRoute === '/admin/deletePost' }"
+                href="/admin/board">게시판관리</a>
             </li>
           </ul>
         </div>
@@ -48,11 +50,11 @@
   </header>
 
   <div class="sub-gnb" v-if="subgnb3">
-    <p class="sub-gnb-name">3</p>
+    <p class="sub-gnb-name">게시판 관리</p>
     <ul class="sub-gnb-list">
-      <li><a href="#">게시글관리</a></li>
-      <li><a href="#">댓글관리</a></li>
-      <li><a href="#">삭제된 글 관리</a></li>
+      <li><a href="/admin/board" :class="{ 'header-active': currentRoute === '/admin/board' }">게시글관리</a></li>
+      <li><a href="/admin/comments" :class="{ 'header-active': currentRoute === '/admin/comments' }">댓글관리</a></li>
+      <li><a href="/admin/deletePost" :class="{ 'header-active': currentRoute === '/admin/deletePost' }">삭제된 글 관리</a></li>
     </ul>
   </div>
 </template>
@@ -63,18 +65,24 @@
 export default {
   data() {
     return {
-      color1:false,
-      subgnb3: false
+      color1: false,
+      subgnb3: true,
+      currentRoute: '' // currentRoute 추가
     };
   },
-
+  mounted() {
+    this.currentRoute = window.location.pathname; // 현재 URL을 currentRoute에 할당
+  },
   beforeMount: function () {
-    let url = window.location.pathname
-    console.log(url)
-    if (url === "/admin/board") {
+    // alert("beforeMount");
+    var currentUrl = window.location.pathname;
+    // alert(currentUrl);
+
+    if (currentUrl === "/admin/board" || currentUrl === "/admin/comments" || currentUrl === "/admin/deletePost") {
+      // alert("AHeader Watch Route....");
       this.subgnb3 = true;
     } else {
-      this.subgnb3 = false;
+      this.subgnb3 = false; // this 키워드 추가
     }
   },
 
@@ -118,7 +126,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 85px;
 }
 
 .acc {

@@ -9,11 +9,11 @@
       <ul class="adminReservation">
         <li class="w3-card w3-bottombar w3-border-red notice">
           <p>총 예약된 객실</p>
-          <h1>1/30</h1>
+          <h1>{{ resList.length }}/30</h1>
         </li>
         <li class="w3-card w3-bottombar w3-border-yellow notice">
-          <p>수익</p>
-          <h1>18만 2천원</h1>
+          <p>총 수익</p>
+          <h1>{{ numberWithCommas(totalRoomPrice) }}원</h1>
         </li>
         <li class="w3-card w3-bottombar w3-border-blue notice">
           <p class="roomP">남은 방 수</p>
@@ -85,6 +85,9 @@
             </li>
           </ul>
         </li>
+        <p v-for="list in resList" :key="list" class="cnt">
+          {{ list.roomName }}
+        </p>
       </ul>
     </div>
   </div>
@@ -117,9 +120,12 @@ export default {
   },
   data() {
     return {
+      resList: [],
+      PriceList: [],
+      totalRoomPrice: 0,
       chartData: {
         labels: ["1번", "2번", "3번", "4번", "5번"],
-        datasets: [{ data: [5, 6, 6, 6, 6] }],
+        datasets: [{ data: [1, 2, 3, 4, 5] }],
       },
       chartOptions: {
         responsive: true,
@@ -130,6 +136,59 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    calculateTotalRoomPrice() {
+      // PriceList에 있는 roomPrice의 총 합계 계산
+      this.totalRoomPrice = this.PriceList.reduce((total, item) => {
+        return total + parseFloat(item.roomPrice);
+      }, 0);
+    },
+
+    getResList() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // 오늘 날짜의 시간을 00:00:00 으로 설정
+
+      this.$axios
+        .get("http://localhost:8081/api/reservation/resInfo")
+        .then((res) => {
+          // checkout 날짜가 오늘 이후인 데이터만 필터링하여 resList에 할당
+          this.resList = res.data.filter((item) => {
+            const checkoutDate = new Date(item.resCheckout);
+            checkoutDate.setHours(0, 0, 0, 0); // checkout 날짜의 시간을 00:00:00 으로 설정
+            return checkoutDate >= today && item.payCheck === 1;
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
+    getPriceList() {
+      this.$axios
+        .get("http://localhost:8081/api/reservation/resInfo")
+        .then((res) => {
+          this.PriceList = res.data.filter((item) => item.payCheck === 1);
+
+          this.calculateTotalRoomPrice();
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
+  },
+  mounted() {
+    this.getResList();
+    this.getPriceList();
   },
 };
 </script>

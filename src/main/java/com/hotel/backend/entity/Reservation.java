@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Reservation {
     @Id
     @Column(nullable = false)
-    private  String resId;
+    private  Long resId;
 
 //    @ManyToOne
 //    @JoinColumn(name = "userId")
