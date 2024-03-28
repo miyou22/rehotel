@@ -64,10 +64,10 @@ export default {
   methods: {
     login: function () {
         if (!this.userId || !this.userPwd) {
-            alert('아이디와 비밀번호가 일치하지 않습니다.')
+            //alert('아이디와 비밀번호가 일치하지 않습니다.')
             return;
         }
-            alert(this.userId + '님 환영합니다!')
+            //alert(this.userId + '님 환영합니다!')
         var data = {
             userId: this.userId,
             userPwd: this.userPwd
@@ -77,8 +77,12 @@ export default {
         axios.post(serverUrl + '/api/member/login', data)
           .then((response) => {
                 if(response.status === 200 && response.data === "로그인 성공") {
-                    alert(this.userId + '님 환영합니다!');
-                    this.$router.push({
+                    // Vuex 저장소의 isLoggedIn 상태를 true로 업데이트
+                      this.$store.commit('setLoggedIn', true);
+                      // 사용자 ID를 Vuex 저장소에 저장
+                      this.$store.commit('setUserId', this.userId);
+                     alert(this.userId + '님 환영합니다!');
+                     this.$router.push({
                         path: '/',
                         name: 'home'  // 로그인 후 홈화면으로 이동
                     });

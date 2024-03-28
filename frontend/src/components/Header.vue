@@ -69,7 +69,7 @@
 <!-- ------------------------------------------------------------------------------------------------------------------------- -->
 
             <li v-if="!isLoggedIn"><a href="/login">LogIn</a></li>
-            <li v-else><a @click="logout">Logout</a></li>
+            <li v-else><a @click="logout" style="cursor: pointer;">Logout</a></li>
             <li v-if="!isLoggedIn"><a href="/joinmember">회원가입</a></li>
             <li v-else><a href="/mypage">마이페이지</a></li>
             <li><a href="/checkList">예약확인</a></li>
@@ -158,34 +158,39 @@ export default {
 
     async checkLoginStatus() {
           try {
-            // 백엔드에 로그인 상태를 확인하는 요청을 보냅니다.
+            // 백엔드에 로그인 상태를 확인하는 요청을 보냄.
             const response = await axios.get(`/api/member/checkLoginStatus`);
-            // 응답으로부터 로그인 상태를 가져와서 isLoggedIn 변수를 업데이트합니다.
+            // 응답으로부터 로그인 상태를 가져와서 isLoggedIn 변수를 업데이트.
             this.isLoggedIn = response.data.isLoggedIn;
+            console.log('로그인 상태:', this.isLoggedIn);
           } catch (error) {
             console.error('로그인 상태 확인 실패:', error);
           }
         },
         async login() {
           try {
-            // 로그인 요청을 보내고 성공하면 isLoggedIn을 true로 설정
-            // 이후 페이지를 다시 로드하여 로그인 상태를 반영할 수 있습니다.
-            await axios.post(`/api/member/login`, { userId: '사용자 아이디', userPwd: '비밀번호' });
-            this.isLoggedIn = true;
-            location.reload();
-          } catch (error) {
-            console.error('로그인 실패:', error);
+          // 로그인 요청을 보내고 성공하면 isLoggedIn을 true로 설정
+               await axios.post(`/api/member/login`, { userId: '사용자 아이디', userPwd: '비밀번호' });
+               this.$store.commit('setLoggedIn', true);
+               console.log('로그인 상태:', this.$store.state.isLoggedIn);
+
+               // 페이지를 새로고침
+               location.reload();
+              } catch (error) {
+               console.error('로그인 실패:', error);
           }
         },
         async logout() {
           try {
             // 로그아웃 요청을 보내고 성공하면 isLoggedIn을 false로 설정
-            // 이후 페이지를 다시 로드하여 로그인 상태를 반영할 수 있습니다.
            await axios.get(`/api/member/logout`);
-            this.isLoggedIn = false;
+             this.$store.commit('setLoggedIn', false);
+             console.log('로그인 상태:', this.$store.state.isLoggedIn);
+
+             // 페이지를 새로고침
             location.reload();
-          } catch (error) {
-            console.error('로그아웃 실패:', error);
+           } catch (error) {
+             console.error('로그아웃 실패:', error);
           }
         }
 
