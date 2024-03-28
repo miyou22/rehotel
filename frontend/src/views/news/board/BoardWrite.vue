@@ -1,52 +1,29 @@
 <template>
   <div class="board-container w3-margin-bottom">
     <div class="page-header-container">
-      <h1 class="page-header">{{ pageTitle }}</h1>
+      <h1 class="page-header">문의사항</h1>
     </div>
 
     <!-- 글작성 메뉴 -->
     <table class="w3-border-top w3-margin-top w3-border-black">
       <tbody>
         <tr>
-          <th>카테고리</th>
-          <td>
-            <select required name="category" class="selectCategory">
-              <option value>선택</option>
-              <option value="칭찬">칭찬</option>
-              <option value="문의">문의</option>
-              <option value="제안">제안</option>
-              <option value="기타">기타</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
           <th>제목</th>
           <td>
-            <input type="text" class="titleLong" name="title" required value />
+            <input
+              type="text"
+              class="titleLong"
+              name="title"
+              v-model="title"
+              required
+              value
+            />
           </td>
         </tr>
         <tr>
           <th>작성자</th>
           <td>
-            <input
-              type="text"
-              class="boardWriter"
-              name="boardWriter"
-              required
-              value
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>비밀번호</th>
-          <td>
-            <input
-              type="password"
-              class="boardPass"
-              name="boardPassword"
-              required
-              value
-            />
+            <input type="text" class="boardWriter" required value />
           </td>
         </tr>
       </tbody>
@@ -55,13 +32,17 @@
     <div id="editor" class="w3-border-bottom w3-border-black"></div>
     <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">
-      <button class="w3-button w3-round y w3-margin-bottom" style="width: 20%">
+      <button
+        class="w3-button w3-round y w3-margin-bottom"
+        style="width: 20%"
+        @click.prevent="fnSave"
+      >
         작성하기
       </button>
       <button
         class="w3-button w3-round w3-margin-bottom"
         style="width: 20%"
-        @click="$router.push({ path: '/' + pageType })"
+        @click.prevent="$router.push({ path: '/' + pageType })"
       >
         취소
       </button>
@@ -72,6 +53,8 @@
 <script>
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import axios from "axios";
+let result;
 
 export default {
   data() {
@@ -79,23 +62,17 @@ export default {
       editor: null,
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      category: "",
+      title: "",
+      createdAt: "",
+      boardContent: "",
+      content: "",
     };
   },
   created() {
-    // 라우터를 통해 페이지 유형을 결정합니다.
-
-    const pageType = this.$route.params.pageType;
+    const pageType = "inquiry";
 
     console.log(pageType);
-
-    // 페이지의 유형에 따라 페이지 제목과 게시판 리스트 출력 여부를 설정합니다.
-    if (pageType === "notice") {
-      this.pageTitle = "공지사항";
-      this.pageType = "notice";
-    } else if (pageType === "inquiry") {
-      this.pageTitle = "문의하기";
-      this.pageType = "inquiry";
-    }
   },
   mounted() {
     this.editor = new Editor({
@@ -103,9 +80,62 @@ export default {
       height: "400px",
       initialEditType: "wysiwyg",
       previewStyle: "vertical",
+      hooks: {
+        addImageBlobHook: async (blob, callback) => {
+          // 1. 다른 서버에 이미지를 업로드
+          const uploadResult = await this.uploadImage(blob);
+          // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
+          callback(uploadResult.imageAccessUrl);
+          console.log("blob:::", blob);
+          console.log("callback:::", callback);
+        },
+      },
     });
   },
-  methods: {},
+  methods: {
+    async uploadImage(blob) {
+      const formData = new FormData();
+      formData.append("image", blob);
+
+      const options = {
+        method: "POST",
+        body: formData,
+      };
+
+      let response = await fetch(
+        "http://localhost:8081/api/admin/board/write/upload",
+        options
+      );
+      result = await response.json();
+      console.log("result::::", result);
+
+      return result;
+    },
+    fnSave() {
+      var boardData = {
+        boardTitle: this.title,
+        createdAt: this.createdAt,
+        boardContent: this.content,
+        boardCategory: "inquiry",
+        boardContent: this.editor.getHTML(),
+      };
+      console.log(boardData);
+      axios
+        .post("http://localhost:8081/api/admin/board/write", boardData)
+        .then((res) => {
+          console.log("data sent", res.boardData);
+          alert("글작성이 완료되었습니다");
+          this.$router.push({ path: "/inquiry" }); // 페이지 이동
+        })
+        .catch((error) => {
+          console.log("에러닷!");
+        });
+    },
+    saveContent() {
+      this.content = this.editor.getHTML(); // 에디터의 HTML 내용을 가져와 변수에 할당
+      console.log("Saved content:", this.content);
+    },
+  },
 };
 </script>
 

@@ -83,7 +83,7 @@
       <button
         class="w3-button w3-round w3-margin-bottom"
         style="width: 20%"
-        @click="$router.push({ path: '/' + pageType })"
+        @click.prevent="$router.push({ path: '/' + pageType })"
       >
         취소
       </button>
@@ -95,6 +95,7 @@
 import { Editor } from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import axios from "axios";
+let result;
 
 export default {
   data() {
@@ -163,7 +164,7 @@ export default {
         "http://localhost:8081/api/admin/board/write/upload",
         options
       );
-      let result = await response.json();
+      result = await response.json();
       console.log("result::::", result);
 
       return result;
@@ -178,7 +179,6 @@ export default {
         boardTitle: this.title,
         createdAt: this.createdAt,
         boardContent: this.content,
-        // boardContent: this.$refs.toastuiEditor.invoke("getHtml"),
         boardContent: this.editor.getHTML(),
       };
       console.log(boardData);

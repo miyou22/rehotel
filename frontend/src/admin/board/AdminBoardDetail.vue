@@ -145,10 +145,6 @@ export default {
   mounted() {
     this.boardSn = this.$route.params.boardSn;
     this.getDetail();
-    // const viewer = new Viewer({
-    //   el: this.$refs.viewer, // 이 부분을 수정했습니다.
-    //   initialValue: this.boardContent, // 초기 내용을 설정합니다.
-    // });
   },
   methods: {
     getDetail(boardSn) {
@@ -205,12 +201,6 @@ export default {
       alert("삭제할꼬야?");
       var boardStatus = {
         boardSn: this.boardSn,
-        boardCategory: this.boardCategory,
-        boardCnt: this.boardCnt,
-        boardTitle: this.boardTitle,
-        boardContent: this.boardContent,
-        role: this.role,
-        createdAt: this.createdAt,
         boardStatus: this.boardStatus,
       };
       console.log(boardStatus);
@@ -220,8 +210,7 @@ export default {
           boardStatus
         )
         .then((res) => {
-          console.log("data sent", res.boardData);
-          alert("글작성이 완료되었습니다");
+          alert("글이 삭제되었습니다");
           this.$router.push({ path: "/admin/board" }); // 페이지 이동
         })
         .catch((error) => {

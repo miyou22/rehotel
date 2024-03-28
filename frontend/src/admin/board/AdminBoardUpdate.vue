@@ -80,6 +80,7 @@ import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import axios from "axios";
 const serverUrl = "http://localhost:8081";
+let result;
 
 export default {
   data() {
@@ -152,7 +153,35 @@ export default {
         initialEditType: "wysiwyg",
         previewStyle: "vertical",
         initialValue: content,
+        hooks: {
+          addImageBlobHook: async (blob, callback) => {
+            // 1. 다른 서버에 이미지를 업로드
+            const uploadResult = await this.uploadImage(blob);
+            // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
+            callback(uploadResult.imageAccessUrl);
+            console.log("blob:::", blob);
+            console.log("callback:::", callback);
+          },
+        },
       });
+    },
+    async uploadImage(blob) {
+      const formData = new FormData();
+      formData.append("image", blob);
+
+      const options = {
+        method: "POST",
+        body: formData,
+      };
+
+      let response = await fetch(
+        "http://localhost:8081/api/admin/board/write/upload",
+        options
+      );
+      result = await response.json();
+      console.log("result::::", result);
+
+      return result;
     },
 
     change() {

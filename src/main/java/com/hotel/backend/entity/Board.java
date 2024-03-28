@@ -32,10 +32,6 @@ public class Board {
     @Column(name = "board_sn", nullable = false)
     private Long boardSn;
 
-//    @OneToOne
-//    @JoinColumn(name = "adminId")
-//    private Admin adminId;
-
     // 사용자인지 관리자인지 구별
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -62,11 +58,5 @@ public class Board {
     @Column(name="board_status", length = 1)
     private String boardStatus = "N";
 
-    //파일첨부 여부(첨부 1, 미첨부0)
-    @Column(name="file_attached")
-    private int fileAttached;
 
-//    AdminBoardWrite.vue -> Controller파일 담는 용도
-//    @Column(name="board_file")
-//    private MultipartFile boardFile;
 }

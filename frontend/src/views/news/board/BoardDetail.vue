@@ -1,57 +1,62 @@
 <template>
-  <div class="board-container w3-border-top">
+  <div class="board-container">
     <div class="page-header-container">
       <h1 class="page-header">{{ pageTitle }}</h1>
     </div>
     <div class="boardDetail" style="width: 100%">
       <!--제목,분류,작성일-->
       <header class="w3-container w3-blue w3-padding-32">
-        <span class="w3-left">[분류들어감]</span>
-        <span>&nbsp; 제목들어감</span>
-        <span class="w3-right">2024.03.15 11:59</span>
+        <span class="w3-left">[{{ boardCheck(boardCategory) }}]</span>
+        <span>&nbsp; {{ boardTitle }}</span>
+        <span class="w3-right">{{ formatDate(createdAt) }}</span>
       </header>
       <!-- 작성자, 조회수 -->
       <nav
         class="w3-container w3-green w3-padding-16 w3-border-bottom w3-border-black"
       >
         <span>작성자들어감</span>
-        <span class="w3-right">조회수들어감</span>
+        <span class="w3-right">조회수 : {{ boardCnt }}</span>
       </nav>
       <!-- 첨부파일, 본문, 버튼 -->
       <div
         class="contents w3-padding-32 w3-container w3-margin-bottom w3-border-bottom"
       >
-        <!-- 첨부파일 -->
-        <div class="filename w3-padding-16 w3-container">
-          첨부파일아이콘과 첨부파일
-        </div>
         <!-- 본문 및 버튼 -->
-        <div class="boardContent w3-padding-16 w3-container">본문이 들어감</div>
-
+        <div
+          id="viewer"
+          ref="viewer"
+          class="boardContent w3-padding-16 w3-container"
+        ></div>
         <!-- <div class="common-buttons">  버튼이 커짐.-->
-        <div class="buttons w3-right">
+        <div class="buttons w3-right" v-if="pageTitle != '공지사항'">
           <button
             type="button"
             class="w3-button w3-round w3-white w3-text-black w3-border w3-wide w3-border-black w3-padding-large"
+            @click.prevent="boardUpdate(boardSn)"
           >
             수정</button
           >&nbsp;
           <button
             type="button"
             class="w3-button w3-round w3-white w3-text-black w3-border w3-wide w3-border-black w3-padding-large"
+            @click.prevent="changeMod"
           >
             삭제</button
           >&nbsp;
           <button
             type="button"
             class="w3-button w3-round w3-white w3-text-black w3-border w3-border-black w3-wide w3-padding-large"
+            @click.prevent="button1"
           >
             목록
           </button>
         </div>
       </div>
       <!-- 댓글 -->
-      <div class="w3-padding-32 w3-container w3-border-bottom">
+      <div
+        class="w3-padding-32 w3-container w3-border-bottom"
+        v-if="pageTitle != '공지사항'"
+      >
         <div class="w3-row-padding">
           <div class="w3-col s3">
             <input
@@ -85,7 +90,10 @@
         </div>
       </div>
       <!--댓글리스트-->
-      <div class="w3-padding-32 w3-container w3 w3-border-bottom">
+      <div
+        class="w3-padding-32 w3-container w3 w3-border-bottom"
+        v-if="pageTitle != '공지사항'"
+      >
         <ul class="boardContent w3-padding-16 w3-container">
           <li>
             <div class="replyInfo">
@@ -118,11 +126,28 @@
 </template>
 
 <script>
+import axios from "axios";
+// import { Viewer } from "@toast-ui/editor"; // Viewer를 가져옵니다.
+import Viewer from "@toast-ui/editor/dist/toastui-editor-viewer";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css"; // Viewer를 위한 CSS 파일을 가져옵니다.
+const serverUrl = "http://localhost:8081";
+
 export default {
   data() {
     return {
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      viewer: null,
+      categoryTitle: "", // 페이지 제목
+      categoryType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      // requestBody: this.$route.query,
+      boardTitle: "",
+      boardSn: null, // 게시물 번호
+      createdAt: "",
+      boardCategory: "",
+      boardCnt: "",
+      boardContent: "",
+      role: "",
     };
   },
   created() {
@@ -140,6 +165,87 @@ export default {
       this.pageTitle = "문의하기";
       this.pageType = "inquiry";
     }
+  },
+  mounted() {
+    this.boardSn = this.$route.params.boardSn;
+    this.getDetail();
+  },
+  methods: {
+    formatDate(dateTimeString) {
+      return dateTimeString.slice(0, 10);
+    },
+    getDetail(boardSn) {
+      alert("getList 넘버 : " + this.boardSn);
+      this.$axios
+        .get(
+          "http://localhost:8081/api/" + this.pageType + "/" + this.boardSn,
+          {
+            // params: this.requestBody,
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          this.boardCategory = res.data.boardCategory;
+          this.boardCnt = res.data.boardCnt;
+          this.boardTitle = res.data.boardTitle;
+          this.boardContent = res.data.boardContent;
+          this.role = res.data.role;
+          this.createdAt = res.data.createdAt;
+          this.boardStatus = res.data.boardStatus;
+          this.renderMarkdown(this.boardContent);
+        })
+        .catch(function (error) {
+          alert("실패입니다.");
+          console.log(error);
+        });
+    },
+    renderMarkdown(content) {
+      // Markdown을 HTML로 변환하는 로직을 여기에 추가하세요.
+      // 예: 직접 구현하거나 다른 라이브러리 사용
+      // 필요한 경우 이미지 처리 로직도 추가하세요.
+      const viewer = new Viewer({
+        el: this.$el.querySelector("#viewer"),
+        initialValue: content,
+        // plugins: [[codeSyntaxHighlight, { hljs }]],
+      });
+    },
+    boardCheck(boardCategory) {
+      if (boardCategory === "notice") {
+        return "공지사항";
+      } else if (boardCategory === "inquiry") {
+        return "문의사항";
+      } else return "FAQ";
+    },
+    changeMod() {
+      alert("삭제할꼬야?");
+      var boardStatus = {
+        boardSn: this.boardSn,
+        boardStatus: this.boardStatus,
+      };
+      console.log(boardStatus);
+      this.$axios
+        .put(
+          "http://localhost:8081/api/admin/board/detail/" + this.boardSn,
+          boardStatus
+        )
+        .then((res) => {
+          alert("글이 삭제되었습니다");
+          this.$router.push({ path: "/inquiry" }); // 페이지 이동
+        })
+        .catch((error) => {
+          console.log("에러닷!");
+        });
+    },
+    button1() {
+      this.$router.push({ path: "/inquiry" }); // 페이지 이동
+    },
+    boardUpdate(boardSn) {
+      alert("boardSn은 : " + boardSn);
+      alert("boardSn은 : " + this.pageType);
+      this.$router.push({
+        path: "/inquiry/update/" + boardSn,
+      });
+    },
   },
 };
 </script>
