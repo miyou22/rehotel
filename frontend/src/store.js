@@ -13,6 +13,7 @@ const store = createStore({
       selectedRoomImageData: null,
       totalmember: null,
       selectedResItem: null,
+      userId: null,
     };
   },
   getters: {
@@ -20,6 +21,7 @@ const store = createStore({
       return state.selectedMembers;
     },
     getSelectedResItem: (state) => state.selectedResItem,
+    getSelectedUserId: (state) => state.selectedUserId,
   },
   mutations: {
     setSelectedResItem(state, item) {

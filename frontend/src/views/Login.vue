@@ -73,7 +73,7 @@ export default {
             userPwd: this.userPwd
         }
 
-        alert('로그인을 시작합니다!!!' + data.userId)
+        // alert('로그인을 시작합니다!!!' + data.userId)
         axios.post(serverUrl + '/api/member/login', data)
           .then((response) => {
                 if(response.status === 200 && response.data === "로그인 성공") {
