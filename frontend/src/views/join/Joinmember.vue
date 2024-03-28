@@ -139,7 +139,7 @@
                             userEmail: this.userEmail,
                             userTel: this.userTel,
                             userAddr: this.userAddr,
-                            // userBirth: this.userBirth,
+                            userBirth: this.userBirth,
                             userGender: this.userGender,
                             verificationCode: this.verificationCode,
                             passwordConfirm: this.passwordConfirm

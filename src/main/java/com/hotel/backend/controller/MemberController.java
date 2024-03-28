@@ -23,34 +23,40 @@ public class MemberController {
     PasswordEncoder passwordEncoder;
 
 
-
-    //  로그인
-    //---------------------------------------------------------------------------------------------------------------------
+    // 로그인
     @PostMapping("/login")
-    public int login(@RequestBody MemberFormDto memberFormDto) {
-//        System.out.println("로그인 전 정보 : " + memberFormDto.getEmail());
-//        System.out.println("로그인 비밀번호 : " + passwordEncoder.encode(memberFormDto.getPassword()));
-
-        Member findMember = memberService.login(memberFormDto.getUserEmail());
-//        System.out.println("로그인 후 정보 : " + findMember);
-        // System.out.println("저장된 비밀번호 : " + passwordEncoder.encode(memberFormDto.getPassword()));
-
-//        System.out.println( "[ 비밀번호 ]\n" + memberFormDto.getPassword() + "\n" + findMember.getPassword() );
-//        System.out.println( "비교 ==> " + passwordEncoder.matches(memberFormDto.getPassword(), findMember.getPassword()) );
-//
-//        boolean result = false;
-//        result = passwordEncoder.matches(findMember.getPassword(), memberFormDto.getPassword());
-//        System.out.println("result ==> " + result);
-
-        int result = -9;
-        if(passwordEncoder.matches(memberFormDto.getUserPwd(), findMember.getUserPwd())) {
-            System.out.println("로그인 성공.");
-            result = 0;
-        } else {
-            System.out.println("로그인 정보가 잘못되었습니다..");
-            result = -1;
+    public ResponseEntity<String> login(@RequestBody MemberFormDto memberFormDto) {
+        try {
+            Member findMember = memberService.login(memberFormDto.getUserId());
+            if (findMember != null && passwordEncoder.matches(memberFormDto.getUserPwd(), findMember.getUserPwd())) {
+                // 로그인 성공
+                System.out.println("11로그인 성공");
+                return ResponseEntity.ok("로그인 성공");
+            } else {
+                // 아이디나 비밀번호가 맞지 않는 경우
+                System.out.println("22아이디나 비밀번호가 맞지 않습니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디나 비밀번호가 맞지 않습니다.");
+            }
+        } catch (IllegalArgumentException e) {
+            // 회원을 찾지 못한 경우
+            System.out.println("33해당 아이디의 회원을 찾을 수 없습니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 아이디의 회원을 찾을 수 없습니다.");
         }
-        return result;
+    }
+
+    // 로그아웃
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout() {
+        memberService.logout();
+        return ResponseEntity.ok("로그아웃 성공");
+    }
+
+    @GetMapping("/checkLoginStatus")
+    public ResponseEntity<?> checkLoginStatus() {
+        boolean isLoggedIn = memberService.isLoggedIn();
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isLoggedIn", isLoggedIn);
+        return ResponseEntity.ok(response);
     }
 
     //---------------------------------------------------------------------------------------------------------------------
@@ -59,6 +65,9 @@ public class MemberController {
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     @PostMapping("/memberInsert")
     public void memberInsert(@RequestBody MemberFormDto memberFormDto) {
+        System.out.println("Member 비밀번호 ==> " + memberFormDto.getUserPwd() + " : " + memberFormDto.getUserPwd().length());
+        System.out.println("Member Insert ==> " + memberFormDto.getUserName() + " : " + memberFormDto.getUserBirth());
+
         try {
             System.out.println("회원가입 ==> " + memberFormDto);
             Member member = Member.createMember(memberFormDto, passwordEncoder);

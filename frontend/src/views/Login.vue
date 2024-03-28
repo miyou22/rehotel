@@ -53,13 +53,13 @@ const serverUrl = 'http://localhost:8081'
 
 export default {
     data() {
-    return {
-      activeTab: 'member',
-      userId: '',
-      userPwd: '',
-      resId: '',
-      userEmail: '',
-    };
+        return {
+          activeTab: 'member',
+          userId: '',
+          userPwd: '',
+          resId: '',
+          userEmail: '',
+        };
   },
   methods: {
     login: function () {
@@ -68,32 +68,32 @@ export default {
             return;
         }
             alert(this.userId + '님 환영합니다!')
-            this.$router.push('/');
-
         var data = {
             userId: this.userId,
             userPwd: this.userPwd
         }
 
-        alert('로그인을 시작합니다!!!' + data.Id)
-        this.$axios.post(serverUrl + '/api/member/login', data)
-        //axios.post(serverUrl + '/api/member/login', data)
-        .then((response) => {
-          console.log('로그인 결과 : ' + response)
-
-          if(response.data == 0) {
-            alert('로그인 완료')
-            this.$router.push({
-              name: 'login'  // 회원가입 후 로그인화면으로 이동한다.
+        alert('로그인을 시작합니다!!!' + data.userId)
+        axios.post(serverUrl + '/api/member/login', data)
+          .then((response) => {
+                if(response.status === 200 && response.data === "로그인 성공") {
+                    alert(this.userId + '님 환영합니다!');
+                    this.$router.push({
+                        path: '/',
+                        name: 'home'  // 로그인 후 홈화면으로 이동
+                    });
+                } else if(response.status === 401) {
+                    alert('아이디나 비밀번호가 맞지 않습니다.');
+                } else if(response.status === 404) {
+                    alert('해당 아이디의 회원을 찾을 수 없습니다.');
+                } else {
+                    alert('로그인에 실패하였습니다.');
+                }
             })
-          } else {
-            alert('아이디나 비밀번호가 맞지 않습니다.')
-          }
-        })
-        .catch(function(error) {
-          alert('실패')
-          console.log(error)
-        })
+            .catch(function(error) {
+                console.log(error);
+                alert('로그인에 실패하였습니다.');
+            });
     },
     checkReservation: function() {
         if (!this.resId || !this.userEmail) {
