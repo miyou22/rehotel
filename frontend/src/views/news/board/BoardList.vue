@@ -4,19 +4,19 @@
     <div class="page-header-container">
       <h1 class="page-header">{{ pageTitle }}</h1>
     </div>
-    <!-- 공지사항 -->
     <div class="allBoard">
-      <!-- Board -->
       <div class="board-list">
         <div class="common-buttons">
           <button
             type="button"
             class="w3-button w3-round w3-blue-gray w3-margin-bottom"
             v-if="pageType !== 'notice'"
+            @click.prevent="fnWrite"
           >
             작성하기
           </button>
         </div>
+        <!-- 기본으로 나옴 -->
         <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
           <colgroup>
             <col width="110px" />
@@ -31,10 +31,43 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, idx) in boardList" :key="idx">
-              <td class="w3-center">{{ idx + 1 }}</td>
+            <tr v-for="(item, idx) in paginatedResList" :key="idx">
+              <td class="w3-center">{{ getNumber(idx) }}</td>
               <td class="w3-center">
-                <a href="notice/detail">{{ item.boardTitle }}</a>
+                <a @click="boardView(pageType, item.boardSn)">{{
+                  item.boardTitle
+                }}</a>
+              </td>
+              <td class="w3-center">
+                {{ formatDate(item.createdAt) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- 검색결과 -->
+        <table
+          class="w3-table w3-bordered w3-hoverable w3-margin-bottom"
+          v-if="searchfinish === true"
+        >
+          <colgroup>
+            <col width="110px" />
+            <col width="auto" />
+            <col width="180px" />
+          </colgroup>
+          <thead>
+            <tr class="w3-light-grey w3-border-top w3-border-black">
+              <th class="w3-center">번호</th>
+              <th class="w3-center">제목</th>
+              <th class="w3-center">작성일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, idx) in paginatedResList" :key="idx">
+              <td class="w3-center">{{ getNumber(idx) }}</td>
+              <td class="w3-center">
+                <a @click="boardView(pageType, item.boardSn)">{{
+                  item.boardTitle
+                }}</a>
               </td>
               <td class="w3-center">
                 {{ formatDate(item.createdAt) }}
@@ -45,25 +78,45 @@
       </div>
       <!-- Pagination -->
       <div class="w3-bar pagin">
-        <a href="#" class="w3-button w3-hover-purple circle">«</a>
-        <a href="#" class="w3-button w3-hover-green">1</a>
-        <a href="#" class="w3-button w3-hover-red">2</a>
-        <a href="#" class="w3-button w3-hover-blue">3</a>
-        <a href="#" class="w3-button w3-hover-black">4</a>
-        <a href="#" class="w3-button w3-hover-orange circle">»</a>
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber"
+          @click="prevPage"
+          >&laquo;</a
+        >
+        <a
+          v-for="page in pageCount"
+          :key="page"
+          href="#"
+          class="w3-button"
+          :class="{
+            'w3-text-black  w3-white w3-border w3-hover-white hofont':
+              page === currentPage,
+            'w3-text-black  w3-white w3-hover-white w3-hover-text-amber nofont':
+              page !== currentPage,
+          }"
+          @click="changePage(page)"
+          >{{ page }}</a
+        >
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber w3-center"
+          @click="nextPage"
+          >&raquo;</a
+        >
       </div>
       <!-- SearchBar -->
       <div class="searchBar">
-        <select name="typeDetail">
-          <option value="all" style="font-size: 14px">전체</option>
-          <option value="칭찬" style="font-size: 14px">칭찬</option>
-          <option value="문의" style="font-size: 14px">문의</option>
-          <option value="제안" style="font-size: 14px">제안</option>
-          <option value="기타" style="font-size: 14px">기타</option>
-        </select>
         <div class="inputButton">
-          <input type="text" placeholder="검색어를 입력하세요" id="search" />
-          <button type="button" class="w3-button">검색</button>
+          <input
+            v-model="searchKeyword"
+            type="text"
+            placeholder="검색어를 입력하세요"
+            id="search"
+          />
+          <button type="button" class="w3-button" @click="searchstart">
+            검색
+          </button>
         </div>
       </div>
     </div>
@@ -77,10 +130,26 @@ export default {
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
       boardList: [],
+      itemsPerPage: 10,
+      currentPage: 1,
+      searchkeyword: "", // 검색키워드
+      searchfinish: false, // 검색완료시 true로 바뀌고, 이때부터 표 생성
+      searchcnt: 0, // 검색된 게시글 갯수
+      contentlist: [], // 게시글 리스트
     };
   },
   mounted() {
     this.getBoardList();
+  },
+  computed: {
+    pageCount() {
+      return Math.ceil(this.boardList.length / this.itemsPerPage);
+    },
+    paginatedResList() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.boardList.slice(startIndex, endIndex);
+    },
   },
   created() {
     // 라우터를 통해 페이지 유형을 결정합니다.
@@ -100,6 +169,7 @@ export default {
   },
   methods: {
     getBoardList() {
+      console.log("this.pageType::::", this.pageType);
       if (this.pageType == "notice") {
         this.$axios
           .get("http://localhost:8081/api/notice")
@@ -132,6 +202,68 @@ export default {
     },
     formatDate(dateTimeString) {
       return dateTimeString.slice(0, 10);
+    },
+    boardView(pageType, boardSn) {
+      alert("boardSn은 : " + boardSn);
+      // this.requestBody.boardSn = boardSn;
+      this.$router.push({
+        // query: this.requestBody,
+        path: pageType + "/" + boardSn,
+      });
+    },
+    fnWrite() {
+      this.$router.push({ path: "/inquiry/write" });
+    },
+    changePage(page) {
+      this.currentPage = page;
+    },
+    nextPage() {
+      if (this.currentPage < this.pageCount) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    getNumber(index) {
+      const reversedIndex =
+        this.boardList.length -
+        (index + (this.currentPage - 1) * this.itemsPerPage);
+      return reversedIndex;
+    },
+    // movetocontent(boardnum, id) {
+    //   // 검색된 게시글 클릭시 해당 게시글로 이동
+    //   window.location.href =
+    //     "http://127.0.0.1:8080/board/" + boardnum + "/content?id=" + id;
+    // },
+    searchstart() {
+      // 검색버튼 눌렀을때 실행
+      if (this.searchkeyword == "") {
+        alert("키워드가 없습니다!");
+      } else {
+        axios({
+          url: "http://127.0.0.1:52273/content/search/",
+          method: "POST",
+          data: {
+            // 선택된 검색옵션과 검색키워드 넘겨줌
+            searchkeyword: this.searchkeyword,
+          },
+        })
+          .then((res) => {
+            this.contentlist = res.data;
+            this.searchcnt =
+              this.contentlist[Object.keys(this.contentlist).length - 1].cnt;
+            this.contentlist.pop();
+            alert("검색완료!");
+            this.searchfinish = true;
+            this.searchkeyword = "";
+          })
+          .catch((err) => {
+            alert(err);
+          });
+      }
     },
   },
 };
