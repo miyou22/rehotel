@@ -15,7 +15,7 @@
         <!-- ========================================================== -->
         <div id="gnbMenu">
           <ul class="header-nav-lists">
-          
+
             <li class="header-nav-list"  >
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/about'||currentRoute === '/location' }" href="about" >About</a>
 
@@ -27,12 +27,12 @@
             </li>
             <li class="header-nav-list" >
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Facility' }"
-                href="Facility"  @click = "subgnb2 = true">Facility</a>
+                href="Facility"  @click="subgnb2 = true">Facility</a>
 
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/banquethall' }"
-                href="banquethall"  @click = "subgnb2 = true">banquet hall</a>         
+                href="banquethall"  @click = "subgnb2 = true">banquet hall</a>
 
 </li>
             <li class="header-nav-list">
@@ -68,8 +68,10 @@
             </li> -->
 <!-- ------------------------------------------------------------------------------------------------------------------------- -->
 
-            <li><a href="/login">LogIn</a></li>
-            <li><a href="/joinmember">회원가입</a></li>
+            <li v-if="!isLoggedIn"><a href="/login">LogIn</a></li>
+            <li v-else><a @click="logout">Logout</a></li>
+            <li v-if="!isLoggedIn"><a href="/joinmember">회원가입</a></li>
+            <li v-else><a href="/mypage">마이페이지</a></li>
             <li><a href="/checkList">예약확인</a></li>
             <li><a href="/location">오시는길</a></li>
             <li><a href="/sitemap">사이트맵</a></li>
@@ -115,6 +117,8 @@
 
 <script>
 // import toggle from "../assets/js/toggleHamburger";
+import axios from 'axios';
+const serverUrl = 'http://localhost:8081'
 
 export default {
   data() {
@@ -124,6 +128,7 @@ export default {
       subgnb2: false,
       subgnb3: false,
       // ------------------------------------------
+      isLoggedIn: false  // 로그인 여부를 나타냄
 
     };
   },
@@ -139,6 +144,10 @@ export default {
       }
     },
   },
+   created() {
+      // 페이지가 생성될 때 로그인 상태를 확인하여 isLoggedIn 변수 업데이트
+      this.checkLoginStatus();
+    },
   methods: {
     toggle() {
       const ul = document.querySelector(".header-nav-lists");
@@ -146,10 +155,43 @@ export default {
       ul.classList.toggle("show");
       hamburger.classList.toggle("show");
     },
-    
-  },
-};
-</script>
+
+    async checkLoginStatus() {
+          try {
+            // 백엔드에 로그인 상태를 확인하는 요청을 보냅니다.
+            const response = await axios.get(`/api/member/checkLoginStatus`);
+            // 응답으로부터 로그인 상태를 가져와서 isLoggedIn 변수를 업데이트합니다.
+            this.isLoggedIn = response.data.isLoggedIn;
+          } catch (error) {
+            console.error('로그인 상태 확인 실패:', error);
+          }
+        },
+        async login() {
+          try {
+            // 로그인 요청을 보내고 성공하면 isLoggedIn을 true로 설정
+            // 이후 페이지를 다시 로드하여 로그인 상태를 반영할 수 있습니다.
+            await axios.post(`/api/member/login`, { userId: '사용자 아이디', userPwd: '비밀번호' });
+            this.isLoggedIn = true;
+            location.reload();
+          } catch (error) {
+            console.error('로그인 실패:', error);
+          }
+        },
+        async logout() {
+          try {
+            // 로그아웃 요청을 보내고 성공하면 isLoggedIn을 false로 설정
+            // 이후 페이지를 다시 로드하여 로그인 상태를 반영할 수 있습니다.
+           await axios.get(`/api/member/logout`);
+            this.isLoggedIn = false;
+            location.reload();
+          } catch (error) {
+            console.error('로그아웃 실패:', error);
+          }
+        }
+
+      },
+    };
+    </script>
 
 <style scoped>
 @import "../assets/css/Header.css";
