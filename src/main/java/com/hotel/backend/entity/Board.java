@@ -1,12 +1,10 @@
 package com.hotel.backend.entity;
 
 import com.hotel.backend.constant.Role;
-import com.hotel.backend.dto.BoardDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
