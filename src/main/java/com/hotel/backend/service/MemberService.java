@@ -48,7 +48,7 @@ public class MemberService {
         memberRepository.save(member);
     }
     public boolean isUserIdDuplicate(String userId) {
-        // 아이디가 이미 존재하는지를 검사하여 결과를 반환합니다.
+        // 아이디가 이미 존재하는지를 검사하여 결과를 반환함.
         Optional<Member> existingMember = memberRepository.findByUserId(userId);    // 중복되는 Id가 없을 수 있으므로 optional로 작성
         return existingMember.isPresent();
     }

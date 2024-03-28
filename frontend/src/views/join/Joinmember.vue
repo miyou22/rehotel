@@ -81,14 +81,14 @@
         },
         methods: {
             updateUserPrivate() {
-                // 이용약관과 개인정보처리방침에 모두 동의한 경우에만 userPrivate를 true로 설정
+                // 이용약관과 개인정보처리방침에 모두 동의한 경우, userPrivate를 true로 변경
                 if (this.agreedTerms && this.agreedPrivacy) {
                     this.userPrivate = true;
                 }
             },
 
             checkDuplicate() {
-                // 만약 사용자가 입력한 아이디가 비어있다면 중복 확인하지 않고 반환합니다.
+                // 만약 사용자가 입력한 아이디가 비어있다면 중복 확인하지 않고 반환함.
                 if (!this.userId) {
                     alert('아이디를 입력하세요.');
                     return;
@@ -99,15 +99,16 @@
                     userId: this.userId
                 };
 
-                // 서버로 중복 확인 요청을 보냅니다.
+                // 아이디 중복 확인 버튼을 눌렀을 때
+                // 서버로 중복 확인 요청을 보냄.
                 axios.post(serverUrl + '/api/member/checkDuplicate', requestData)
                     .then(response => {
                         // 응답이 성공적으로 도착했을 때의 처리
                         if (response.data.isDuplicate) {
-                            // 만약 중복된 아이디라면 알림을 표시합니다.
+                            // 만약 중복된 아이디라면 알림을 표시.
                             alert('이미 사용 중인 아이디입니다.');
                         } else {
-                            // 중복되지 않은 아이디라면 알림을 표시합니다.
+                            // 중복되지 않은 아이디라면 알림을 표시.
                             alert('사용 가능한 아이디입니다.');
                         }
                     })
@@ -127,6 +128,7 @@
                 this.userBirth = new Date(this.userBirth).toISOString().split('T')[0];
             },
 
+            // 회원가입 버튼을 눌렀을 때
             submitForm: function () {
                     this.updateUserPrivate();
                     if (!this.agreedTerms || !this.agreedPrivacy) {
