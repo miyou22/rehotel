@@ -86,12 +86,12 @@ const routes = [
   },
 
   {
-    path: "/:pageType(notice|inquiry)/update",
+    path: "/:pageType(notice|inquiry)/update/:boardSn",
     name: "update",
     component: BoardUpdate,
   },
   {
-    path: "/:pageType(notice|inquiry)/detail",
+    path: "/:pageType(notice|inquiry)/:boardSn",
     name: "detail",
     component: BoardDetail,
   },
