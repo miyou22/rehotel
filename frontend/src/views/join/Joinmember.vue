@@ -80,6 +80,13 @@
             }
         },
         methods: {
+            updateUserPrivate() {
+                // 이용약관과 개인정보처리방침에 모두 동의한 경우에만 userPrivate를 true로 설정
+                if (this.agreedTerms && this.agreedPrivacy) {
+                    this.userPrivate = true;
+                }
+            },
+
             checkDuplicate() {
                 // 만약 사용자가 입력한 아이디가 비어있다면 중복 확인하지 않고 반환합니다.
                 if (!this.userId) {
@@ -121,6 +128,7 @@
             },
 
             submitForm: function () {
+                    this.updateUserPrivate();
                     if (!this.agreedTerms || !this.agreedPrivacy) {
                         alert('약관 동의에 체크해주세요.')
                         return;
