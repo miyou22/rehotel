@@ -22,7 +22,7 @@
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation'  }"
-                href="accommodation"  @click = "subgnb2 = true" >Accommodation111</a>
+                href="accommodation"  @click = "subgnb2 = true" >Accommodation</a>
 
             </li>
             <li class="header-nav-list" >
