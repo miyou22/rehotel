@@ -52,7 +52,7 @@ public class Member {
     private boolean  userPrivate;       // 기본값 false, 고객이 회원가입 시 약관에 동의 체크하면 true
 
     @Column(nullable = false,length = 1)
-    private boolean  userFlag;
+    private int userFlag;
 
     //  인증코드
     @Column(length = 6)
@@ -72,7 +72,7 @@ public class Member {
         member.setUserBirth(memberFormDto.getUserBirth());
         member.setUserTel(memberFormDto.getUserTel());
         member.setUserPrivate(false);   // 기본값 false로 설정
-        member.setUserFlag(true);   // 기본값 true로 설정
+        member.setUserFlag(memberFormDto.getUserFlag());
         member.setVerificationCode(memberFormDto.getVerificationCode());
         String password = passwordEncoder.encode(memberFormDto.getUserPwd());
         member.setUserPwd(password);

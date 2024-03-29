@@ -2,7 +2,6 @@ package com.hotel.backend.service;
 
 import com.hotel.backend.entity.Member;
 import com.hotel.backend.repository.MemberRepository;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
