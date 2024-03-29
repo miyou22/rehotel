@@ -160,7 +160,7 @@ export default {
           alert('로그아웃합니다');
           // sessionStorage.removeItem("userId");
             store.commit('setAccount', null)
-            localStorage.removeItem("sessionId");
+           sessionStorage.removeItem("sessionId");
             console.log('세션제거 ==> ' + sessionStorage.sessionId)
              this.$router.push({
                path: '/',
