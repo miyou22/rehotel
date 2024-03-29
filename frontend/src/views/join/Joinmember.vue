@@ -61,6 +61,7 @@
     import privacyPolicyContent from './privacyPolicyContent.vue';
     import axios from 'axios'
     const serverUrl = 'http://localhost:8081'
+    const validateId = /^(?=.*[A-Za-z])[A-Za-z0-9]{4,12}$/;
 
     export default {
         components: { termsContent, privacyPolicyContent },
@@ -77,7 +78,8 @@
                 userTel: '',
                 userAddr: '',
                 userBirth: '',
-                userGender: ''
+                userGender: '',
+                errorId: false, // 아이디 유효성 에러 여부를 나타내는 변수
             }
         },
 
@@ -95,8 +97,6 @@
                 }
             },
             checkId() { // 아이디 유효성 검사
-                const validateId = /^[A-Za-z0-9]{4,12}$/
-
                 if(!validateId.test(this.userId) || !this.userId) {
                     this.errorId = true;
                     return;
@@ -110,6 +110,12 @@
                     alert('아이디를 입력하세요.');
                     return;
                 }
+
+                if (!validateId.test(this.userId) || !this.userId) {
+                    // 아이디가 유효하지 않으면 중복 확인을 실행하지 않고 반환
+                    alert('아이디는 영문, 숫자를 포함한 4자 이상이어야 합니다.');
+                    return;
+    }
 
                 // 서버로 보낼 데이터 객체 생성
                 const requestData = {
@@ -133,6 +139,8 @@
                         // 요청이 실패했을 때의 처리
                         console.error('중복 확인 요청 실패:', error);
                         alert('중복 확인 요청에 실패했습니다.');
+                        // 중복 확인 요청이 실패했을때 errorId를 true로 설정
+                        this.errorId = true;
                     });
             },
 
