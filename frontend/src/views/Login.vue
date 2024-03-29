@@ -49,6 +49,7 @@
 
 <script>
 import axios from 'axios'
+import store from '@/store'
 const serverUrl = 'http://localhost:8081'
 
 export default {
@@ -64,40 +65,42 @@ export default {
   methods: {
     login: function () {
         if (!this.userId || !this.userPwd) {
-            //alert('아이디와 비밀번호가 일치하지 않습니다.')
+            alert('아이디와 비밀번호가 일치하지 않습니다.')
             return;
         }
-            //alert(this.userId + '님 환영합니다!')
         var data = {
             userId: this.userId,
             userPwd: this.userPwd
         }
 
-        // alert('로그인을 시작합니다!!!' + data.userId)
-        axios.post(serverUrl + '/api/member/login', data)
-          .then((response) => {
-                if(response.status === 200 && response.data === "로그인 성공") {
-                    // Vuex 저장소의 isLoggedIn 상태를 true로 업데이트
-                      this.$store.commit('setLoggedIn', true);
-                      // 사용자 ID를 Vuex 저장소에 저장
-                      this.$store.commit('setUserId', this.userId);
-                     alert(this.userId + '님 환영합니다!');
-                     this.$router.push({
-                        path: '/',
-                        name: 'home'  // 로그인 후 홈화면으로 이동
-                    });
-                } else if(response.status === 401) {
-                    alert('아이디나 비밀번호가 맞지 않습니다.');
-                } else if(response.status === 404) {
-                    alert('해당 아이디의 회원을 찾을 수 없습니다.');
-                } else {
-                    alert('로그인에 실패하였습니다.');
-                }
-            })
-            .catch(function(error) {
-                console.log(error);
+            // alert('로그인을 시작합니다!!!' + data.userId)
+           axios.post(serverUrl + '/api/member/login', data)
+             .then((response) => {
+                   if(response.status === 200 && response.data === this.userId) {
+                       alert(response.data + '님 환영합니다! ');
+                       store.commit('setAccount', response.data) // store에 로그인 정보를 저장
+                       console.log('Store => ' + store.state.userId);
+                       sessionStorage.setItem("sessionId", response.data)   // 세션스토리지에도 저장
+                       console.log('세션생성 ==> ' + sessionStorage.sessionId)
+                       console.log('현재 세션 :', sessionStorage.getItem("sessionId"));
+
+                       this.$router.push({
+                           path: '/',
+                           name: 'home'  // 로그인 후 홈화면으로 이동
+                       });
+
+            } else if(response.status === 401) {
+                alert('아이디나 비밀번호가 맞지 않습니다.');
+            } else if(response.status === 404) {
+                alert('해당 아이디의 회원을 찾을 수 없습니다.');
+            } else {
                 alert('로그인에 실패하였습니다.');
-            });
+            }
+        })
+        .catch(function(error) {
+            console.log(error);
+            alert('로그인에 실패하였습니다.');
+        });
     },
     checkReservation: function() {
         if (!this.resId || !this.userEmail) {
