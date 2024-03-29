@@ -10,50 +10,52 @@
         <tr>
           <th>예약번호</th>
           <td>
-            <p>{{ selectedResItem.resId }}</p>
+            <p>{{ getSelectedReservation.resId }}</p>
           </td>
         </tr>
         <tr>
           <th>예약일</th>
-          <td>{{ selectedResItem.resDate.split("T")[0] }}</td>
+          <td>{{ getSelectedReservation.resDate.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>체크인</th>
-          <td>{{ selectedResItem.resCheckin.split("T")[0] }}</td>
+          <td>{{ getSelectedReservation.resCheckin.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>체크아웃</th>
-          <td>{{ selectedResItem.resCheckout.split("T")[0] }}</td>
+          <td>{{ getSelectedReservation.resCheckout.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>예약상품</th>
-          <td>{{ selectedResItem.roomName }}</td>
+          <td>{{ getSelectedReservation.roomName }}</td>
         </tr>
         <tr>
           <th>예약자명</th>
-          <td>{{ selectedResItem.userName }}</td>
+          <td>{{ getSelectedReservation.userName }}</td>
         </tr>
         <tr>
           <th>연락처</th>
-          <td>{{ formatPhoneNumber(selectedResItem.userTel) }}</td>
+          <td>{{ formatPhoneNumber(getSelectedReservation.userTel) }}</td>
         </tr>
         <tr>
           <th>요청사항</th>
-          <td>{{ selectedResItem.resRequest }}</td>
+          <td>{{ getSelectedReservation.resRequest }}</td>
         </tr>
         <tr>
           <th>결제금액</th>
-          <td>{{ numberWithCommas(selectedResItem.roomPrice) }}원</td>
+          <td>{{ numberWithCommas(getSelectedReservation.roomPrice) }}원</td>
         </tr>
         <tr>
           <th>연회장이용</th>
           <td>
-            {{ selectedResItem.facCheck === 1 ? "이용" : "이용하지않음" }}
+            {{
+              getSelectedReservation.facCheck === 1 ? "이용" : "이용하지않음"
+            }}
           </td>
         </tr>
         <tr>
           <th>예약상태</th>
-          <td>{{ selectedResItem.payCheck === 1 ? "예약" : "취소" }}</td>
+          <td>{{ getSelectedReservation.payCheck === 1 ? "예약" : "취소" }}</td>
         </tr>
       </tbody>
     </table>
@@ -62,7 +64,7 @@
       <button
         class="w3-button w3-round w3-margin-bottom"
         style="width: 20%"
-        @click="$router.push({ path: '/admin/reservation' })"
+        @click="$router.push({ path: '/checkList' })"
       >
         목록으로
       </button>
@@ -76,9 +78,9 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     // Vuex 게터를 사용하여 선택된 예약 항목을 가져오기
-    ...mapGetters(["getSelectedResItem"]),
-    selectedResItem() {
-      return this.getSelectedResItem;
+    ...mapGetters(["getSelectedReservation"]),
+    getSelectedReservation() {
+      return this.getSelectedReservation;
     },
   },
   methods: {

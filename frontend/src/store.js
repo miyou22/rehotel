@@ -13,7 +13,7 @@ const store = createStore({
       selectedRoomImageData: null,
       totalmember: null,
       selectedResItem: null,
-      userId: null
+      userId: null,
     };
   },
   getters: {
@@ -52,9 +52,8 @@ const store = createStore({
     },
     setAccount(state, payload) {
       state.userId = payload;
-       sessionStorage.setItem("sessionId", payload);
+      sessionStorage.setItem("sessionId", payload);
     },
-
   },
   actions: {
     updateSelectedMembers({ commit }, value) {
