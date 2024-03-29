@@ -17,7 +17,10 @@
           </button>
         </div>
         <!-- 기본으로 나옴 -->
-        <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
+        <table
+          class="w3-table w3-bordered w3-hoverable w3-margin-bottom"
+          v-if="searchfinish === false"
+        >
           <colgroup>
             <col width="110px" />
             <col width="auto" />
@@ -31,7 +34,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, idx) in paginatedResList" :key="idx">
+            <tr v-for="(item, idx) in paginatedBoardList" :key="idx">
               <td class="w3-center">{{ getNumber(idx) }}</td>
               <td class="w3-center">
                 <a @click="boardView(pageType, item.boardSn)">{{
@@ -62,7 +65,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, idx) in paginatedResList" :key="idx">
+            <tr v-for="(item, idx) in paginatedSearchList" :key="idx">
               <td class="w3-center">{{ getNumber(idx) }}</td>
               <td class="w3-center">
                 <a @click="boardView(pageType, item.boardSn)">{{
@@ -132,10 +135,11 @@ export default {
       boardList: [],
       itemsPerPage: 10,
       currentPage: 1,
-      searchkeyword: "", // 검색키워드
+      searchKeyword: "", // 검색키워드
       searchfinish: false, // 검색완료시 true로 바뀌고, 이때부터 표 생성
       searchcnt: 0, // 검색된 게시글 갯수
       contentlist: [], // 게시글 리스트
+      searchList: [],
     };
   },
   mounted() {
@@ -145,10 +149,15 @@ export default {
     pageCount() {
       return Math.ceil(this.boardList.length / this.itemsPerPage);
     },
-    paginatedResList() {
+    paginatedBoardList() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
       return this.boardList.slice(startIndex, endIndex);
+    },
+    paginatedSearchList() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.searchList.slice(startIndex, endIndex);
     },
   },
   created() {
@@ -169,7 +178,6 @@ export default {
   },
   methods: {
     getBoardList() {
-      console.log("this.pageType::::", this.pageType);
       if (this.pageType == "notice") {
         this.$axios
           .get("http://localhost:8081/api/notice")
@@ -239,29 +247,23 @@ export default {
     //     "http://127.0.0.1:8080/board/" + boardnum + "/content?id=" + id;
     // },
     searchstart() {
+      console.log("this.pageType::::", this.pageType);
       // 검색버튼 눌렀을때 실행
-      if (this.searchkeyword == "") {
+      if (this.searchKeyword === "") {
         alert("키워드가 없습니다!");
       } else {
-        axios({
-          url: "http://127.0.0.1:52273/content/search/",
-          method: "POST",
-          data: {
-            // 선택된 검색옵션과 검색키워드 넘겨줌
-            searchkeyword: this.searchkeyword,
-          },
-        })
+        this.$axios
+          .get(
+            `http://localhost:8081/api/admin/board/search?keyword=${this.searchKeyword}&boardCategory=${this.pageType}`
+          )
+
           .then((res) => {
-            this.contentlist = res.data;
-            this.searchcnt =
-              this.contentlist[Object.keys(this.contentlist).length - 1].cnt;
-            this.contentlist.pop();
-            alert("검색완료!");
+            this.searchList = res.data;
+            console.log("res:::", res);
             this.searchfinish = true;
-            this.searchkeyword = "";
           })
           .catch((err) => {
-            alert(err);
+            console.error("api 호출 에러", err);
           });
       }
     },

@@ -31,6 +31,7 @@ public class ReservationController {
         System.out.println("예약정보 ==> " + reservation);
         // reservationRepository.save(reservation);
         reservation.setResId(reservation.getResId());
+        reservation.setUserId(reservation.getUserId());
         reservation.setRoomName(reservation.getRoomName());
         reservation.setRoomPrice(reservation.getRoomPrice());
         reservation.setUserName(reservation.getUserName());
@@ -42,6 +43,7 @@ public class ReservationController {
         reservation.setResDate(reservation.getResDate());
         reservation.setFacCheck(reservation.getFacCheck());
         reservation.setPayCheck(reservation.getPayCheck());
+       reservation.setUserFlag(reservation.getUserFlag());
         // Item savedItem = itemRepository.save(item);
         reservationRepository.save(reservation);
     }
