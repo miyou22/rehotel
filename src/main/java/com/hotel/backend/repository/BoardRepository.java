@@ -14,4 +14,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByBoardCategoryAndBoardStatus(String boardCategory, String boardStatus);
 
+    //----------------------------------------
+    // 검색기능: Containing을 붙여주면 Like 검색이 가능해진다. 즉, %{keyword}%가 가능하다
+    //----------------------------------------
+    List<Board> findByBoardTitleContaining(String keyword);
+
+    List<Board> findByBoardCategoryAndBoardTitleContaining(String keyword, String boardCategory);
+
 }
