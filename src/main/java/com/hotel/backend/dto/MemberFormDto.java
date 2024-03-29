@@ -46,7 +46,7 @@ public class MemberFormDto {
 
  private LocalDateTime userJoin;
  private boolean  userPrivate;
- private boolean  userFlag;
+ private int  userFlag;
 
 
  @NotEmpty(message = "인증번호는 필수 입력 항목입니다.")
