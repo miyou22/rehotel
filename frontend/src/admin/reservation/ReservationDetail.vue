@@ -102,6 +102,7 @@ export default {
 <style scoped>
 * {
   font-size: 16px;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .board-container {

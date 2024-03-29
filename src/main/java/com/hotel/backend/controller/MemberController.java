@@ -2,6 +2,7 @@ package com.hotel.backend.controller;
 
 import com.hotel.backend.dto.MemberFormDto;
 import com.hotel.backend.entity.Member;
+import com.hotel.backend.repository.MemberRepository;
 import com.hotel.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/member")
@@ -21,7 +23,6 @@ public class MemberController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
 
     // 로그인
     @PostMapping("/login")
@@ -91,6 +92,8 @@ public class MemberController {
         response.put("isDuplicate", isDuplicate);
         return ResponseEntity.ok(response);
     }
+
+
 
 
 }

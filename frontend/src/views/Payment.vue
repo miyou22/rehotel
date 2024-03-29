@@ -298,13 +298,16 @@ export default {
       // 현재 날짜 정보 가져오기
       const currentDate = new Date();
 
+      // 년, 월, 일을 가져와서 각각 2자리로 만들어줍니다.
+      const year = currentDate.getFullYear();
+      const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+      const day = ("0" + currentDate.getDate()).slice(-2);
+
       // 현재 날짜 정보를 기반으로 랜덤한 숫자 생성 (0 이상 10000 미만)
       const randomNum = Math.floor(Math.random() * 10000);
 
       // 날짜 정보와 랜덤 숫자를 조합하여 resId 생성
-      const resId = `${currentDate.getFullYear()}${
-        currentDate.getMonth() + 1
-      }${currentDate.getDate()}${randomNum}`;
+      const resId = `${year}${month}${day}${randomNum}`;
 
       return resId;
     },
@@ -411,6 +414,7 @@ export default {
   },
   computed: {
     // Vuex store에 저장된 데이터를 computed 속성에 추가
+
     ...mapState(["selectedRoomData"]),
     ...mapState(["roomImages"]),
     ...mapState(["fromDate", "fromDate2"]),

@@ -15,14 +15,8 @@ public class Guest {
     @Column(nullable = false, length = 50)
     private String guestEmail;
 
-
-    @Column(nullable = false,length = 20)
-    private String guestName;
-
-
     @Column(nullable = false)
     private int guestTel;
-
 
     @Column(nullable = false,length = 1)
     private int userFlag;

@@ -19,6 +19,9 @@
 </template>
 
 <style scoped>
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
 .bottom {
   line-height: 1.6;
   padding: 20px;
