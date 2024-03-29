@@ -2,15 +2,18 @@ package com.hotel.backend.controller;
 
 import com.hotel.backend.dto.MemberFormDto;
 import com.hotel.backend.entity.Member;
+import com.hotel.backend.entity.Reservation;
 import com.hotel.backend.repository.MemberRepository;
 import com.hotel.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,7 +23,8 @@ import java.util.Optional;
 public class MemberController {
     @Autowired
     MemberService memberService;
-
+    @Autowired
+    MemberRepository memberRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -45,7 +49,16 @@ public class MemberController {
         }
     }
 
+    // DB에 저장되어있는 데이터들 가져오기
+    @GetMapping("/memInfo")
+    public List<Member> memInfo(Model model) {
+        System.out.println("Vue Gethering Test.....");
+        List<Member> memInfo = memberRepository.findAll();
+        System.out.println("아이템 리스트 ==> " + memInfo);
 
+        model.addAttribute("checkList", memInfo);
+        return memInfo;
+    }
     //---------------------------------------------------------------------------------------------------------------------
     //  회원가입
     //---------------------------------------------------------------------------------------------------------------------

@@ -27,6 +27,8 @@
                 v-model="customerName"
                 oninput="this.value = this.value.replace(/[0-9]/g, '');"
               />
+
+              <input name="id" type="hidden" v-model="userId" />
               <input
                 name="phoneNumber"
                 type="tel"
@@ -231,6 +233,7 @@
                 </ul>
                 <div class="ban-check">
                   <label>예약하기</label>
+
                   <input
                     type="checkbox"
                     id="banquetReservation"
@@ -255,9 +258,6 @@
                   >
                 </div>
               </li>
-              {{
-                userId
-              }}
             </ul>
           </div>
         </div>
@@ -274,6 +274,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      memList: [],
       customerName: "",
       phoneNumber: "",
       email: "",
@@ -285,6 +286,22 @@ export default {
     };
   },
   methods: {
+    getResList() {
+      // alert("getresList 시작.....")
+      this.$axios
+        .get("http://localhost:8081/api/member/memInfo")
+        .then((res) => {
+          this.memList = res.data;
+          // alert('getData() 수신데이터 ==> ' + res.data)
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
     validateEmail(email) {
       // 이메일 유효성 검사 정규식
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -358,6 +375,7 @@ export default {
 
       var data = {
         resId: resId,
+        userId: this.userId,
         userName: this.customerName,
         userTel: this.phoneNumber,
         userEmail: this.email,
@@ -370,6 +388,7 @@ export default {
         resDate: new Date().toISOString(),
         facCheck: this.banquetReservation ? 1 : 0,
         payCheck: 1,
+        userFlag: this.userId ? 1 : 0,
       };
 
       this.$axios
@@ -456,6 +475,9 @@ export default {
 
       return finalPrice;
     },
+  },
+  mounted() {
+    this.getResList();
   },
 };
 </script>

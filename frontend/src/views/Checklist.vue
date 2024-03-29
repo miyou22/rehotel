@@ -28,7 +28,7 @@
           </thead>
           <tbody>
             <tr v-for="(item, index) in resList" :key="index">
-              <template v-if="item.userName === userId">
+              <template v-if="item.userId === userId">
                 <td class="w3-center">{{ index + 1 }}</td>
                 <td
                   class="w3-center"

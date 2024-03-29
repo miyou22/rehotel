@@ -20,8 +20,8 @@ public class Reservation {
 
 //    @ManyToOne
 //    @JoinColumn(name = "userId")
-//    private Member userId;
-
+//    private Member member;
+    private String userId;
     // 비회원 이메일
     @ManyToOne
     @JoinColumn(name = "guestEmail")
@@ -57,7 +57,6 @@ public class Reservation {
     // 결제 여부
     @Column(nullable = false, length = 1)
     private int payCheck;
-
-//    @Column(nullable = false, length = 1)
-//    private int userFlag;
+    @Column(nullable = false, length = 1)
+    private int userFlag;
 }
