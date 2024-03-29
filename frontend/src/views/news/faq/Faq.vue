@@ -29,7 +29,8 @@
         v-show="isOpen[idx]"
       >
         <!-- <h4>Section {{ item }}</h4> -->
-        <p class="w3-margin-bottom">{{ item.boardContent }}</p>
+        <!-- Viewer를 사용하여 Markdown을 HTML로 렌더링 -->
+        <div :ref="`viewer_${idx}`" class="contentViewer"></div>
       </div>
     </div>
   </div>
@@ -38,6 +39,8 @@
 <script>
 import axios from "axios";
 const url = "http://localhost:3081";
+import Viewer from "@toast-ui/editor/dist/toastui-editor-viewer";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css"; // Viewer를 위한 CSS 파일을 가져옵니다
 
 export default {
   data() {
@@ -45,6 +48,7 @@ export default {
       // isOpen객체의 값은 빈값이다. 빈값은 false로 반환한다.
       isOpen: {},
       faqList: [],
+      viewers: [], // Viewer 인스턴스를 저장하기 위한 배열
     };
   },
   created() {
@@ -54,6 +58,7 @@ export default {
     toggleAccordion(idx) {
       // 아코디언 열림 상태를 토글
       this.isOpen[idx] = !this.isOpen[idx];
+      this.renderMarkdown(this.faqList[idx].boardContent, idx);
     },
     getFaqList() {
       this.$axios
@@ -61,7 +66,7 @@ export default {
         .then((res) => {
           this.faqList = res.data;
           alert("faqList 수신데이터 => " + res.data);
-          console.log(res.data);
+          this.renderMarkdown();
         })
         .catch((error) => {
           console.log(error);
@@ -69,6 +74,16 @@ export default {
         .finally(() => {
           console.log("마지막 실행");
         });
+    },
+    renderMarkdown() {
+      // 모든 faq 항목에 대해 Viewer를 생성하여 Markdown을 HTML로 렌더링
+      this.faqList.forEach((item, idx) => {
+        const viewer = new Viewer({
+          el: this.$refs[`viewer_${idx}`][0], // ref로 참조된 요소를 전달
+          initialValue: item.boardContent,
+        });
+        this.viewers.push(viewer); // Viewer 인스턴스를 배열에 저장
+      });
     },
   },
 };
@@ -78,6 +93,7 @@ export default {
 .board-container {
   max-width: 1200px;
   margin: 0 auto;
+  margin-bottom: 150px;
 }
 .page-header {
   margin: 0;
@@ -128,5 +144,9 @@ export default {
 #panel {
   /* transition: max-height 0.2s ease-out;
   padding: 0 18px; */
+}
+.contentViewer {
+  padding: 20px;
+  margin: 50px;
 }
 </style>

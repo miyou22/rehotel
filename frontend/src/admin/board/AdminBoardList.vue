@@ -4,7 +4,6 @@
     <div class="page-header-container">
       <h1 class="page-header">{{ categoryTitle }}</h1>
     </div>
-    <!--체크박스 삽입 할까 말까?-->
     <!-- 게시글관리 -->
     <div class="allBoard" v-if="categoryType === 'board'">
       <!-- Board -->
@@ -20,6 +19,7 @@
           <button
             type="button"
             class="w3-button w3-white w3-border-red w3-border w3-text-red"
+            @click="fnChange"
           >
             게시글 삭제
           </button>
@@ -28,7 +28,6 @@
           <colgroup>
             <col width="80px" />
             <col width="100px" />
-            <col width="200px" />
             <col width="200px" />
             <col width="auto" />
             <col width="200px" />
@@ -45,20 +44,23 @@
               </th>
               <th class="w3-center">번호</th>
               <th class="w3-center">게시판</th>
-              <th class="w3-center">카테고리</th>
               <th class="w3-center">제목</th>
               <th class="w3-center">작성자ID</th>
               <th class="w3-center">작성일</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, idx) in reverseData" :key="idx">
+            <tr v-for="(item, idx) in paginatedResList" :key="idx">
               <td class="w3-center">
-                <input type="checkbox" id="select" @click="selected" />
+                <input
+                  type="checkbox"
+                  id="select"
+                  @change="selectItem"
+                  v-model="item.selected"
+                />
               </td>
-              <td class="w3-center">{{ item.boardSn }}</td>
-              <td class="w3-center">{{ item.boardCategory }}</td>
-              <td class="w3-center">객실</td>
+              <td class="w3-center">{{ getNumber(idx) }}</td>
+              <td class="w3-center">{{ jpcall(item.boardCategory) }}</td>
               <td class="w3-center">
                 <a @click="boardView(item.boardSn)">{{ item.boardTitle }}</a>
               </td>
@@ -70,12 +72,32 @@
       </div>
       <!-- Pagination -->
       <div class="w3-bar pagin">
-        <a href="#" class="w3-button w3-hover-purple circle">«</a>
-        <a href="#" class="w3-button w3-hover-green">1</a>
-        <a href="#" class="w3-button w3-hover-red">2</a>
-        <a href="#" class="w3-button w3-hover-blue">3</a>
-        <a href="#" class="w3-button w3-hover-black">4</a>
-        <a href="#" class="w3-button w3-hover-orange circle">»</a>
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber"
+          @click="prevPage"
+          >&laquo;</a
+        >
+        <a
+          v-for="page in pageCount"
+          :key="page"
+          href="#"
+          class="w3-button"
+          :class="{
+            'w3-text-black  w3-white w3-border w3-hover-white hofont':
+              page === currentPage,
+            'w3-text-black  w3-white w3-hover-white w3-hover-text-amber nofont':
+              page !== currentPage,
+          }"
+          @click="changePage(page)"
+          >{{ page }}</a
+        >
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber w3-center"
+          @click="nextPage"
+          >&raquo;</a
+        >
       </div>
     </div>
     <!-- 댓글관리 -->
@@ -229,14 +251,24 @@ export default {
       categoryType: "", // 페이지 유형 ('inquiry' 또는 'notice')
       boardList: [],
       requestBody: {},
+      boardCategory: "",
+      itemsPerPage: 10,
+      currentPage: 1,
+      selectChecked: [],
     };
   },
   mounted() {
     this.getBoardList();
+    console.log(this.boardList);
   },
   computed: {
-    reverseData() {
-      return this.boardList.slice().reverse();
+    pageCount() {
+      return Math.ceil(this.boardList.length / this.itemsPerPage);
+    },
+    paginatedResList() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.boardList.slice(startIndex, endIndex);
     },
   },
   created() {
@@ -262,10 +294,42 @@ export default {
       this.allChecked = checked;
       for (let i in this.boardList) {
         this.boardList[i].selected = this.allChecked;
-        console.log(checked);
       }
     },
-    selected() {},
+    selectItem(checked) {
+      let itemIdx = [];
+      for (let i in this.boardList) {
+        if (this.boardList[i].selected) {
+          itemIdx.push(this.boardList[i].boardSn);
+        }
+        console.log(itemIdx);
+      }
+      return itemIdx;
+    },
+    fnChange() {
+      alert("삭제할꼬야?");
+      const selectIds = this.selectItem();
+      if (selectIds.length === 0) {
+        alert("꺼졍 ㅋ");
+        return;
+      }
+      selectIds.map((boardSn) => {
+        const boardDto = { boardSn }; // 삭제 요청에 필요한 요청 본문을 생성합니다.
+        this.$axios
+          .put(
+            "http://localhost:8081/api/admin/board/detail/" + boardSn,
+            boardDto
+          )
+          .then((res) => {
+            console.log("data sent", res);
+            alert("글삭제가 완료되었습니다");
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log("에러닷!", error);
+          });
+      });
+    },
     getBoardList() {
       this.$axios
         .get("http://localhost:8081/api/admin/board")
@@ -283,14 +347,7 @@ export default {
     formatDate(dateTimeString) {
       return dateTimeString.slice(0, 10);
     },
-    fnView(idx) {
-      D;
-      this.requestBody.idx = idx;
-      this.$router.push({
-        path: "/detail",
-        query: this.requestBody,
-      });
-    },
+
     boardView(boardSn) {
       alert("boardSn은 : " + boardSn);
       // this.requestBody.boardSn = boardSn;
@@ -299,12 +356,41 @@ export default {
         path: "/admin/board/detail/" + boardSn,
       });
     },
+    jpcall(category) {
+      let categoryChange = "";
+      if (category === "notice") {
+        categoryChange = "공지사항";
+      } else if (category === "inquiry") {
+        categoryChange = "문의사항";
+      } else if (category === "faq") {
+        categoryChange = "FAQ";
+      }
+      return categoryChange;
+    },
+    changePage(page) {
+      this.currentPage = page;
+    },
+    nextPage() {
+      if (this.currentPage < this.pageCount) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    getNumber(index) {
+      const reversedIndex =
+        this.boardList.length -
+        (index + (this.currentPage - 1) * this.itemsPerPage);
+      return reversedIndex;
+    },
+    // fnChange() {
+    //   alert("삭제할고얌");
+    //   const is_checked = checkbox.checked;
+    // },
   },
-  // setup() {
-  //   axios.get("/notice").then((res) => {
-  //     console.log(res);
-  //   });
-  // },
 };
 </script>
 
@@ -402,5 +488,6 @@ table td {
 }
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 </style>
