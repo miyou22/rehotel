@@ -53,10 +53,12 @@ const store = createStore({
     setTotalMember(state, totalmember) {
       state.totalmember = totalmember;
     },
-    setLoggedIn(state, status) { //  로그인 상태를 업데이트하는 뮤테이션
+    setLoggedIn(state, status) {
+      //  로그인 상태를 업데이트하는 뮤테이션
       state.isLoggedIn = status;
     },
-    setUserId(state, userId) { // 사용자 ID를 업데이트하는 뮤테이션
+    setUserId(state, userId) {
+      // 사용자 ID를 업데이트하는 뮤테이션
       state.userId = userId;
     },
   },

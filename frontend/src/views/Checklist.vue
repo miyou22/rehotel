@@ -27,19 +27,27 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="w3-center">1</td>
-              <td class="w3-center">
-                <a>3326645884</a>
-              </td>
-              <td class="w3-center room">그랜드 스위트 룸</td>
-              <td class="w3-center">2024/03/18</td>
-              <td class="w3-center">2024/03/20</td>
-              <td class="w3-center">2024/02/22</td>
-              <td class="w3-center">200,000</td>
-              <td class="w3-center">
-                <button class="return" @click="checkRe">취소</button>
-              </td>
+            <tr v-for="(item, index) in resList" :key="index">
+              <template v-if="item.userName === userId">
+                <td class="w3-center">{{ index + 1 }}</td>
+                <td
+                  class="w3-center"
+                  :class="{ 'cancelled-reservation': item.payCheck === 0 }"
+                >
+                  <span v-if="item.isCancelled">{{ item.resId }}</span>
+                  <span v-else>{{ item.resId }}</span>
+                </td>
+                <td class="w3-center room">{{ item.roomName }}</td>
+                <td class="w3-center">{{ item.resCheckin.split("T")[0] }}</td>
+                <td class="w3-center">{{ item.resCheckout.split("T")[0] }}</td>
+                <td class="w3-center">{{ item.resDate.split("T")[0] }}</td>
+                <td class="w3-center">
+                  {{ numberWithCommas(item.roomPrice) }}
+                </td>
+                <td class="w3-center">
+                  <button class="return" @click="checkRe">취소</button>
+                </td>
+              </template>
             </tr>
           </tbody>
         </table>
@@ -51,59 +59,89 @@
 
         <a href="#" class="w3-button w3-hover-orange circle">»</a>
       </div>
-      <!-- SearchBar -->
-      <div  :key='idx' v-for='(item, idx) in resList'>
-                <p>{{ item.resId }}</p>
-                <p>{{ item.roomPrice }}</p>
-                <p>{{ item.checkinDate }}</p>
-      </div>
     </div>
   </main>
 </template>
 
 <script>
+import axios from "axios";
+import { mapState } from "vuex";
 export default {
- data() {
+  data() {
     return {
       resList: [],
-    }
+    };
   },
-   mounted() {
-      this.getResList()
-    },
+  mounted() {
+    this.getResList();
+  },
   methods: {
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    getSelected() {
+      // 선택한 인풋의 아이디 가져오기
+      let itemIdx = [];
+      for (let i in this.resList) {
+        itemIdx.push(this.resList[i].resId);
+      }
+      return itemIdx;
+    },
     checkRe() {
       if (confirm("삭제하시겠습니까?") == true) {
         //true는 확인버튼을 눌렀을 때 코드 작성
+        const selectedIds = this.getSelected();
+        axios
+          .post(
+            "http://localhost:8081/api/reservation/updatePayCheck",
+            selectedIds
+          )
+          .then((response) => {
+            if (response.status === 200) {
+              alert("선택된 예약의 결제 상태가 취소로 변경되었습니다.");
+              // 변경된 상태를 다시 불러옵니다.
+              this.getResList();
+            } else {
+              alert("예약 취소에 실패했습니다.");
+            }
+          })
+          .catch((error) => {
+            console.error("예약 취소에 실패했습니다.", error);
+          });
         alert("예약 취소되었습니다");
       } else {
-        // false는 취소버튼을 눌렀을 때, 취소됨
         return;
       }
     },
     getResList() {
-          // alert("getresList 시작.....")
-          this.$axios
-            .get('http://localhost:8081/api/reservation/resInfo')
-            .then((res) => {
-              this.resList = res.data
-              // alert('getData() 수신데이터 ==> ' + res.data)
-              console.log(res.data)
-            })
-            .catch((error) => {
-              console.log(error)
-            })
-            .finally(() => {
-              console.log('항상 마지막에 실행')
-            })
+      // alert("getresList 시작.....")
+      this.$axios
+        .get("http://localhost:8081/api/reservation/resInfo")
+        .then((res) => {
+          this.resList = res.data;
+          // alert('getData() 수신데이터 ==> ' + res.data)
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
     },
-  }
-}
+  },
+  computed: {
+    ...mapState(["userId"]),
+  },
+};
 </script>
 
 <style scoped>
-*{
-    font-family: "Noto Sans KR", sans-serif;
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
+.cancelled-reservation {
+  text-decoration: line-through;
 }
 .container-check {
   width: 1200px;

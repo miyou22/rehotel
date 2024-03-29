@@ -255,7 +255,9 @@
                   >
                 </div>
               </li>
-              <li></li>
+              {{
+                userId
+              }}
             </ul>
           </div>
         </div>
@@ -414,7 +416,7 @@ export default {
   },
   computed: {
     // Vuex store에 저장된 데이터를 computed 속성에 추가
-
+    ...mapState(["userId"]),
     ...mapState(["selectedRoomData"]),
     ...mapState(["roomImages"]),
     ...mapState(["fromDate", "fromDate2"]),
