@@ -52,7 +52,7 @@ const store = createStore({
     },
     setAccount(state, payload) {
       state.userId = payload;
-       localStorage.setItem("sessionId", payload);
+       sessionStorage.setItem("sessionId", payload);
     },
 
   },

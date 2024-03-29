@@ -78,9 +78,9 @@ export default {
              .then((response) => {
                    if(response.status === 200 && response.data === this.userId) {
                        alert(response.data + '님 환영합니다! ');
-                       store.commit('setAccount', response.data) // store에 로그인 정보를 저장한다.
+                       store.commit('setAccount', response.data) // store에 로그인 정보를 저장
                        console.log('Store => ' + store.state.userId);
-                       sessionStorage.setItem("sessionId", response.data)
+                       sessionStorage.setItem("sessionId", response.data)   // 세션스토리지에도 저장
                        console.log('세션생성 ==> ' + sessionStorage.sessionId)
                        console.log('현재 세션 :', sessionStorage.getItem("sessionId"));
 
