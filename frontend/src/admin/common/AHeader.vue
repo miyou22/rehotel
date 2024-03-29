@@ -13,18 +13,35 @@
         <div id="gnbMenu">
           <ul class="header-nav-lists">
             <li class="header-nav-list">
-              <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/admin/member' }"
-                href="/admin/member">회원관리</a>
+              <a
+                class="header-nav-link"
+                :class="{ 'header-active': currentRoute === '/admin/member' }"
+                href="/admin/member"
+                >회원관리</a
+              >
             </li>
             <li class="header-nav-list">
-              <a class="header-nav-link" :class="{
-                'header-active': currentRoute === '/admin/reservation',
-              }" href="/admin/reservation">예약관리</a>
+              <a
+                class="header-nav-link"
+                :class="{
+                  'header-active': currentRoute === '/admin/reservation',
+                }"
+                href="/admin/reservation"
+                >예약관리</a
+              >
             </li>
             <li class="header-nav-list">
-              <a class="header-nav-link"
-                :class="{ 'header-active': currentRoute === '/admin/board' || currentRoute === '/admin/comments' || currentRoute === '/admin/deletePost' }"
-                href="/admin/board">게시판관리</a>
+              <a
+                class="header-nav-link"
+                :class="{
+                  'header-active':
+                    currentRoute === '/admin/board' ||
+                    currentRoute === '/admin/comments' ||
+                    currentRoute === '/admin/deletepost',
+                }"
+                href="/admin/board"
+                >게시판관리</a
+              >
             </li>
           </ul>
         </div>
@@ -52,9 +69,27 @@
   <div class="sub-gnb" v-if="subgnb3">
     <p class="sub-gnb-name">게시판 관리</p>
     <ul class="sub-gnb-list">
-      <li><a href="/admin/board" :class="{ 'header-active': currentRoute === '/admin/board' }">게시글관리</a></li>
-      <li><a href="/admin/comments" :class="{ 'header-active': currentRoute === '/admin/comments' }">댓글관리</a></li>
-      <li><a href="/admin/deletePost" :class="{ 'header-active': currentRoute === '/admin/deletePost' }">삭제된 글 관리</a></li>
+      <li>
+        <a
+          href="/admin/board"
+          :class="{ 'header-active': currentRoute === '/admin/board' }"
+          >게시글관리</a
+        >
+      </li>
+      <li>
+        <a
+          href="/admin/comments"
+          :class="{ 'header-active': currentRoute === '/admin/comments' }"
+          >댓글관리</a
+        >
+      </li>
+      <li>
+        <a
+          href="/admin/deletePost"
+          :class="{ 'header-active': currentRoute === '/admin/deletePost' }"
+          >삭제된 글 관리</a
+        >
+      </li>
     </ul>
   </div>
 </template>
@@ -67,7 +102,7 @@ export default {
     return {
       color1: false,
       subgnb3: true,
-      currentRoute: '' // currentRoute 추가
+      currentRoute: "", // currentRoute 추가
     };
   },
   mounted() {
@@ -78,7 +113,11 @@ export default {
     var currentUrl = window.location.pathname;
     // alert(currentUrl);
 
-    if (currentUrl === "/admin/board" || currentUrl === "/admin/comments" || currentUrl === "/admin/deletePost") {
+    if (
+      currentUrl === "/admin/board" ||
+      currentUrl === "/admin/comments" ||
+      currentUrl === "/admin/deletePost"
+    ) {
       // alert("AHeader Watch Route....");
       this.subgnb3 = true;
     } else {
