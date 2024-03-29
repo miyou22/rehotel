@@ -32,7 +32,7 @@ public class MemberController {
             if (findMember != null && passwordEncoder.matches(memberFormDto.getUserPwd(), findMember.getUserPwd())) {
                 // 로그인 성공
                 System.out.println("11로그인 성공");
-                return ResponseEntity.ok("로그인 성공");
+                return ResponseEntity.ok(findMember.getUserId());
             } else {
                 // 아이디나 비밀번호가 맞지 않는 경우
                 System.out.println("22아이디나 비밀번호가 맞지 않습니다.");
@@ -45,20 +45,6 @@ public class MemberController {
         }
     }
 
-    // 로그아웃
-    @GetMapping("/logout")
-    public ResponseEntity<String> logout() {
-        memberService.logout();
-        return ResponseEntity.ok("로그아웃 성공");
-    }
-
-    @GetMapping("/checkLoginStatus")
-    public ResponseEntity<?> checkLoginStatus() {
-        boolean isLoggedIn = memberService.isLoggedIn();
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("isLoggedIn", isLoggedIn);
-        return ResponseEntity.ok(response);
-    }
 
     //---------------------------------------------------------------------------------------------------------------------
     //  회원가입

@@ -13,8 +13,7 @@ const store = createStore({
       selectedRoomImageData: null,
       totalmember: null,
       selectedResItem: null,
-      userId: null,
-      isLoggedIn: false, // 로그인 상태를 저장할 변수
+      userId: null
     };
   },
   getters: {
@@ -22,8 +21,6 @@ const store = createStore({
       return state.selectedMembers;
     },
     getSelectedResItem: (state) => state.selectedResItem,
-    getSelectedUserId: (state) => state.userId, //사용자 ID를 반환하는 getter
-    isLoggedIn: (state) => state.isLoggedIn, // 로그인 상태를 반환하는 getter
   },
   mutations: {
     setSelectedResItem(state, item) {
@@ -53,14 +50,11 @@ const store = createStore({
     setTotalMember(state, totalmember) {
       state.totalmember = totalmember;
     },
-    setLoggedIn(state, status) {
-      //  로그인 상태를 업데이트하는 뮤테이션
-      state.isLoggedIn = status;
+    setAccount(state, payload) {
+      state.userId = payload;
+       sessionStorage.setItem("sessionId", payload);
     },
-    setUserId(state, userId) {
-      // 사용자 ID를 업데이트하는 뮤테이션
-      state.userId = userId;
-    },
+
   },
   actions: {
     updateSelectedMembers({ commit }, value) {
