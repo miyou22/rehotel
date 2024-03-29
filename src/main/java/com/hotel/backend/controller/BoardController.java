@@ -5,10 +5,8 @@ import com.hotel.backend.entity.Board;
 import com.hotel.backend.repository.BoardRepository;
 import com.hotel.backend.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,16 +36,35 @@ public class BoardController {
     //공지사항 목록
     @GetMapping("/notice")
     public List<Board> noticeList(){
-        List<Board> noticeList = boardRepository.findByBoardCategoryAndBoardStatus("공지사항","N");
+        List<Board> noticeList = boardRepository.findByBoardCategoryAndBoardStatus("notice","N");
+        System.out.println("잊지말고제발.." + noticeList);
+
         return noticeList;
     }
 
     //문의사항 목록
     @GetMapping("/inquiry")
     public List<Board> inquiryList(){
-        List<Board> inquiryList = boardRepository.findByBoardCategoryAndBoardStatus("문의사항","N");
+        List<Board> inquiryList = boardRepository.findByBoardCategoryAndBoardStatus("inquiry","N");
         return inquiryList;
     }
+
+
+    //게시판 글 상세보기
+    @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
+    @GetMapping("/{boardCategory}/{boardSn}")
+    public Optional<Board> boardCategoryView(@PathVariable(name = "boardSn") Long boardSn, @PathVariable(name = "boardCategory") String boardCategory){
+
+        System.out.println("게시판 리스트 ==> ");
+        Optional<Board> board = boardRepository.findById(boardSn);
+
+        System.out.println("게시판 리스트 ==> " + board);
+        System.out.println(boardSn);
+
+        return board;
+    }
+
+
 
     //게시판 전체 목록
     @GetMapping("/admin/board")
@@ -64,12 +81,6 @@ public class BoardController {
         board.setCreatedAt(LocalDateTime.now());
         boardRepository.save(board);
     }
-
-//    @PostMapping("/board/write")
-//    public void save(@ModelAttribute BoardDto boardDto){
-//        System.out.println("boardDto::::" + boardDto);
-//        boardService.save(boardDto);
-//    }
 
     //게시판 글 상세보기
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")

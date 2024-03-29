@@ -49,6 +49,7 @@ public class ImageProcessController {
         return ImageUploadResultDto;
     }
 
+
     @GetMapping("/image")
     public ResponseEntity<Resource> downloadImage(HttpServletRequest request) {
 

@@ -1,12 +1,10 @@
 package com.hotel.backend.entity;
 
 import com.hotel.backend.constant.Role;
-import com.hotel.backend.dto.BoardDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -31,10 +29,6 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "board_sn", nullable = false)
     private Long boardSn;
-
-//    @OneToOne
-//    @JoinColumn(name = "adminId")
-//    private Admin adminId;
 
     // 사용자인지 관리자인지 구별
     @Enumerated(EnumType.STRING)
@@ -62,11 +56,5 @@ public class Board {
     @Column(name="board_status", length = 1)
     private String boardStatus = "N";
 
-    //파일첨부 여부(첨부 1, 미첨부0)
-    @Column(name="file_attached")
-    private int fileAttached;
 
-//    AdminBoardWrite.vue -> Controller파일 담는 용도
-//    @Column(name="board_file")
-//    private MultipartFile boardFile;
 }

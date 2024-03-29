@@ -80,14 +80,14 @@ public class MemberController {
 
     @PostMapping("/checkDuplicate")
     public ResponseEntity<?> checkDuplicate(@RequestBody Map<String, String> requestData) {
-        // 클라이언트로부터 전달받은 아이디를 가져옵니다.
+        // 클라이언트로부터 전달받은 아이디를 가져오기.
         String userId = requestData.get("userId");
 
-        // 아이디 중복 여부를 검사합니다.
+        // 아이디 중복 여부를 검사.
         boolean isDuplicate = memberService.isUserIdDuplicate(userId);
         System.out.println("회원가입 ==> " + userId);
 
-        // 결과를 JSON 형태로 반환합니다.
+        // 결과를 JSON 형태로 반환.
         Map<String, Boolean> response = new HashMap<>();
         response.put("isDuplicate", isDuplicate);
         return ResponseEntity.ok(response);

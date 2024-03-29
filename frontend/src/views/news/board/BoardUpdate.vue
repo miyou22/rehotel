@@ -8,21 +8,15 @@
     <table class="w3-border-top w3-margin-top w3-border-black">
       <tbody>
         <tr>
-          <th>카테고리</th>
-          <td>
-            <select required name="category" class="selectCategory">
-              <option value>선택</option>
-              <option value="칭찬">칭찬</option>
-              <option value="문의">문의</option>
-              <option value="제안">제안</option>
-              <option value="기타">기타</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
           <th>제목</th>
           <td>
-            <input type="text" class="titleLong" name="title" required value />
+            <input
+              type="text"
+              class="titleLong"
+              v-model="boardTitle"
+              required
+              value
+            />
           </td>
         </tr>
         <tr>
@@ -31,19 +25,7 @@
             <input
               type="text"
               class="boardWriter"
-              name="boardWriter"
-              required
-              value
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>비밀번호</th>
-          <td>
-            <input
-              type="password"
-              class="boardPass"
-              name="boardPassword"
+              v-model="writer"
               required
               value
             />
@@ -55,7 +37,11 @@
     <div id="editor" class="w3-border-bottom w3-border-black"></div>
     <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">
-      <button class="w3-button w3-round y w3-margin-bottom" style="width: 20%">
+      <button
+        class="w3-button w3-round y w3-margin-bottom"
+        style="width: 20%"
+        @click.prevent="fnUpdate"
+      >
         수정하기
       </button>
       <button
@@ -72,6 +58,9 @@
 <script>
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import axios from "axios";
+const serverUrl = "http://localhost:8081";
+let result;
 
 export default {
   data() {
@@ -79,6 +68,14 @@ export default {
       editor: null,
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
+      options: [
+        { name: "공지사항", value: "notice" },
+        { name: "문의사항", value: "inquiry" },
+        { name: "FAQ", value: "faq" },
+      ],
+      category: "",
+      boardTitle: "",
+      createdAt: "",
     };
   },
   created() {
@@ -98,14 +95,101 @@ export default {
     }
   },
   mounted() {
-    this.editor = new Editor({
-      el: document.querySelector("#editor"),
-      height: "400px",
-      initialEditType: "wysiwyg",
-      previewStyle: "vertical",
-    });
+    this.boardSn = this.$route.params.boardSn;
+    this.getDetail();
   },
-  methods: {},
+  methods: {
+    getDetail(boardSn) {
+      alert("getList 넘버 : " + this.boardSn);
+      this.$axios
+        .get(serverUrl + "/api/admin/board/detail/" + this.boardSn, {
+          // params: this.requestBody,
+        })
+        .then((res) => {
+          console.log(res);
+          this.boardCategory = res.data.boardCategory;
+          this.boardCnt = res.data.boardCnt;
+          this.boardTitle = res.data.boardTitle;
+          this.boardContent = res.data.boardContent;
+          this.role = res.data.role;
+          this.createdAt = res.data.createdAt;
+          this.renderMarkdown(this.boardContent);
+          // 받은 데이터의 boardCategory 값을 select 요소에서 선택하도록 설정
+          this.selectValue = this.options.find(
+            (option) => option.value === this.boardCategory
+          );
+        })
+        .catch(function (error) {
+          alert("실패입니다.");
+          console.log(error);
+        });
+    },
+    renderMarkdown(content) {
+      this.editor = new Editor({
+        el: document.querySelector("#editor"),
+        height: "400px",
+        initialEditType: "wysiwyg",
+        previewStyle: "vertical",
+        initialValue: content,
+        hooks: {
+          addImageBlobHook: async (blob, callback) => {
+            // 1. 다른 서버에 이미지를 업로드
+            const uploadResult = await this.uploadImage(blob);
+            // 2. 1에서 업로드 된 이미지를 접근할 수 있는 url 세팅
+            callback(uploadResult.imageAccessUrl);
+            console.log("blob:::", blob);
+            console.log("callback:::", callback);
+          },
+        },
+      });
+    },
+    async uploadImage(blob) {
+      const formData = new FormData();
+      formData.append("image", blob);
+
+      const options = {
+        method: "POST",
+        body: formData,
+      };
+
+      let response = await fetch(
+        "http://localhost:8081/api/admin/board/write/upload",
+        options
+      );
+      result = await response.json();
+      console.log("result::::", result);
+
+      return result;
+    },
+    change() {
+      const category = this.selectValue.value;
+      console.log(category);
+    },
+    fnUpdate() {
+      var boardData = {
+        boardSn: this.boardSn,
+        boardCategory: this.selectValue.value,
+        boardTitle: this.boardTitle,
+        createdAt: this.createdAt,
+        boardContent: this.editor.getHTML(),
+      };
+      console.log(boardData);
+      console.log(this.boardSn);
+      axios
+        .put(
+          "http://localhost:8081/api/admin/board/update/" + this.boardSn,
+          boardData
+        )
+        .then((res) => {
+          console.log("data sent", res.boardData);
+          alert("글작성이 완료되었습니다");
+          this.$router.push({ path: "/" + this.pageType }); // 페이지 이동
+        })
+        .catch((error) => {
+          console.log("에러닷!");
+        });
+    },
+  },
 };
 </script>
 
