@@ -92,7 +92,20 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    //Test
+    @PostMapping("/memberUpdate")
+    public ResponseEntity<?> memberUpdate(@RequestBody Map<String, String> requestData) {
+        String userId = requestData.get("userId");
+        System.out.println("memberUpdate UserId == " + userId);
+        Member findMember = memberService.memberUpdate(userId);
+        return ResponseEntity.ok(findMember);
+    }
 
+    @PostMapping("/memberUpdatePost")
+    public void memberUpdatePost(@RequestBody MemberFormDto memberFormDto) {
+        Member member = Member.updateMember(memberFormDto, passwordEncoder);
+        memberService.updateMember(member);
+    }
 
 
 }

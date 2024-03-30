@@ -11,11 +11,11 @@
           </div>
           <div>
             <label for="password" class="label-password">비밀번호</label>
-            <input type="password" id="password" name="password" v-model="userPwd" required class="input-password" />
+            <input type="password" id="password" name="password" v-model="userPwd2" class="input-password" />
           </div>
           <div>
             <label for="confirm-password" class="label-confirm-password">비밀번호 확인</label>
-            <input type="password" id="confirm-password" name="confirm-password" v-model="passwordConfirm" required
+            <input type="password" id="confirm-password" name="confirm-password" v-model="passwordConfirm"
               class="input-confirm-password" />
           </div>
           <div>
@@ -28,7 +28,7 @@
             <button type="button" @click="sendVerificationCode" class="button-send-verification">인증번호 발송</button>
           </div>
           <div>
-            <input type="text" id="verification-code" name="verification-code" required class="input-verification-code"
+            <input type="text" id="verification-code" name="verification-code" class="input-verification-code"
               placeholder="인증번호를 입력하세요." />
           </div>
           <div>
@@ -47,8 +47,8 @@
             <label for="gender" class="label-gender">성별</label>
             <select id="gender" name="gender" v-model="userGender" required class="select-gender">
               <option value="" selected disabled hidden>성별 선택</option>
-              <option value="male">남성</option>
-              <option value="female">여성</option>
+              <option value="m">남성</option>
+              <option value="f">여성</option>
             </select>
           </div>
           <button type="submit" @click="completeUpdate" class="complete-button">회원 정보 수정</button>
@@ -64,9 +64,10 @@ export default {
     return {
       userId: '',
       userPwd: '',
+      userPwd2: '',
       passwordConfirm: '',
       userName: '',
-      //userEmail: '',
+      userEmail: '',
       userTel: '',
       userAddr: '',
       userBirth: '',
@@ -74,15 +75,77 @@ export default {
     }
   },
   methods: {
+    getUserMember() {
+      this.userId = sessionStorage.getItem('sessionId');
+      var data = {
+        userId: this.userId
+      };
+      this.$axios
+        .post("http://localhost:8081/api/member/memberUpdate", data)
+        .then((res) => {
+          console.log(res)
+          this.userId = res.data.userId;
+          this.userPwd = res.data.userPwd;
+          this.userName = res.data.userName;
+          this.userEmail = res.data.userEmail;
+          this.userTel = res.data.userTel;
+          this.userAddr = res.data.userAddr;
+          this.userBirth = res.data.userBirth;
+          this.userGender = res.data.userGender;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+    completeUpdate() {
+      if(this.userPwd2)
+      {
+        var data = {
+          userId : this.userId,
+          userPwd : this.userPwd2,
+          userName : this.userName,
+          userEmail : this.userEmail,
+          userTel : this.userTel,
+          userAddr : this.userAddr,
+          userBirth : this.userBirth,
+          userGender : this.userGender,
+          userFlag : 1
+        };
+      }
+      else
+      {
+        var data = {
+          userId : this.userId,
+          userPwd : this.userPwd,
+          userName : this.userName,
+          userEmail : this.userEmail,
+          userTel : this.userTel,
+          userAddr : this.userAddr,
+          userBirth : this.userBirth,
+          userGender : this.userGender
+        };
+      }
+      this.$axios
+        .post("http://localhost:8081/api/member/memberUpdatePost", data)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
     sendVerificationCode() {
       // 인증번호 발송 버튼 클릭 시 수행할 동작을 여기에 작성
       console.log("Verification code sent");
       alert("인증번호가 발송되었습니다")
     },
-    completeUpdate() {
-      //수정완료 버튼 클릭시 alert로 수정이 완료되었습니다 라는 문구생김
-      alert("수정이 완료되었습니다")
-    }
+    // completeUpdate() {
+    //   //수정완료 버튼 클릭시 alert로 수정이 완료되었습니다 라는 문구생김
+    //   alert("수정이 완료되었습니다")
+    // }
+  },
+  mounted() {
+    this.getUserMember();
   }
 };
 </script>
