@@ -80,4 +80,24 @@ public class Member {
 
         return member;
     }
+
+//    ------------------------------------------
+    public static Member updateMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+        Member member = new Member();
+        member.setUserId(memberFormDto.getUserId());
+        member.setUserName(memberFormDto.getUserName());
+        member.setUserEmail(memberFormDto.getUserEmail());
+        member.setUserAddr(memberFormDto.getUserAddr());
+        member.setUserGender(memberFormDto.getUserGender());
+        member.setUserBirth(memberFormDto.getUserBirth());
+        member.setUserTel(memberFormDto.getUserTel());
+        member.setUserPrivate(false);   // 기본값 false로 설정
+        member.setUserFlag(0);
+        String password = passwordEncoder.encode(memberFormDto.getUserPwd());
+        member.setUserPwd(password);
+
+        return member;
+    }
+
+
 }
