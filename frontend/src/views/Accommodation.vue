@@ -1,198 +1,36 @@
 <template>
   <main>
-    <div class="sub-gnb">
-      <p class="name">Accommodation</p>
-      <ul class="sub-gnb-list">
-        <li><a href="#">객실</a> </li>
-        <li><a href="#">부대시설</a> </li>
-        <li><a href="#">연회장</a> </li>
-      </ul>
-    </div>
-    <div class="container">
+  
+    <div class="container-full">
+      <h1 class="accName">객실</h1>
 
-
-
-
-      <!-- Top Text -->
-      <div class="page-header-container">
-        <h2 class="page-header">Star Hotel Rooms</h2>
-        <hr />
-        <p class="page-sub-header">
-          Get the most of our hotel specials. Enjoy the modern <br />
-          comfort and panoramic view
-        </p>
+      <div class="menu">
+        <a v-for="(info, index) in menus" :key="index">{{ info }}</a>
       </div>
 
-      <!-- Special offers section -->
-      <section class="special-offers">
-        <div class="row center-lg">
-          <div class="col image-col right-marg">
-            <img src="../assets/img/hotel-1.webp" alt="room-image" class="small-image" />
-            <img src="../assets/img/hotel-2.webp" alt="room-image" class="small-image" />
-            <img src="../assets/img/hotel-3.webp" alt="room-image" class="small-image" />
-            <div class="side-by-side-container">
-              <div class="large-image-container">
-                <img src="../assets/img/hotel-4-large.webp" alt="room-image-large" class="large-image" />
-              </div>
-              <section class="stacked-image-container">
-                <div>
-                  <img src="../assets/img/hotel-5.webp" alt="room-image" class="small-image" />
-                </div>
-                <div>
-                  <img src="../assets/img/hotel-6.webp" alt="room-image" class="small-image" />
-                </div>
-              </section>
-            </div>
+      <div v-for="(info, index) in products" :key="index">
+        <div class="information">
+          <div class="left-information">
+            <img v-bind:src="info.img" />
           </div>
-          <div class="col">
-            <h3 class="offers-title">Special Offers</h3>
-            <p class="offers-sub-title">
-              Get 10% discount off this city view- standard room. <br />
-              Offers valid till june 31st 2020
-            </p>
-            <ul class="offers-list">
-              <li>
-                <div>
-                  <img src="../assets/img/check-square.svg" alt="tick" class="list-icon" />
-                  <p class="list-text">Free Wi-Fi Service</p>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <img src="../assets/img/check-square.svg" alt="tick" class="list-icon" />
-                  <p class="list-text">Best Rate Guarantee</p>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <img src="../assets/img/check-square.svg" alt="tick" class="list-icon" />
-                  <p class="list-text">Free DSTV Access</p>
-                </div>
-              </li>
-            </ul>
-            <a href="#" class="btn btn-fill btn-large">View More</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Rooms -->
-      <section class="rooms-section">
-        <div class="row room-section-header-container">
-          <div class="col col-3">
-            <h4 class="room-section-header active-header" @click="isActive" id="standard-room">
-              Standard Rooms
-            </h4>
-          </div>
-          <div class="col col-3">
-            <h4 class="room-section-header" @click="isActive" id="executive-room">
-              Executive Rooms
-            </h4>
-          </div>
-          <div class="col col-3">
-            <h4 class="room-section-header" @click="isActive" id="king-room">
-              King Suites
-            </h4>
-          </div>
-        </div>
-        <div class="row center-lg">
-          <div class="rooms col col-2">
-            <img src="https://res.cloudinary.com/start-ng/image/upload/v1591638448/Rectangle_42_nastdj.png" alt=""
-              class="rooms-img" />
-            <h3 class="room-title">Standard Economic Single</h3>
-            <p class="room-text">
-              Designed specifically for Practicality and <br />
-              comfort
-            </p>
-            <div>
-              <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
-                <p class="list-text">2 Persons</p>
-              </div>
-              <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
-                <p class="list-text">1 Kingsize bed</p>
-              </div>
+          <div class="right-information">
+            <div class="name">{{ info.name }}</div>
+            <div class="sub-information">{{ info.information }}</div>
+            <div class="sub-bottom">
+              <p>침대 크기:</p>
+              {{ info.type }}
             </div>
-            <p class="amount-text">NGN25,000 Per Night</p>
-            <div class="buttons-container">
-              <a href="#" class="btn btn-ghost">View More</a>
-              <a href="https://timbu.com/search?query=hotel" class="btn btn-fill">Book Now</a>
+            <div class="sub-bottom">
+              <p>투숙인원:</p>
+              {{ info.member }}
             </div>
-          </div>
-          <div class="rooms col col-2">
-            <img src="https://res.cloudinary.com/start-ng/image/upload/v1591638449/Rectangle_43_d9eepu.png" alt=""
-              class="rooms-img" />
-            <h3 class="room-title">Standard Economic Single</h3>
-            <p class="room-text">
-              Designed specifically for Practicality and <br />
-              comfort
-            </p>
-            <div>
-              <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
-                <p class="list-text">2 Persons</p>
-              </div>
-              <div class="details-container">
-                <img src="assets/img/bed.png" alt="tick" class="list-icon" />
-                <p class="list-text">1 Kingsize bed</p>
-              </div>
-            </div>
-            <p class="amount-text">NGN35,000 Per Night</p>
-            <div class="buttons-container">
-              <a href="#" class="btn btn-ghost">View More</a>
-              <a href="https://timbu.com/search?query=hotel" class="btn btn-fill">Book Now</a>
-            </div>
-          </div>
-          <div class="rooms col col-2">
-            <img src="https://res.cloudinary.com/start-ng/image/upload/v1591638448/Rectangle_44_anerdv.png" alt=""
-              class="rooms-img" />
-            <h3 class="room-title">Standard Economic Single</h3>
-            <p class="room-text">
-              Designed specifically for Practicality and <br />
-              comfort
-            </p>
-            <div>
-              <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
-                <p class="list-text">2 Persons</p>
-              </div>
-              <div class="details-container">
-                <img src="assets/img/bed.png" alt="tick" class="list-icon" />
-                <p class="list-text">1 Kingsize bed</p>
-              </div>
-            </div>
-            <p class="amount-text">NGN45,000 Per Night</p>
-            <div class="buttons-container">
-              <a href="#" class="btn btn-ghost">View More</a>
-              <a href="https://timbu.com/search?query=hotel" class="btn btn-fill">Book Now</a>
-            </div>
-          </div>
-          <div class="rooms col col-2">
-            <img src="https://res.cloudinary.com/start-ng/image/upload/v1591638449/Rectangle_45_mtl458.png" alt=""
-              class="rooms-img" />
-            <h3 class="room-title">Standard Economic Single</h3>
-            <p class="room-text">
-              Designed specifically for Practicality and <br />
-              comfort
-            </p>
-            <div>
-              <div class="details-container">
-                <img src="assets/img/check-square.svg" alt="tick" class="list-icon" />
-                <p class="list-text">2 Persons</p>
-              </div>
-              <div class="details-container">
-                <img src="assets/img/bed.png" alt="tick" class="list-icon" />
-                <p class="list-text">1 Kingsize bed</p>
-              </div>
-            </div>
-            <p class="amount-text">NGN50,000 Per Night</p>
-            <div class="buttons-container">
-              <a href="#" class="btn btn-ghost">View More</a>
-              <a href="https://timbu.com/search?query=hotel" class="btn btn-fill">Book Now</a>
+            <div class="sub-bottom">
+              <p>체크아웃:</p>
+              {{ info.check }}
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   </main>
 </template>
@@ -200,66 +38,67 @@
 <script>
 // import switchRooms from "../assets/js/switchRooms";
 export default {
-  methods: {
-    isActive(e) {
-      const btns = document.querySelectorAll(".col-3>h4");
-      const target = e.target;
-      for (let i = 0; i < btns.length; i++) {
-        if (btns[i] == target) {
-          btns[i].className = "active-header";
-        } else {
-          btns[i].className = "";
-        }
-      }
-    },
+  data() {
+    return {
+      products: [
+        {
+          name: "디럭스룸",
+          information:
+            "2인 이하 여행객이 가장 선호하며, 여유로운 수납 공간과 Simmons Beautyrest® 의 킹 사이즈 침대 1조가 제공되는 객실입니다. 침구는 100% 오리털, 100% 코튼 소재의 린넨으로 최상의 편안함을 경험할 수 있습니다.",
+          img: require("../assets/img/deluxRoom.jpg"),
+          type: "더블/트윈",
+          member: "2명",
+          check: "15:00/11:00",
+        },
+        {
+          name: "디럭스 스위트",
+          information:
+            "가족 및 3인 이하 여행객이 가장 선호하며 여유로운 수납 공간과 Simmons Beautyrest®의 퀸 사이즈,싱글 사이즈 침대가 각 1조 제공되는 객실입니다. 100% 오리털 침구와 100% 코튼소재의 린넨은 최상의 편안함을 경험할 수 있습니다. 청정 제주의 감귤 추출물을 담은 킹스호텔의 특별한 감귤 어메니티를 만나 보세요.",
+          img: require("../assets/img/deluxsweet.jpg"),
+          type: "더블/트윈",
+          member: "3명",
+          check: "15:00/11:00",
+        },
+        {
+          name: "디럭스 풀",
+          information:
+            "가족 및 4인 이하 여행객이 가장 선호하며 여유로운 수납 공간과 Simmons Beautyrest®의 퀸 사이즈 침대가 2조 제공되는 객실입니다. 100% 오리털 침구와 100% 코튼소재의 린넨은 최상의 편안함을 경험할 수 있습니다. 청정 제주의 감귤 추출물을 담은 킹스호텔의 특별한 감귤 어메니티를 만나 보세요.",
+          img: require("../assets/img/deluxFull.jpg"),
+          type: "더블/트윈",
+          member: "2명",
+          check: "15:00/11:00",
+        },
+        {
+          name: "그랜드 디럭스",
+          information:
+            "2인 이하 프리미엄을 선호하는 여행객에게 최선의 선택으로, 여유로운 수납 공간과 Simmons Beautyrest® 의 킹 사이즈 침대 1조가 제공되는 객실입니다. 침구는 100% 오리털, 100% 코튼 소재의 린넨으로 최상의 편안함을 경험할 수 있습니다.",
+          img: require("../assets/img/grandDelux.jpg"),
+          type: "더블/트윈",
+          member: "4명",
+          check: "15:00/11:00",
+        },
+        {
+          name: "로얄 스위트",
+          information:
+            "2인 이하 프리미엄을 선호하는 여행객에게 최선의 선택으로, 여유로운 수납 공간과 Simmons Beautyrest® 의 킹 사이즈 침대 1조가 제공되는 객실입니다. 침구는 100% 오리털, 100% 코튼 소재의 린넨으로 최상의 편안함을 경험할 수 있습니다. 청정 제주의 감귤 추출물을 담은 킹스호텔의 특별한 감귤 어메니티를 만나 보세요.",
+          img: require("../assets/img/loyalsweet.jpg"),
+          type: "더블/트윈",
+          member: "2명",
+          check: "15:00/11:00",
+        },
+      ],
+    };
   },
+  methods: {},
 };
 </script>
 
 <style scoped>
 @import "../assets/css/Rooms.css";
 
-.container {
-  max-width: 1050px;
+.container-full {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 1.5rem 0.5rem;
-}
-
-h4 {
-  color: rgba(36, 30, 9, 0.6);
-  font-weight: 500;
-  font-size: 95%;
-  cursor: pointer;
-}
-
-.active-header {
-  color: #241E09;
-  font-weight: 500;
-  font-size: 95%;
-  cursor: pointer;
-}
-
-.sub-gnb{
-  display: flex;
-  height: 100px;
-  outline: 1px solid red;
-  align-items: center;
-}
-.name{
-  margin:0 40px 0 40px;
-}
-.sub-gnb-list{
-display: flex;
-list-style: none;
-
-}
-.sub-gnb-list li{
-  margin: 0 20px 0 20px ;
-
-
-}
-.sub-gnb-list li a{
-  font-size: 16px;
-  text-decoration: none;
+  padding: 0 0.5rem;
 }
 </style>

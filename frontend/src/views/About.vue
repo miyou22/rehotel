@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <section class="page-header-container">
-      <h1 class="page-header">About</h1>
+      <h1 class="header">About</h1>
     </section>
     <!-- 객실 소개 섹션 -->
     <section class="info room">
@@ -16,8 +16,9 @@
             다양한 객실에서 특별한 순간과 최상의 휴식과 여유를 경험해 보세요.
           </p>
         </div>
-        <button class="btn b1" @click="$router.push('/room'), inp">
-          자세히보기
+        <button class="btn b1">  <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation'  }"
+                href="accommodation"  @click = "subgnb2 = true" ><p>자세히보기</p></a>
+
         </button>
       </div>
       <div class="img-wrapper">
@@ -26,45 +27,46 @@
       </div>
     </section>
 
-    <!-- 다이닝 소개 섹션 -->
+    <!-- 부대시설 소개 섹션 -->
     <section class="info dining">
       <div class="img-wrapper">
-        <img src="../assets/img/hotel2.jpg" alt="다이닝 소개 이미지">
+        <img src="../assets/img/hotel1.jpg" alt="부대시설 소개 이미지">
         <div class="overlay over2"></div>
       </div>
       <div class="content">
         <div class="text">
-          <h2>Dining</h2>
+          <h2>Facility</h2>
           <p>
-            셰프의 손맛이 느껴지는 다채로운 요리와 함께 편안한 식사를 즐겨보세요.<br/>
-            정갈한 인테리어와 함께 편안한 식사를 즐길 수 있습니다.<br/>
-            여행에 특별한 맛과 기억을 더해보세요 .
+            현대적인 디자인과 최신 시설의 부대시설<br/>
+            피트니스 센터, 셀프 세탁실, 편의점 등의 다양한 편의 시설과<br/>
+            정갈한 인테리어와 함께 다이닝 룸에서의 편안한 식사를 즐길 수 있습니다.<br/>
+            휴식과 여행의 만족도를 높이는 다양한 편의시설과 함께하세요.
           </p>
         </div>
-        <button class="btn b2" @click="$router.push('/dining'), inp">
-          자세히보기
+        <button class="btn b2">  <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Facility'  }"
+                href="Facility"  @click = "subgnb2 = true" ><p>자세히보기</p></a>
         </button>
       </div>
     </section>
 
-    <!-- 부대 시설 소개 섹션 -->
+    <!-- 연회장 소개 섹션 -->
     <section class="info facility">
       <div class="content">
         <div class="text">
-          <h2>Facility</h2>
+          <h2>Banquethall</h2>
           <p>
-            다양한 행사를 위한 최적의 장소를 제공합니다.<br/>
-            넓고 현대적인 디자인과 최신 시설을 갖추고 있어<br/>
-            비지니스 회의, 연회 및 기타 이벤트에 완벽한 장소입니다.<br/>
-            휴식과 여행의 만족도를 높이는 다양한 편의시설과 함께하세요.
+            우리 킹스호텔의 연회장은 아름다운 인테리어와<br/>
+            넓은 공간으로 고객 여러분께 특별한 순간을 제공합니다.<br/>
+            품격있는 분위기와 함께 여행의 특별한 순간을 즐기세요.
           </p>
         </div>
-        <button class="btn b3" @click="$router.push('/reservation'), inp">
-          자세히보기
+        <button class="btn b3">
+          <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/banquethall' }"
+                href="banquethall"  @click = "subgnb2 = true"><p>자세히보기</p></a>        
         </button>
       </div>
       <div class="img-wrapper">
-        <img src="../assets/img/hotel1.jpg" alt="부대 시설 소개 이미지">
+        <img src="../assets/img/hotel2.jpg" alt="연회장 소개 이미지">
         <div class="overlay over3"></div>
       </div>
     </section>
@@ -80,37 +82,28 @@ export default {
 </script>
 
 <style scoped>
+*{
+  font-family: "Noto Sans KR", sans-serif;
+}
 
 .wrap {
-  max-width: 1500px;
+  max-width: 1200px;
   margin: auto;
 }
 
-.page-header-container {
-  margin-top: 85px;
-}
-
-.page-header {
+.header {
   font-size: 40px;
   text-align: center;
   font-weight: bold;
 }
 
-.page-header:after {
-  display: block;
-  height: 1px;
-  background-color: #d4af37;
-  content: "";
-  width: 90px;
-  margin: 0.5em auto 0 auto;
-}
 
 /* fadeup애니메이션 추가 */
 .info {
   display: flex;
   align-items: center;
   justify-content:space-between;
-  padding: 0 140px 120px 140px;
+  padding: 0 0 120px 0;
   box-sizing: border-box;
   opacity: 0;
   transform: translateY(10px);
@@ -172,7 +165,7 @@ img {
   left: 80px;
   width: 100vw;
   height: 100%;
-  background-color: rgba(206, 206, 206, 0.25);
+  background-color: rgba(215, 217, 223, 0.2);
   z-index: 0;
 }
 
@@ -182,7 +175,7 @@ img {
   right: 80px;
   width: 100vw;
   height: 100%;
-  background-color: rgba(206, 206, 206, 0.25);
+  background-color: rgba(215, 217, 223, 0.2);
   z-index: 0;
 }
 
@@ -194,7 +187,7 @@ p {
   max-width: 100%;
   font-size: 16px;
   line-height: 1.5;
-  color: #555555;
+  color: #696969;
 }
 
 .btn {
@@ -212,5 +205,55 @@ p {
 .btn:hover {
   background-color: #c9a635;
 }
+
+/* 반응형 */
+@media only screen and (max-width: 970px) {
+  /* 섹션의 스타일 수정 */
+  .room, .facility {
+    flex-direction: column-reverse; /* 섹션을 세로로 배치하고 텍스트와 이미지의 순서를 변경 */
+  }
+
+  .dining {
+    flex-direction: column; /*섹션 세로로 배치*/
+  }
+
+  .info {
+    padding: 0;
+  }
+
+  .content {
+    text-align: center;
+  }
+
+  .text {
+    margin: 20px 0; /* 텍스트 섹션 간격 조정 */
+  }
+
+  .img-wrapper {
+    margin-bottom: 20px; /* 이미지와 오버레이 간격 조정 */
+  }
+
+  .overlay {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(215, 217, 223, 0.2);
+    z-index: 0;
+  }
+
+  .btn {
+    margin: 10px 0 80px 0;
+  }
+}
+.btn p{
+  font-size: 14px;
+  color: white;
+}
+
+
+
+
+
 </style>
 
