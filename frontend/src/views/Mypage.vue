@@ -11,7 +11,7 @@
           </div>
           <div>
             <label for="password" class="label-password">비밀번호</label>
-            <input type="password" id="password" name="password" v-model="userPwd" class="input-password" />
+            <input type="password" id="password" name="password" v-model="userPwd2" class="input-password" />
           </div>
           <div>
             <label for="confirm-password" class="label-confirm-password">비밀번호 확인</label>
@@ -64,6 +64,7 @@ export default {
     return {
       userId: '',
       userPwd: '',
+      userPwd2: '',
       passwordConfirm: '',
       userName: '',
       userEmail: '',
@@ -97,16 +98,33 @@ export default {
         })
     },
     completeUpdate() {
-      var data = {
-        userId : this.userId,
-        userPwd : this.userPwd,
-        userName : this.userName,
-        userEmail : this.userEmail,
-        userTel : this.userTel,
-        userAddr : this.userAddr,
-        userBirth : this.userBirth,
-        userGender : this.userGender
-      };
+      if(this.userPwd2)
+      {
+        var data = {
+          userId : this.userId,
+          userPwd : this.userPwd2,
+          userName : this.userName,
+          userEmail : this.userEmail,
+          userTel : this.userTel,
+          userAddr : this.userAddr,
+          userBirth : this.userBirth,
+          userGender : this.userGender,
+          userFlag : 1
+        };
+      }
+      else
+      {
+        var data = {
+          userId : this.userId,
+          userPwd : this.userPwd,
+          userName : this.userName,
+          userEmail : this.userEmail,
+          userTel : this.userTel,
+          userAddr : this.userAddr,
+          userBirth : this.userBirth,
+          userGender : this.userGender
+        };
+      }
       this.$axios
         .post("http://localhost:8081/api/member/memberUpdatePost", data)
         .then((res) => {

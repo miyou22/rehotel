@@ -64,7 +64,7 @@
         <div class="scrollable-content">
           <privacy-policy-content></privacy-policy-content>
         </div>
-      </section>
+
       <div class="vertical-line"></div>
       <!--세로 선 추가-->
       <section class="join-form">
@@ -155,7 +155,7 @@
         </form>
       </section>
     </div>
-  </div>
+
 </template>
 
 <script>

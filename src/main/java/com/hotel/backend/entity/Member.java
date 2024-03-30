@@ -93,9 +93,13 @@ public class Member {
         member.setUserTel(memberFormDto.getUserTel());
         member.setUserPrivate(false);   // 기본값 false로 설정
         member.setUserFlag(0);
-        String password = passwordEncoder.encode(memberFormDto.getUserPwd());
-        member.setUserPwd(password);
-
+        if(memberFormDto.getUserFlag() == 1) {
+            String password = passwordEncoder.encode(memberFormDto.getUserPwd());
+            member.setUserPwd(password);
+        }
+        else {
+            member.setUserPwd(memberFormDto.getUserPwd());
+        }
         return member;
     }
 
