@@ -1,6 +1,8 @@
 package com.hotel.backend.controller;
 
+import com.hotel.backend.entity.Member;
 import com.hotel.backend.entity.Reservation;
+import com.hotel.backend.repository.MemberRepository;
 import com.hotel.backend.service.ReservationService;
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.hotel.backend.repository.ReservationRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reservation")
@@ -24,14 +27,23 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
-// 예약정보들 DB에 저장
+    @Autowired
+    MemberRepository memberRepository;
+
+    // 예약정보들 DB에 저장
     @PostMapping("/reserve")
-   public void saveReservation(@RequestBody Reservation reservation) {
+    public void saveeReservation(@RequestBody Reservation reservation) {
         System.out.println("예약정보 ==> Start ");
         System.out.println("예약정보 ==> " + reservation);
+        Optional<Member> optionalFindMember = memberRepository.findByUserId(reservation.getUserId());
+
+        if (optionalFindMember.isPresent()) {
+            Member findMember = optionalFindMember.get();
+            reservation.setMember(findMember);
+        }
         // reservationRepository.save(reservation);
         reservation.setResId(reservation.getResId());
-        reservation.setUserId(reservation.getUserId());
+
         reservation.setRoomName(reservation.getRoomName());
         reservation.setRoomPrice(reservation.getRoomPrice());
         reservation.setUserName(reservation.getUserName());
@@ -43,7 +55,7 @@ public class ReservationController {
         reservation.setResDate(reservation.getResDate());
         reservation.setFacCheck(reservation.getFacCheck());
         reservation.setPayCheck(reservation.getPayCheck());
-       reservation.setUserFlag(reservation.getUserFlag());
+        reservation.setUserFlag(reservation.getUserFlag());
         // Item savedItem = itemRepository.save(item);
         reservationRepository.save(reservation);
     }
@@ -58,7 +70,7 @@ public class ReservationController {
         model.addAttribute("checkList", resList);
         return resList;
     }
-    
+
     // service를 이용해서 DB값 변경
     @PostMapping("/updatePayCheck")
     public void updatePayCheck(@RequestBody List<Long> reservationIds) {

@@ -213,6 +213,7 @@ export default {
       store.dispatch("updateSelectedMembers", value);
     });
 
+    //checkin
     const format = (date) => {
       const day = date.getDate();
       const month = date.getMonth() + 1;
@@ -222,6 +223,7 @@ export default {
       store.commit("setYmd", ymd);
       return `${year}/${month}/${day}`;
     };
+    //checkoput
     const format2 = (date) => {
       const day = date.getDate();
       const month = date.getMonth() + 1;
