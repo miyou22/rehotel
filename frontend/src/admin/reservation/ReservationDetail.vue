@@ -55,6 +55,10 @@
           <th>예약상태</th>
           <td>{{ selectedResItem.payCheck === 1 ? "예약" : "취소" }}</td>
         </tr>
+        <tr>
+          <th>회원상태</th>
+          <td>{{ selectedResItem.userFlag === 1 ? "회원" : "비회원" }}</td>
+        </tr>
       </tbody>
     </table>
     <!-- 버튼 -->
@@ -82,12 +86,17 @@ export default {
     },
   },
   methods: {
+
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     formatPhoneNumber(phoneNumber) {
       // 전화번호에서 숫자만 추출
       const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+      // 가져온 전화번호앞에 0이없으면 0추가
+      if (!/^0/.test(cleaned)) {
+        return "0" + cleaned;
+      }
       // 정규식을 사용하여 전화번호 형식에 맞게 변환
       const match = cleaned.match(/^(\d{3})(\d{4})(\d{4})$/);
       if (match) {

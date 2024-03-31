@@ -109,6 +109,7 @@ export default {
     };
   },
   methods: {
+
     login: function () {
       if (!this.userId || !this.userPwd) {
         alert("아이디와 비밀번호가 일치하지 않습니다.");
@@ -153,7 +154,13 @@ export default {
         alert("예약번호와 이메일을 확인해주세요.");
         return;
       }
-      this.$router.push("/checklist");
+      // 예약번호를 Vuex store에 저장하는 mutation 호출
+      this.$store.commit("setReservationId", this.resId);
+      this.$store.commit("setReservationEmail", this.userEmail);
+
+
+      // 예약 확인 후 페이지 이동
+            this.$router.push("/checklist");
     },
   },
 };

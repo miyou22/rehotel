@@ -24,15 +24,17 @@
               <th class="w3-center" style="width: 140px">예약날짜</th>
               <th class="w3-center" style="width: 150px">결제금액</th>
               <th class="w3-center" style="width: 140px">예약 취소</th>
+
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in resList" :key="index">
-              <template v-if="item.userId === userId">
+            <tr v-for="(item, index) in filteredList" :key="index">
+              <template v-if="item.userId === userId || (item.resId === reservationId && item.userEmail === reservationEmail)">
                 <td class="w3-center">{{ index + 1 }}</td>
                 <td
-                  class="w3-center"
+                  class="w3-center detail"
                   :class="{ 'cancelled-reservation': item.payCheck === 0 }"
+                  @click="saveSelectedItems(item)"
                 >
                   <span v-if="item.isCancelled">{{ item.resId }}</span>
                   <span v-else>{{ item.resId }}</span>
@@ -45,13 +47,15 @@
                   {{ numberWithCommas(item.roomPrice) }}
                 </td>
                 <td class="w3-center">
-                  <button class="return" @click="checkRe">취소</button>
+                  <button class="return" @click="checkRe(item.resId)">취소</button>
                 </td>
               </template>
+
             </tr>
           </tbody>
         </table>
       </div>
+
       <!-- Pagination -->
       <div class="w3-bar pagin">
         <a href="#" class="w3-button w3-hover-purple circle">«</a>
@@ -65,7 +69,7 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
+import {mapActions, mapState} from "vuex";
 export default {
   data() {
     return {
@@ -76,21 +80,21 @@ export default {
     this.getResList();
   },
   methods: {
+
+    saveSelectedItems(item) {
+      this.setSelectedResItems(item); // Vuex 액션 호출
+      this.$router.push("/checkDetail");
+    },
+    ...mapActions(["setSelectedResItems"]),
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
-    getSelected() {
-      // 선택한 인풋의 아이디 가져오기
-      let itemIdx = [];
-      for (let i in this.resList) {
-        itemIdx.push(this.resList[i].resId);
-      }
-      return itemIdx;
-    },
-    checkRe() {
+
+
+    checkRe(resId) {
       if (confirm("삭제하시겠습니까?") == true) {
         //true는 확인버튼을 눌렀을 때 코드 작성
-        const selectedIds = this.getSelected();
+        const selectedIds = [resId]
         axios
           .post(
             "http://localhost:8081/api/reservation/updatePayCheck",
@@ -131,7 +135,20 @@ export default {
     },
   },
   computed: {
+    filteredList() {
+      if (this.userId) {
+        return this.resList.filter(item => item.userId === this.userId ||
+            (item.resId === this.reservationId && item.userEmail === this.reservationEmail));
+      } else {
+        // 비회원인 경우 reservationId와 reservationEmail이 일치하는 예약 정보만 필터링
+        return this.resList.filter(item => item.resId ===
+            parseInt(this.reservationId) && item.userEmail === this.reservationEmail);
+      }
+    },
+
     ...mapState(["userId"]),
+    ...mapState(["reservationId"]),
+    ...mapState(["reservationEmail"]),
   },
 };
 </script>
@@ -139,6 +156,10 @@ export default {
 <style scoped>
 * {
   font-family: "Noto Sans KR", sans-serif;
+}
+.detail:hover {
+  color: #d4af37;
+  cursor: pointer;
 }
 .cancelled-reservation {
   text-decoration: line-through;
@@ -195,3 +216,4 @@ export default {
   font-size: 36px;
 }
 </style>
+

@@ -10,52 +10,52 @@
         <tr>
           <th>예약번호</th>
           <td>
-            <p>{{ getSelectedReservation.resId }}</p>
+            <p>{{ SelectedResItems.resId }}</p>
           </td>
         </tr>
         <tr>
           <th>예약일</th>
-          <td>{{ getSelectedReservation.resDate.split("T")[0] }}</td>
+          <td>{{ SelectedResItems.resDate.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>체크인</th>
-          <td>{{ getSelectedReservation.resCheckin.split("T")[0] }}</td>
+          <td>{{ SelectedResItems.resCheckin.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>체크아웃</th>
-          <td>{{ getSelectedReservation.resCheckout.split("T")[0] }}</td>
+          <td>{{ SelectedResItems.resCheckout.split("T")[0] }}</td>
         </tr>
         <tr>
           <th>예약상품</th>
-          <td>{{ getSelectedReservation.roomName }}</td>
+          <td>{{ SelectedResItems.roomName }}</td>
         </tr>
         <tr>
           <th>예약자명</th>
-          <td>{{ getSelectedReservation.userName }}</td>
+          <td>{{ SelectedResItems.userName }}</td>
         </tr>
         <tr>
           <th>연락처</th>
-          <td>{{ formatPhoneNumber(getSelectedReservation.userTel) }}</td>
+          <td>{{ formatPhoneNumber(SelectedResItems.userTel) }}</td>
         </tr>
         <tr>
           <th>요청사항</th>
-          <td>{{ getSelectedReservation.resRequest }}</td>
+          <td>{{ SelectedResItems.resRequest }}</td>
         </tr>
         <tr>
           <th>결제금액</th>
-          <td>{{ numberWithCommas(getSelectedReservation.roomPrice) }}원</td>
+          <td>{{ numberWithCommas(SelectedResItems.roomPrice) }}원</td>
         </tr>
         <tr>
           <th>연회장이용</th>
           <td>
             {{
-              getSelectedReservation.facCheck === 1 ? "이용" : "이용하지않음"
+              SelectedResItems.facCheck === 1 ? "이용" : "이용하지않음"
             }}
           </td>
         </tr>
         <tr>
           <th>예약상태</th>
-          <td>{{ getSelectedReservation.payCheck === 1 ? "예약" : "취소" }}</td>
+          <td>{{ SelectedResItems.payCheck === 1 ? "예약" : "취소" }}</td>
         </tr>
       </tbody>
     </table>
@@ -78,9 +78,9 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     // Vuex 게터를 사용하여 선택된 예약 항목을 가져오기
-    ...mapGetters(["getSelectedReservation"]),
-    getSelectedReservation() {
-      return this.getSelectedReservation;
+    ...mapGetters(["getSelectedResItems"]),
+    SelectedResItems() {
+      return this.getSelectedResItems;
     },
   },
   methods: {
@@ -90,6 +90,9 @@ export default {
     formatPhoneNumber(phoneNumber) {
       // 전화번호에서 숫자만 추출
       const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+      if (!/^0/.test(cleaned)) {
+        return "0" + cleaned;
+      }
       // 정규식을 사용하여 전화번호 형식에 맞게 변환
       const match = cleaned.match(/^(\d{3})(\d{4})(\d{4})$/);
       if (match) {

@@ -18,10 +18,13 @@ public class Reservation {
     @Column(nullable = false)
     private  Long resId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "userId")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private Member member;
+
+    @Column(name = "userId", insertable=false, updatable=false)
     private String userId;
+
     // 비회원 이메일
     @ManyToOne
     @JoinColumn(name = "guestEmail")
@@ -59,4 +62,5 @@ public class Reservation {
     private int payCheck;
     @Column(nullable = false, length = 1)
     private int userFlag;
+
 }
