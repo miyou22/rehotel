@@ -43,7 +43,7 @@
                                     v-model="verificationCode"  placeholder="인증번호를 입력하세요."/>
                     <input type="text" id="user-tel" v-model="userTel" required placeholder="연락처">
                     <input type="text" id="user-addr" v-model="userAddr" required placeholder="주소">
-                    <input type="date" id="user-birth" v-model="userBirth" required placeholder="생년월일">
+                    <input type="date" id="user-birth" v-model="userBirth" required placeholder="생년월일" max="9999-12-31">
                     <select id="user-gender" v-model="userGender" required>
                                 <option value="">성별을 선택하세요</option>
                                 <option value="m">남성</option>
