@@ -128,6 +128,7 @@ export default {
             alert(response.data + "님 환영합니다! ");
             store.commit("setAccount", response.data); // store에 로그인 정보를 저장
             console.log("Store => " + store.state.userId);
+            console.log(response);
             sessionStorage.setItem("sessionId", response.data); // 세션스토리지에도 저장
             console.log("세션생성 ==> " + sessionStorage.sessionId);
             console.log("현재 세션 :", sessionStorage.getItem("sessionId"));

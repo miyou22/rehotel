@@ -35,8 +35,21 @@ public class Board {
     private Role role;
 
 //    @ManyToOne
-//    @JoinColumn(name = "userId")
+//    @JoinColumn(name = "user_id")
 //    private Member userId;
+
+//    @Column(name = "userId", insertable = false, updatable = false)
+//    private String userId; // 변경된 부분
+
+//    @Column(name = "user_id", nullable = false)
+//    private String userId;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private Member member; // 수정
+
+    @Column(name = "userId", insertable = false, updatable = false)
+    private String userId; // 변경된 부분
 
     @Column(nullable = false, name="board_category")
     private String boardCategory;
@@ -44,7 +57,7 @@ public class Board {
     @Column(nullable = false, length = 50, name = "board_title")
     private String boardTitle;
 
-    @Column(name = "board_content")
+    @Column(name = "board_content", length = 20000)
     private String boardContent;
 
     @Column(name = "board_cnt")
@@ -55,6 +68,11 @@ public class Board {
 
     @Column(name="board_status", length = 1)
     private String boardStatus = "N";
+
+    // setUser 메서드 추가
+//    public void setUser(Member user) {
+//        this.user_id = user_id;
+//    }
 
 
 }

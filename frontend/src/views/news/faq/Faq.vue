@@ -99,6 +99,7 @@ export default {
   margin: 0;
   font-size: 40px;
   font-weight: bold;
+  margin-bottom: 50px;
 }
 .page-header-container {
   text-align: center;

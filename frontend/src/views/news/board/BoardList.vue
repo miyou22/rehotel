@@ -24,12 +24,16 @@
           <colgroup>
             <col width="110px" />
             <col width="auto" />
-            <col width="180px" />
+            <col width="100px" />
+            <col width="80px" />
+            <col width="200px" />
           </colgroup>
           <thead>
             <tr class="w3-light-grey w3-border-top w3-border-black">
               <th class="w3-center">번호</th>
               <th class="w3-center">제목</th>
+              <th class="w3-center">작성자</th>
+              <th class="w3-center">조회수</th>
               <th class="w3-center">작성일</th>
             </tr>
           </thead>
@@ -40,6 +44,12 @@
                 <a @click="boardView(pageType, item.boardSn)">{{
                   item.boardTitle
                 }}</a>
+              </td>
+              <td class="w3-center">
+                {{ item.userId }}
+              </td>
+              <td class="w3-center">
+                {{ item.boardCnt }}
               </td>
               <td class="w3-center">
                 {{ formatDate(item.createdAt) }}
@@ -61,6 +71,7 @@
             <tr class="w3-light-grey w3-border-top w3-border-black">
               <th class="w3-center">번호</th>
               <th class="w3-center">제목</th>
+              <th class="w3-center">조회수</th>
               <th class="w3-center">작성일</th>
             </tr>
           </thead>
@@ -71,6 +82,9 @@
                 <a @click="boardView(pageType, item.boardSn)">{{
                   item.boardTitle
                 }}</a>
+              </td>
+              <td class="w3-center">
+                {{ item.boardCnt }}
               </td>
               <td class="w3-center">
                 {{ formatDate(item.createdAt) }}
@@ -212,15 +226,22 @@ export default {
       return dateTimeString.slice(0, 10);
     },
     boardView(pageType, boardSn) {
-      alert("boardSn은 : " + boardSn);
-      // this.requestBody.boardSn = boardSn;
       this.$router.push({
-        // query: this.requestBody,
         path: pageType + "/" + boardSn,
       });
     },
     fnWrite() {
-      this.$router.push({ path: "/inquiry/write" });
+      // 세션 스토리지에서 데이터 가져오기
+      const sessionId = sessionStorage.getItem("sessionId");
+
+      // 데이터가 없는 경우 경고창 표시
+      if (!sessionId) {
+        alert("로그인 후 이용가능합니다.");
+        this.$router.push({ path: "login" });
+      } else {
+        // 데이터가 있는 경우 페이지 이동
+        this.$router.push({ path: "/inquiry/write" });
+      }
     },
     changePage(page) {
       this.currentPage = page;
@@ -239,13 +260,9 @@ export default {
       const reversedIndex =
         this.boardList.length -
         (index + (this.currentPage - 1) * this.itemsPerPage);
+      console.log(reversedIndex);
       return reversedIndex;
     },
-    // movetocontent(boardnum, id) {
-    //   // 검색된 게시글 클릭시 해당 게시글로 이동
-    //   window.location.href =
-    //     "http://127.0.0.1:8080/board/" + boardnum + "/content?id=" + id;
-    // },
     searchstart() {
       console.log("this.pageType::::", this.pageType);
       // 검색버튼 눌렀을때 실행

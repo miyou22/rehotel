@@ -31,6 +31,7 @@
             <col width="200px" />
             <col width="auto" />
             <col width="200px" />
+            <col width="200px" />
             <col width="150px" />
           </colgroup>
           <thead>
@@ -46,6 +47,7 @@
               <th class="w3-center">게시판</th>
               <th class="w3-center">제목</th>
               <th class="w3-center">작성자ID</th>
+              <th class="w3-center">조회수</th>
               <th class="w3-center">작성일</th>
             </tr>
           </thead>
@@ -65,6 +67,7 @@
                 <a @click="boardView(item.boardSn)">{{ item.boardTitle }}</a>
               </td>
               <td class="w3-center">nyaa</td>
+              <td class="w3-center">{{ item.boardCnt }}</td>
               <td class="w3-center">{{ formatDate(item.createdAt) }}</td>
             </tr>
           </tbody>
@@ -430,7 +433,7 @@ export default {
       const selectIds = this.selectItem();
       console.log(selectIds);
       if (selectIds.length === 0) {
-        alert("꺼졍 ㅋ");
+        alert("선택하지 않았어요.");
         return;
       }
       selectIds.map((boardSn) => {
@@ -454,16 +457,20 @@ export default {
       alert("삭제할꼬야?");
       const selectIds = this.selectItem();
       if (selectIds.length === 0) {
-        alert("꺼졍 ㅋ");
+        alert("선택되지 않았엉");
         return;
       }
       selectIds.map((boardSn) => {
-        const boardDto = { boardSn }; // 삭제 요청에 필요한 요청 본문을 생성합니다.
+        const boardDto = { boardSn, boardStatus: "Y" }; // 삭제 요청에 필요한 요청 본문을 생성합니다.
+
         console.log(boardDto);
+        const config = {
+          data: boardDto,
+        };
         this.$axios
           .delete(
-            "http://localhost:8081/api/admin/deletePost/" + boardSn,
-            boardDto
+            `http://localhost:8081/api/admin/deletePost/${boardSn}`,
+            config
           )
           .then((res) => {
             console.log("data sent", res);

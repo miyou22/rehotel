@@ -3,6 +3,7 @@
 package com.hotel.backend.dto;
 
 import com.hotel.backend.constant.Role;
+import com.hotel.backend.entity.Member;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class BoardDto {
     private Long boardSn;
     private Role role;
-//    private Member userId;
+    private Member userId;
     private String boardCategory;
     private String boardTitle;
     private String boardContent;
