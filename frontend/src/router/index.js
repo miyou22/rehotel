@@ -32,12 +32,17 @@ import AdminMemberDetail from "../admin/member/AdminMemberDetail";
 import AdminReservation from "../admin/reservation/ReservationList";
 import AdminReservationDetail from "../admin/reservation/ReservationDetail";
 import AdminLogin from "../views/AdminLogin.vue";
-
+import CheckDetail from "@/views/CheckDetail.vue";
 const routes = [
   {
     path: "/",
     name: "home",
     component: Home,
+  },
+  {
+    path: "/checkDetail",
+    name: "checkDetail",
+    component: CheckDetail,
   },
   {
     path: "/checkList",

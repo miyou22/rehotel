@@ -27,6 +27,8 @@
                 v-model="customerName"
                 oninput="this.value = this.value.replace(/[0-9]/g, '');"
               />
+
+              <input name="id" type="hidden" v-model="userId" />
               <input
                 name="phoneNumber"
                 type="tel"
@@ -231,6 +233,7 @@
                 </ul>
                 <div class="ban-check">
                   <label>예약하기</label>
+
                   <input
                     type="checkbox"
                     id="banquetReservation"
@@ -255,7 +258,6 @@
                   >
                 </div>
               </li>
-              <li></li>
             </ul>
           </div>
         </div>
@@ -272,6 +274,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      memList: [],
       customerName: "",
       phoneNumber: "",
       email: "",
@@ -283,6 +286,44 @@ export default {
     };
   },
   methods: {
+    formatPhoneNumber(phoneNumber) {
+      // 전화번호 형식 변환 로직 예시
+      const formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+      return formattedPhoneNumber;
+    },
+    getUserMember() {
+      this.userId = sessionStorage.getItem('sessionId');
+      var data = {
+        userId: this.userId
+      };
+      this.$axios
+          .post("http://localhost:8081/api/member/memberUpdate", data)
+          .then((res) => {
+            console.log(res)
+            this.customerName = res.data.userName;
+            this.email = res.data.userEmail;
+            this.phoneNumber = "0" + res.data.userTel;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
+    getResList() {
+      // alert("getresList 시작.....")
+      this.$axios
+        .get("http://localhost:8081/api/member/memInfo")
+        .then((res) => {
+          this.memList = res.data;
+          // alert('getData() 수신데이터 ==> ' + res.data)
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
     validateEmail(email) {
       // 이메일 유효성 검사 정규식
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -298,13 +339,16 @@ export default {
       // 현재 날짜 정보 가져오기
       const currentDate = new Date();
 
+      // 년, 월, 일을 가져와서 각각 2자리로 만들어줍니다.
+      const year = currentDate.getFullYear();
+      const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+      const day = ("0" + currentDate.getDate()).slice(-2);
+
       // 현재 날짜 정보를 기반으로 랜덤한 숫자 생성 (0 이상 10000 미만)
       const randomNum = Math.floor(Math.random() * 10000);
 
       // 날짜 정보와 랜덤 숫자를 조합하여 resId 생성
-      const resId = `${currentDate.getFullYear()}${
-        currentDate.getMonth() + 1
-      }${currentDate.getDate()}${randomNum}`;
+      const resId = `${year}${month}${day}${randomNum}`;
 
       return resId;
     },
@@ -353,6 +397,7 @@ export default {
 
       var data = {
         resId: resId,
+        userId: this.userId,
         userName: this.customerName,
         userTel: this.phoneNumber,
         userEmail: this.email,
@@ -365,6 +410,7 @@ export default {
         resDate: new Date().toISOString(),
         facCheck: this.banquetReservation ? 1 : 0,
         payCheck: 1,
+        userFlag: this.userId ? 1 : 0,
       };
 
       this.$axios
@@ -411,6 +457,7 @@ export default {
   },
   computed: {
     // Vuex store에 저장된 데이터를 computed 속성에 추가
+    ...mapState(["userId"]),
     ...mapState(["selectedRoomData"]),
     ...mapState(["roomImages"]),
     ...mapState(["fromDate", "fromDate2"]),
@@ -450,6 +497,10 @@ export default {
 
       return finalPrice;
     },
+  },
+  mounted() {
+    this.getResList();
+    this.getUserMember();
   },
 };
 </script>

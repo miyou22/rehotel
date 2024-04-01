@@ -186,6 +186,7 @@ export default {
       }
       return itemIdx;
     },
+    // 인풋박스 전체 선택하기
     selectAllItems(checked) {
       this.allChecked = checked;
       for (let i in this.resList) {
@@ -217,6 +218,9 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
 .hofont {
   font-weight: 500;
 }

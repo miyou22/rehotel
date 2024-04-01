@@ -75,7 +75,8 @@
 
             <li v-if="!$store.state.userId"><a href="/joinmember">회원가입</a></li>
             <li v-else><a href="/mypage">마이페이지</a></li>
-            <li><a href="/checkList">예약확인</a></li>
+            <li v-if="!$store.state.userId"><a href="/login">예약확인</a></li>
+            <li v-else><a href="/checkList">예약확인</a></li>
             <li><a href="/location">오시는길</a></li>
             <li><a href="/sitemap">사이트맵</a></li>
             <li><a href="/admin">관리자 홈</a></li>
@@ -160,7 +161,7 @@ export default {
           alert('로그아웃합니다');
           // sessionStorage.removeItem("userId");
             store.commit('setAccount', null)
-            localStorage.removeItem("sessionId");
+           sessionStorage.removeItem("sessionId");
             console.log('세션제거 ==> ' + sessionStorage.sessionId)
              this.$router.push({
                path: '/',

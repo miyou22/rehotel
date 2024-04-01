@@ -4,6 +4,8 @@ const store = createStore({
   plugins: [createPersistedState()],
   state() {
     return {
+      reservationId: '',
+      reservationEmail: "",
       fromDate: "",
       fromDate2: "",
       selectedMembers: 1,
@@ -13,7 +15,8 @@ const store = createStore({
       selectedRoomImageData: null,
       totalmember: null,
       selectedResItem: null,
-      userId: null
+      selectedResItems: null,
+      userId: null,
     };
   },
   getters: {
@@ -21,10 +24,20 @@ const store = createStore({
       return state.selectedMembers;
     },
     getSelectedResItem: (state) => state.selectedResItem,
+    getSelectedResItems: (state) => state.selectedResItems,
   },
   mutations: {
+    setReservationId(state, reservationId) {
+      state.reservationId = reservationId; // 예약번호를 저장하는 mutation
+    },
+    setReservationEmail(state, reservationEmail) {
+      state.reservationEmail = reservationEmail; // 예약번호를 저장하는 mutation
+    },
     setSelectedResItem(state, item) {
       state.selectedResItem = item; // 선택된 예약 항목을 설정하는 뮤테이션
+    },
+    setSelectedResItems(state, item) {
+      state.selectedResItems = item; // 선택된 예약 항목을 설정하는 뮤테이션
     },
     setYmd(state, payload) {
       state.fromDate = payload;
@@ -52,9 +65,8 @@ const store = createStore({
     },
     setAccount(state, payload) {
       state.userId = payload;
-       localStorage.setItem("sessionId", payload);
+      sessionStorage.setItem("sessionId", payload);
     },
-
   },
   actions: {
     updateSelectedMembers({ commit }, value) {
@@ -65,6 +77,9 @@ const store = createStore({
     },
     setSelectedResItem({ commit }, item) {
       commit("setSelectedResItem", item); // 선택된 예약 항목을 설정하는 액션
+    },
+    setSelectedResItems({ commit }, item) {
+      commit("setSelectedResItems", item); // 선택된 예약 항목을 설정하는 액션
     },
   },
 });

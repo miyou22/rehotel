@@ -1,8 +1,8 @@
 package com.hotel.backend.service;
 
+import com.hotel.backend.dto.MemberFormDto;
 import com.hotel.backend.entity.Member;
 import com.hotel.backend.repository.MemberRepository;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +38,27 @@ public class MemberService {
         // 아이디가 이미 존재하는지를 검사하여 결과를 반환함.
         Optional<Member> existingMember = memberRepository.findByUserId(userId);    // 중복되는 Id가 없을 수 있으므로 optional로 작성
         return existingMember.isPresent();
+    }
+
+//    public void update(MemberFormDto memberFormDto) {
+//        memberRepository.save(MemberEntity.toUpdateEntity(memberFormDto));
+//
+//    }
+
+    //Test
+    public Member memberUpdate(String userId) {
+        System.out.println("MemberUpdateService id() ==> " + userId);
+        Optional<Member> optionalFindMember = memberRepository.findByUserId(userId);
+
+        System.out.println("MemberService findMember ==> " + optionalFindMember);
+
+        Member findMember = optionalFindMember.get();
+
+        return findMember;
+    }
+
+    public void updateMember(Member member) {
+        System.out.println(member);
+        memberRepository.save(member);
     }
 }

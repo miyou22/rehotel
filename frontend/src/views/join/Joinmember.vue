@@ -31,6 +31,7 @@
                         <input type="text" id="user-id" v-model="userId" required placeholder="아이디">
                         <button type="confirm" @click="checkDuplicate">중복확인</button>
                     </div>
+                    <p v-show="errorId" class="input-error">아이디는 영문, 숫자를 포함한 4자 이상이어야합니다.</p>
                     <input type="password" id="user-pwd" v-model="userPwd" required placeholder="비밀번호">
                     <input type="password" id="password-confirm" v-model="passwordConfirm" required placeholder="비밀번호 확인">
                     <input type="text" id="user-name" v-model="userName" required placeholder="이름">
@@ -42,7 +43,7 @@
                                     v-model="verificationCode"  placeholder="인증번호를 입력하세요."/>
                     <input type="text" id="user-tel" v-model="userTel" required placeholder="연락처">
                     <input type="text" id="user-addr" v-model="userAddr" required placeholder="주소">
-                    <input type="date" id="user-birth" v-model="userBirth" required placeholder="생년월일">
+                    <input type="date" id="user-birth" v-model="userBirth" required placeholder="생년월일" max="9999-12-31">
                     <select id="user-gender" v-model="userGender" required>
                                 <option value="">성별을 선택하세요</option>
                                 <option value="m">남성</option>
@@ -52,7 +53,109 @@
                 </form>
             </section>
         </div>
+        <div class="scrollable-content"><terms-content></terms-content></div>
+        <div class="user">
+          <h4>개인정보처리방침 동의 <b>(필수)</b></h4>
+          <div>
+            <input type="checkbox" id="privacy" v-model="agreedPrivacy" />
+            <label for="privacy">동의합니다.</label>
+          </div>
+        </div>
+        <div class="scrollable-content">
+          <privacy-policy-content></privacy-policy-content>
+        </div>
+
+      <div class="vertical-line"></div>
+      <!--세로 선 추가-->
+      <section class="join-form">
+        <h2 class="input">회원정보 입력</h2>
+        <form>
+          <div class="input-id">
+            <input
+              type="text"
+              id="user-id"
+              v-model="userId"
+              required
+              placeholder="아이디"
+            />
+            <button type="confirm" @click="checkDuplicate">중복확인</button>
+          </div>
+          <input
+            type="password"
+            id="user-pwd"
+            v-model="userPwd"
+            required
+            placeholder="비밀번호"
+          />
+          <input
+            type="password"
+            id="password-confirm"
+            v-model="passwordConfirm"
+            required
+            placeholder="비밀번호 확인"
+          />
+          <input
+            type="text"
+            id="user-name"
+            v-model="userName"
+            required
+            placeholder="이름"
+          />
+          <div class="input-email">
+            <input
+              type="email"
+              id="user-email"
+              v-model="userEmail"
+              placeholder="이메일"
+            />
+            <button
+              type="button"
+              @click="sendVerificationCode"
+              class="button-send-verification"
+            >
+              인증번호 발송
+            </button>
+          </div>
+          <input
+            type="text"
+            id="verification-code"
+            name="verification-code"
+            v-model="verificationCode"
+            placeholder="인증번호를 입력하세요."
+          />
+          <input
+            type="text"
+            id="user-tel"
+            v-model="userTel"
+            required
+            placeholder="연락처"
+          />
+          <input
+            type="text"
+            id="user-addr"
+            v-model="userAddr"
+            required
+            placeholder="주소"
+          />
+          <input
+            type="date"
+            id="user-birth"
+            v-model="userBirth"
+            required
+            placeholder="생년월일"
+          />
+          <select id="user-gender" v-model="userGender" required>
+            <option value="">성별을 선택하세요</option>
+            <option value="m">남성</option>
+            <option value="f">여성</option>
+          </select>
+          <button type="submit" class="submit" @click.prevent="submitForm">
+            회원가입
+          </button>
+        </form>
+      </section>
     </div>
+
 </template>
 
 <script>
@@ -60,6 +163,7 @@
     import privacyPolicyContent from './privacyPolicyContent.vue';
     import axios from 'axios'
     const serverUrl = 'http://localhost:8081'
+    const validateId = /^(?=.*[A-Za-z])[A-Za-z0-9]{4,12}$/;
 
     export default {
         components: { termsContent, privacyPolicyContent },
@@ -76,15 +180,30 @@
                 userTel: '',
                 userAddr: '',
                 userBirth: '',
-                userGender: ''
+                userGender: '',
+                errorId: false, // 아이디 유효성 에러 여부를 나타내는 변수
             }
         },
+
+        watch: {
+            'userId' :function() {
+                this.checkId()
+            }
+        },
+
         methods: {
             updateUserPrivate() {
                 // 이용약관과 개인정보처리방침에 모두 동의한 경우, userPrivate를 true로 변경
                 if (this.agreedTerms && this.agreedPrivacy) {
                     this.userPrivate = true;
                 }
+            },
+            checkId() { // 아이디 유효성 검사
+                if(!validateId.test(this.userId) || !this.userId) {
+                    this.errorId = true;
+                    return;
+                }
+                this.errorId = false
             },
 
             checkDuplicate() {
@@ -93,6 +212,12 @@
                     alert('아이디를 입력하세요.');
                     return;
                 }
+
+                if (!validateId.test(this.userId) || !this.userId) {
+                    // 아이디가 유효하지 않으면 중복 확인을 실행하지 않고 반환
+                    alert('아이디는 영문, 숫자를 포함한 4자 이상이어야 합니다.');
+                    return;
+    }
 
                 // 서버로 보낼 데이터 객체 생성
                 const requestData = {
@@ -116,6 +241,8 @@
                         // 요청이 실패했을 때의 처리
                         console.error('중복 확인 요청 실패:', error);
                         alert('중복 확인 요청에 실패했습니다.');
+                        // 중복 확인 요청이 실패했을때 errorId를 true로 설정
+                        this.errorId = true;
                     });
             },
 
@@ -123,56 +250,67 @@
                 alert("인증번호가 발송되었습니다")
             },*/
 
-         formatDate() {
-                // 사용자가 선택한 날짜를 yyyy-MM-dd 형식으로 변환
-                this.userBirth = new Date(this.userBirth).toISOString().split('T')[0];
-            },
+    formatDate() {
+      // 사용자가 선택한 날짜를 yyyy-MM-dd 형식으로 변환
+      this.userBirth = new Date(this.userBirth).toISOString().split("T")[0];
+    },
 
-            // 회원가입 버튼을 눌렀을 때
-            submitForm: function () {
-                    this.updateUserPrivate();
-                    if (!this.agreedTerms || !this.agreedPrivacy) {
-                        alert('약관 동의에 체크해주세요.')
-                        return;
-                    }
-                    if (!this.userId || !this.userPwd || !this.passwordConfirm || !this.userName  || !this.userEmail || !this.verificationCode || !this.userTel || !this.userAddr || !this.userBirth || !this.userGender){
-                        alert('고객정보를 입력해주세요.')
-                        return;
-                    } else if (this.userPwd !== this.passwordConfirm) {
-                        alert('비밀번호가 일치하지 않습니다.')
-                        return;
-                    }
-                        var postData = {
-                            userId: this.userId,
-                            userPwd: this.userPwd,
-                            userName: this.userName,
-                            userEmail: this.userEmail,
-                            userTel: this.userTel,
-                            userAddr: this.userAddr,
-                            userBirth: this.userBirth,
-                            userGender: this.userGender,
-                            verificationCode: this.verificationCode,
-                            passwordConfirm: this.passwordConfirm
-                        }
-                        alert(this.userName + '님의 회원가입을 시작합니다.');
-                        axios.post(serverUrl + '/api/member/memberInsert', postData)
-                            .then((response) => {
-                                console.log(response);
-                                alert('회원가입이 완료되었습니다.');
-                                this.$router.push({
-                                    path: '/login',
-                                    name: 'login'  // 회원가입 후 로그인화면으로 이동
-                                });
-                            })
-                            .catch((error) => {
-                                alert('회원가입 실패');
-                                console.log(error);
-                            });
-                }
-            }
-        }
+    // 회원가입 버튼을 눌렀을 때
+    submitForm: function () {
+      this.updateUserPrivate();
+      if (!this.agreedTerms || !this.agreedPrivacy) {
+        alert("약관 동의에 체크해주세요.");
+        return;
+      }
+      if (
+        !this.userId ||
+        !this.userPwd ||
+        !this.passwordConfirm ||
+        !this.userName ||
+        !this.userEmail ||
+        !this.verificationCode ||
+        !this.userTel ||
+        !this.userAddr ||
+        !this.userBirth ||
+        !this.userGender
+      ) {
+        alert("고객정보를 입력해주세요.");
+        return;
+      } else if (this.userPwd !== this.passwordConfirm) {
+        alert("비밀번호가 일치하지 않습니다.");
+        return;
+      }
+      var postData = {
+        userId: this.userId,
+        userPwd: this.userPwd,
+        userName: this.userName,
+        userEmail: this.userEmail,
+        userTel: this.userTel,
+        userAddr: this.userAddr,
+        userBirth: this.userBirth,
+        userGender: this.userGender,
+        verificationCode: this.verificationCode,
+        passwordConfirm: this.passwordConfirm,
+      };
+      alert(this.userName + "님의 회원가입을 시작합니다.");
+      axios
+        .post(serverUrl + "/api/member/memberInsert", postData)
+        .then((response) => {
+          console.log(response);
+          alert("회원가입이 완료되었습니다.");
+          this.$router.push({
+            path: "/login",
+            name: "login", // 회원가입 후 로그인화면으로 이동
+          });
+        })
+        .catch((error) => {
+          alert("회원가입 실패");
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
-
 
 <style scoped>
     *{
@@ -326,6 +464,12 @@
    .input-email button:hover {
         background-color: black;
         color: white;
+    }
+
+    .input-error {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: red;
     }
 
     .submit {

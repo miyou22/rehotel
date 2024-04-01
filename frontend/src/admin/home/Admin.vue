@@ -20,6 +20,8 @@
           <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
         </li>
       </ul>
+
+      <!--{{ countDeluxeVilla }}-->
       <h3>최근소식</h3>
       <ul class="adminNotice">
         <li class="w3-card notice">
@@ -85,9 +87,6 @@
             </li>
           </ul>
         </li>
-        <p v-for="list in resList" :key="list" class="cnt">
-          {{ list.roomName }}
-        </p>
       </ul>
     </div>
   </div>
@@ -126,7 +125,7 @@ export default {
       totalRoomPrice: 0,
       chartData: {
         labels: ["1번", "2번", "3번", "4번", "5번"],
-        datasets: [{ data: [1, 2, 3, 4, 5] }],
+        datasets: [{ data: [2, 6, 3, 2, 1] }],
       },
       chartOptions: {
         responsive: true,
@@ -139,6 +138,16 @@ export default {
     };
   },
   methods: {
+    updateChartData() {
+      // 'countDeluxeVilla()' 메소드를 호출하여 '디럭스 풀빌라'로 예약된 객실의 개수를 가져옵니다.
+      const count = this.countDeluxeVilla();
+      // 'chartData'의 'datasets' 배열의 'data' 속성에 'count' 값을 할당합니다.
+      this.chartData.datasets[0].data = [count];
+      // 차트를 업데이트합니다.
+      if (this.$refs.myChart && this.$refs.myChart.update) {
+        this.$refs.myChart.update();
+      }
+    },
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
@@ -188,6 +197,13 @@ export default {
         });
     },
   },
+  computed: {
+    countDeluxeVilla() {
+      // 'resList'에서 'roomName'이 '디럭스 풀빌라'인 항목의 개수를 계산하여 반환합니다.
+      return this.resList.filter((item) => item.roomName === "디럭스 풀빌라")
+        .length;
+    },
+  },
   mounted() {
     this.getResList();
     this.getPriceList();
@@ -205,6 +221,7 @@ export default {
   margin: 0;
   font-size: 32px;
   text-align: left;
+  margin-top: 85px;
   margin-bottom: 80px;
 }
 .page-header-container {
@@ -226,6 +243,7 @@ export default {
 .adminReservation {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 85px;
 }
 .notice,
 .inquiry,
