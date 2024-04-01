@@ -1,5 +1,5 @@
 <template>
-  <div class="board-container w3-border-top">
+  <div class="board-container">
     <div class="page-header-container">
       <h1 class="page-header">{{ categoryTitle }}</h1>
     </div>
