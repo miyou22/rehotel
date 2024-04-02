@@ -30,6 +30,16 @@ public class MemberService {
         }
     }
 
+    // 이름, 이메일로 아이디 찾기
+    public Optional<Member> findId(String userName, String userEmail) {
+        return memberRepository.findByUserNameAndUserEmail(userName, userEmail);
+    }
+
+    // 아이디, 이름, 이메일로 비밀번호 찾기
+    public Optional<Member> findPw(String userId, String userName, String userEmail) {
+        return memberRepository.findByUserIdAndUserNameAndUserEmail(userId, userName, userEmail);
+    }
+
     // 회원가입
     public void saveMember(Member member){
         memberRepository.save(member);

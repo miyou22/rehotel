@@ -59,9 +59,43 @@ public class MemberController {
         model.addAttribute("checkList", memInfo);
         return memInfo;
     }
-    //---------------------------------------------------------------------------------------------------------------------
+
+    // 이름, 이메일로 아이디 찾기
+    @PostMapping("/find-id")
+    public ResponseEntity<?> findId(@RequestBody Map<String, String> requestData) {
+        String userName = requestData.get("userName");
+        String userEmail = requestData.get("userEmail");
+
+        Optional<Member> optionalMember = memberService.findId(userName, userEmail);
+
+        if (optionalMember.isPresent()) {
+            String userId = optionalMember.get().getUserId();       // 회원이 존재할 경우 ok (200 코드)로 반환
+            return ResponseEntity.ok(userId);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 정보로 아이디를 찾을 수 없습니다.");      // 회원이 존재하지 않을 경우 404코드로 반환
+        }
+    }
+
+    // 아이디, 이름, 이메일로 비밀번호 찾기/ 변경
+    @PostMapping("/find-pw")
+    public ResponseEntity<?> findPw(@RequestBody Map<String, String> requestData) {
+        String userId = requestData.get("userId");
+        String userName = requestData.get("userName");
+        String userEmail = requestData.get("userEmail");
+
+        // 입력된 정보와 일치하는 회원이 있는지 확인
+        Optional<Member> optionalMember = memberService.findPw(userId, userName, userEmail);
+
+        if (optionalMember.isPresent()) {
+            // 일치하는 회원이 있다면 비밀번호 변경 페이지로 이동
+            return ResponseEntity.ok("success");
+        } else {
+            // 일치하는 회원이 없다면 오류 메시지 반환
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("입력한 정보와 일치하는 회원이 없습니다.");
+        }
+    }
+
     //  회원가입
-    //---------------------------------------------------------------------------------------------------------------------
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     @PostMapping("/memberInsert")
     public void memberInsert(@RequestBody MemberFormDto memberFormDto) {
