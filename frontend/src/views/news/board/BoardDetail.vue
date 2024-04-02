@@ -57,33 +57,23 @@
         class="w3-padding-32 w3-container w3-border-bottom"
         v-if="pageTitle != '공지사항'"
       >
-        <div class="w3-row-padding">
-          <div class="w3-col s3">
-            <input
-              class="w3-input w3-border"
-              type="text"
-              placeholder="작성자명"
-            />
-          </div>
-          <div class="w3-col s3">
-            <input
-              class="w3-input w3-border w3-margin-bottom"
-              type="text"
-              placeholder="비밀번호"
-            />
-          </div>
-        </div>
+        <string class="replyStrong">댓글 달기</string>
         <div class="w3-row-padding textBtn" style="display: flex">
           <div class="w3-col s11">
             <textarea
               class="w3-input w3-border"
+              v-model="replyComment"
               style="resize: none"
+              v-if="session"
+              placeholder="로그인 후 입력해주세요"
+              @click="fnLoginMove"
             ></textarea>
           </div>
           <button
             class="w3-col s2 w3-right w3-indigo w3-hover-lightt-blue"
             type="submit"
             style="cursor: pointer"
+            @click="fnComment"
           >
             작성하기
           </button>
@@ -131,6 +121,7 @@ import axios from "axios";
 import Viewer from "@toast-ui/editor/dist/toastui-editor-viewer";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css"; // Viewer를 위한 CSS 파일을 가져옵니다.
 const serverUrl = "http://localhost:8081";
+const sessionId = sessionStorage.getItem("sessionId");
 
 export default {
   data() {
@@ -148,6 +139,8 @@ export default {
       boardCnt: "",
       boardContent: "",
       role: "",
+      replyComment: "",
+      session: sessionId,
     };
   },
   created() {
@@ -246,10 +239,20 @@ export default {
         path: "/inquiry/update/" + boardSn,
       });
     },
+    fnComment() {
+      const sessionId = sessionStorage.getItem("sessionId");
+      console.log(this.replyComment);
+      console.log(this.sessionId);
+    },
   },
 };
 </script>
 <style scoped>
+.replyStrong {
+  display: block;
+  margin-bottom: 20px;
+  margin-left: 15px;
+}
 .board-container {
   max-width: 1200px;
   margin: 0 auto;

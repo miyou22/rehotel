@@ -437,7 +437,7 @@ export default {
         return;
       }
       selectIds.map((boardSn) => {
-        const boardDto = { boardSn, boardStatus: "Y" }; // 복구 요청에 필요한 요청 본문을 생성합니다.
+        const boardDto = { boardSn, boardStatus: "Y" };
         this.$axios
           .put(
             "http://localhost:8081/api/admin/board/detail/" + boardSn,

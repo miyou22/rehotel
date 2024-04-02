@@ -30,7 +30,7 @@
       <nav
         class="w3-container w3-green w3-padding-16 w3-border-bottom w3-border-black"
       >
-        <span>작성자들어감</span>
+        <span>작성자 : 관리자</span>
         <span class="w3-right">{{ boardCnt }}</span>
       </nav>
       <!-- 첨부파일, 본문, 버튼 -->
