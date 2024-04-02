@@ -288,25 +288,28 @@ export default {
   methods: {
     formatPhoneNumber(phoneNumber) {
       // 전화번호 형식 변환 로직 예시
-      const formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+      const formattedPhoneNumber = phoneNumber.replace(
+        /(\d{3})(\d{4})(\d{4})/,
+        "$1-$2-$3"
+      );
       return formattedPhoneNumber;
     },
     getUserMember() {
-      this.userId = sessionStorage.getItem('sessionId');
+      this.userId = sessionStorage.getItem("sessionId");
       var data = {
-        userId: this.userId
+        userId: this.userId,
       };
       this.$axios
-          .post("http://localhost:8081/api/member/memberUpdate", data)
-          .then((res) => {
-            console.log(res)
-            this.customerName = res.data.userName;
-            this.email = res.data.userEmail;
-            this.phoneNumber = "0" + res.data.userTel;
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+        .post("http://localhost:8081/api/member/memberUpdate", data)
+        .then((res) => {
+          console.log(res);
+          this.customerName = res.data.userName;
+          this.email = res.data.userEmail;
+          this.phoneNumber = "0" + res.data.userTel;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     getResList() {
       // alert("getresList 시작.....")
@@ -448,8 +451,8 @@ export default {
             // 결제 성공 시 로직,
           } else {
             // 결제 실패 시 로직,
+            this.$store.commit("setReservationEmail2", this.email);
             this.$router.push("/checkList");
-            console.log("실패");
           }
         }
       );
