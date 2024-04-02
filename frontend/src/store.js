@@ -4,8 +4,9 @@ const store = createStore({
   plugins: [createPersistedState()],
   state() {
     return {
-      reservationId: '',
+      reservationId: "",
       reservationEmail: "",
+      reservationEmail2: "",
       fromDate: "",
       fromDate2: "",
       selectedMembers: 1,
@@ -32,6 +33,9 @@ const store = createStore({
     },
     setReservationEmail(state, reservationEmail) {
       state.reservationEmail = reservationEmail; // 예약번호를 저장하는 mutation
+    },
+    setReservationEmail2(state, reservationEmail2) {
+      state.reservationEmail2 = reservationEmail2; // 예약번호를 저장하는 mutation
     },
     setSelectedResItem(state, item) {
       state.selectedResItem = item; // 선택된 예약 항목을 설정하는 뮤테이션

@@ -3,21 +3,73 @@
     <div class="wrap">
       <h2 class="tit">관리자 로그인</h2>
       <form>
-        <input type="text" placeholder="아이디" />
-        <input type="password" placeholder="비밀번호" />
+        <input type="text" placeholder="아이디" v-model="userId" />
+        <input type="password" placeholder="비밀번호" v-model="userPwd" />
       </form>
       <div class="btn-wrap">
         <!--버튼을 누르면 관리자로-->
-        <button>로그인</button>
+        <button @click="login">로그인</button>
       </div>
       <div class="bottom">
         <a href="/">사용자 홈 바로가기</a>
-        <p>ID : ~~~ / PW : ~~~</p>
+        <p>ID : admin / PW : admin1234</p>
       </div>
     </div>
   </main>
 </template>
+<script>
+import axios from "axios";
+const serverUrl = "http://localhost:8081";
+import store from "@/store";
+export default {
+  data() {
+    return {
+      userId: "",
+      userPwd: "",
+    };
+  },
+  methods: {
+    login: function () {
+      if (!this.userId || !this.userPwd) {
+        alert("아이디와 비밀번호가 일치하지 않습니다.");
+        return;
+      }
+      var data = {
+        userId: this.userId,
+        userPwd: this.userPwd,
+        role: "ADMIN",
+      };
 
+      // alert('로그인을 시작합니다!!!' + data.userId)
+      axios
+        .post(serverUrl + "/api/member/login", data)
+        .then((response) => {
+          if (response.status === 200 && response.data === this.userId) {
+            alert(response.data + "님 환영합니다! ");
+            store.commit("setAccount", response.data); // store에 로그인 정보를 저장
+            console.log("Store => " + store.state.userId);
+            console.log(response);
+            sessionStorage.setItem("sessionId", response.data); // 세션스토리지에도 저장
+            console.log("세션생성 ==> " + sessionStorage.sessionId);
+            console.log("현재 세션 :", sessionStorage.getItem("sessionId"));
+
+            this.$router.push("/admin");
+          } else if (response.status === 401) {
+            alert("아이디나 비밀번호가 맞지 않습니다.");
+          } else if (response.status === 404) {
+            alert("해당 아이디의 회원을 찾을 수 없습니다.");
+          } else {
+            alert("로그인에 실패하였습니다.");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert("로그인에 실패하였습니다.");
+        });
+    },
+  },
+};
+</script>
 <style scoped>
 * {
   font-family: "Noto Sans KR", sans-serif;

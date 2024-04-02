@@ -25,10 +25,6 @@ public class Reservation {
     @Column(name = "userId", insertable=false, updatable=false)
     private String userId;
 
-    // 비회원 이메일
-    @ManyToOne
-    @JoinColumn(name = "guestEmail")
-    private Guest guestEmail;
     // 방 이름
     private String roomName;
     // 방 + 연회장 가격
