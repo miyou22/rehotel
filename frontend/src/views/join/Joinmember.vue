@@ -31,7 +31,7 @@
                         <input type="text" id="user-id" v-model="userId" required placeholder="아이디">
                         <button type="confirm" @click="checkDuplicate">중복확인</button>
                     </div>
-                    <p v-show="errorId" class="input-error">아이디는 영문, 숫자를 포함한 4자 이상이어야합니다.</p>
+                    <p v-show="errorId" class="input-error">아이디는 영문을 포함한 4자 이상이어야합니다.</p>
                     <input type="password" id="user-pwd" v-model="userPwd" required placeholder="비밀번호">
                     <input type="password" id="password-confirm" v-model="passwordConfirm" required placeholder="비밀번호 확인">
                     <input type="text" id="user-name" v-model="userName" required placeholder="이름">
@@ -90,12 +90,6 @@
         },
 
         methods: {
-            updateUserPrivate() {
-                // 이용약관과 개인정보처리방침에 모두 동의한 경우, userPrivate를 true로 변경
-                if (this.agreedTerms && this.agreedPrivacy) {
-                    this.userPrivate = true;
-                }
-            },
             checkId() { // 아이디 유효성 검사
                 if(!validateId.test(this.userId) || !this.userId) {
                     this.errorId = true;
@@ -155,7 +149,6 @@
 
     // 회원가입 버튼을 눌렀을 때
     submitForm: function () {
-      this.updateUserPrivate();
       if (!this.agreedTerms || !this.agreedPrivacy) {
         alert("약관 동의에 체크해주세요.");
         return;
@@ -189,6 +182,8 @@
         userGender: this.userGender,
         verificationCode: this.verificationCode,
         passwordConfirm: this.passwordConfirm,
+        userFlag : 1,
+        userPrivate: 1,
       };
       alert(this.userName + "님의 회원가입을 시작합니다.");
       axios
