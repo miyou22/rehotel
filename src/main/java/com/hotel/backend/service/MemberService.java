@@ -2,10 +2,13 @@ package com.hotel.backend.service;
 
 import com.hotel.backend.dto.MemberFormDto;
 import com.hotel.backend.entity.Member;
+import com.hotel.backend.entity.Reservation;
 import com.hotel.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -70,5 +73,21 @@ public class MemberService {
     public void updateMember(Member member) {
         System.out.println(member);
         memberRepository.save(member);
+    }
+
+
+    // 회원 정보 완전 삭제
+    @Deprecated
+    public void deleteMember(List<String> memberIds) {
+
+        System.out.println("MemberService deleteMember ==> " + memberIds);
+
+        memberIds.forEach(userId -> {
+            Optional<Member> selectMember = memberRepository.findByUserId(userId);
+            System.out.println(selectMember);
+            Member member = selectMember.get();
+            System.out.println(member.getUserId());
+            memberRepository.delete(member);
+        });
     }
 }
