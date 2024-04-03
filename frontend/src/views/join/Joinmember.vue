@@ -149,7 +149,6 @@
 
     // 회원가입 버튼을 눌렀을 때
     submitForm: function () {
-      this.updateUserPrivate();
       if (!this.agreedTerms || !this.agreedPrivacy) {
         alert("약관 동의에 체크해주세요.");
         return;
