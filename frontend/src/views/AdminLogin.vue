@@ -37,14 +37,17 @@ export default {
       var data = {
         userId: this.userId,
         userPwd: this.userPwd,
-        role: "ADMIN",
       };
 
       // alert('로그인을 시작합니다!!!' + data.userId)
       axios
         .post(serverUrl + "/api/member/login", data)
         .then((response) => {
-          if (response.status === 200 && response.data === this.userId) {
+          if (
+            response.status === 200 &&
+            response.data === this.userId &&
+            response.data === "admin"
+          ) {
             alert(response.data + "님 환영합니다! ");
             store.commit("setAccount", response.data); // store에 로그인 정보를 저장
             console.log("Store => " + store.state.userId);
@@ -67,6 +70,26 @@ export default {
           alert("로그인에 실패하였습니다.");
         });
     },
+
+    getResList() {
+      // alert("getresList 시작.....")
+      this.$axios
+        .get("http://localhost:8081/api/member/memInfo")
+        .then((res) => {
+          this.resList = res.data.filter((item) => item.role === "ADMIN");
+          // alert('getData() 수신데이터 ==> ' + res.data)
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
+  },
+  mounted() {
+    this.getResList();
   },
 };
 </script>

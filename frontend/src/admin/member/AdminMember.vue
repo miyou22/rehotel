@@ -9,21 +9,15 @@
     <div class="allBoard">
       <!-- Board -->
       <div class="board-list">
-        <!-- <div class="common-buttons">
-          <button
-            type="button"
-            class="w3-button w3-white w3-border w3-hover-white"
-            @click="$router.push('board/write')"
-          >
-            게시글 작성
-          </button>
+        <div class="common-buttons">
           <button
             type="button"
             class="w3-button w3-white w3-border-red w3-border w3-text-red"
+            @click="MemDelete"
           >
-            게시글 삭제
+            선택회원 삭제
           </button>
-        </div> -->
+        </div>
         <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
           <colgroup>
             <col width="80px" />
@@ -38,7 +32,7 @@
                 <input
                   type="checkbox"
                   id="selectAll"
-                  @change="selectAllItems"
+                  @change="selectAllItems($event.target.checked)"
                 />
               </th>
               <th class="w3-center">번호</th>
@@ -48,15 +42,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10" :key="item">
+            <tr v-for="(item, idx) in paginatedResList" :key="idx">
               <td class="w3-center">
-                <input type="checkbox" id="select" />
+                <input type="checkbox" id="select" v-model="item.selected" />
               </td>
-              <td class="w3-center">{{ 10 - item + 1 }}</td>
-              <td class="w3-center">문의하기</td>
-              <td class="w3-center">객실</td>
+              <td class="w3-center">{{ getNumber(idx) }}</td>
+              <td class="w3-center detail" @click="saveSelectedItems(item)">
+                {{ item.userId }}
+              </td>
+              <td class="w3-center">{{ item.userName }}</td>
               <td class="w3-center">
-                <a href="/admin/board/detail">about</a>
+                {{ item.userJoin.split("T")[0] }}
               </td>
             </tr>
           </tbody>
@@ -64,34 +60,165 @@
       </div>
       <!-- Pagination -->
       <div class="w3-bar pagin">
-        <a href="#" class="w3-button w3-hover-purple circle">«</a>
-        <a href="#" class="w3-button w3-hover-green">1</a>
-        <a href="#" class="w3-button w3-hover-red">2</a>
-        <a href="#" class="w3-button w3-hover-blue">3</a>
-        <a href="#" class="w3-button w3-hover-black">4</a>
-        <a href="#" class="w3-button w3-hover-orange circle">»</a>
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber"
+          @click="prevPage"
+          >&laquo;</a
+        >
+        <a
+          v-for="page in pageCount"
+          :key="page"
+          href="#"
+          class="w3-button"
+          :class="{
+            'w3-text-black  w3-white w3-border w3-hover-white hofont':
+              page === currentPage,
+            'w3-text-black  w3-white w3-hover-white w3-hover-text-amber nofont':
+              page !== currentPage,
+          }"
+          @click="changePage(page)"
+          >{{ page }}</a
+        >
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber w3-center"
+          @click="nextPage"
+          >&raquo;</a
+        >
       </div>
-      <!-- SearchBar -->
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { mapActions } from "vuex";
 export default {
-  methods: {
-    selectAllItems() {
-      const item = document.querySelectorAll('input[type="checkbox"]');
-      const firstBox = document.querySelector('input[id="selectAll"]');
-      item.forEach((box) => {
-        box.checked = firstBox.checked;
-      });
-      console.log(item);
+  data() {
+    return {
+      memList: [],
+      itemsPerPage: 10,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    pageCount() {
+      return Math.ceil(this.memList.length / this.itemsPerPage);
     },
+    paginatedResList() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.memList.slice(startIndex, endIndex);
+    },
+    // selectedIds() {
+    //   return this.getSelected().join(", "); // 선택된 회원의 ID를 쉼표로 구분하여 문자열로 반환
+    // },
+  },
+  methods: {
+    saveSelectedItems(item) {
+      this.setSelectedMemItems(item); // Vuex 액션 호출
+      this.$router.push("/admin/member/detail");
+    },
+    ...mapActions(["setSelectedMemItems"]),
+    changePage(page) {
+      this.currentPage = page;
+    },
+    nextPage() {
+      if (this.currentPage < this.pageCount) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    getNumber(index) {
+      const reversedIndex =
+        this.memList.length -
+        (index + (this.currentPage - 1) * this.itemsPerPage);
+      return reversedIndex;
+    },
+
+    selectAllItems(checked) {
+      this.allChecked = checked;
+      for (let i in this.memList) {
+        this.memList[i].selected = this.allChecked;
+      }
+    },
+    getSelected() {
+      // 선택한 인풋의 아이디 가져오기
+      return this.memList
+        .filter((item) => item.selected)
+        .map((item) => item.userId);
+    },
+    getMemList() {
+      // alert("getresList 시작.....")
+      this.$axios
+        .get("http://localhost:8081/api/member/memInfo")
+        .then((res) => {
+          this.memList = res.data.filter((item) => item.role === "USER");
+          // alert('getData() 수신데이터 ==> ' + res.data)
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
+    MemDelete() {
+      const selectedIds = this.getSelected(); // 선택된 회원의 ID 목록을 가져오기
+      if (selectedIds.length === 0) {
+        alert("아무것도 선택을 하지 않습니다.");
+        return;
+      }
+      axios
+        .post("http://localhost:8081/api/member/deleteMember", selectedIds)
+
+        .then((response) => {
+          if (response.status === 200) {
+            alert("선택된 회원의 정보가 삭제되었습니다.");
+            // 변경된 상태를 다시 불러옵니다.
+            this.getMemList();
+          } else {
+            alert("회원 삭제에 실패했습니다.");
+          }
+        })
+        .catch((error) => {
+          console.error("회원 삭제에 실패했습니다.", error);
+        });
+    },
+  },
+  mounted() {
+    this.getMemList();
   },
 };
 </script>
 
 <style scoped>
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
+.detail:hover {
+  color: #d4af37;
+  cursor: pointer;
+}
+.hofont {
+  font-weight: 500;
+}
+.nofont {
+  font-weight: 300;
+}
+.detail {
+  cursor: pointer;
+  font-weight: bold;
+}
+.detail:hover {
+  color: #d4af37;
+}
 table th,
 table td {
   font-size: 16px;

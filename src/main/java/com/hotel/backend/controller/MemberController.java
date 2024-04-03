@@ -167,4 +167,12 @@ public class MemberController {
     }
 
 
-}
+    // 관리자에서 회원정보 완전히 삭제
+    @PostMapping("/deleteMember")
+    public void deleteMember(@RequestBody List<String> memberIds) {
+        System.out.println("MemberController deleteMember ==> " + memberIds);
+
+        memberService.deleteMember(memberIds);
+    }
+
+    }
