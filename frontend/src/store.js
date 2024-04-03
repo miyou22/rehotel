@@ -71,6 +71,9 @@ const store = createStore({
       state.userId = payload;
       sessionStorage.setItem("sessionId", payload);
     },
+    setUserId(state, userId) {
+      state.userId = userId // 사용자 아이디를 저장하는 뮤테이션 추가
+    },
   },
   actions: {
     updateSelectedMembers({ commit }, value) {

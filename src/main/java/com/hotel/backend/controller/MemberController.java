@@ -35,6 +35,7 @@ public class MemberController {
     public ResponseEntity<String> login(@RequestBody MemberFormDto memberFormDto) {
         try {
             Member findMember = memberService.login(memberFormDto.getUserId());
+            // findMember에서 찾은 정보가 null값이 아니고 데이터베이스에 저장된 비밀번호와 같을 경우
             if (findMember != null && passwordEncoder.matches(memberFormDto.getUserPwd(), findMember.getUserPwd())) {
                 // 로그인 성공
                 System.out.println("11로그인 성공");
@@ -65,9 +66,11 @@ public class MemberController {
     // 이름, 이메일로 아이디 찾기
     @PostMapping("/find-id")
     public ResponseEntity<?> findId(@RequestBody Map<String, String> requestData) {
+        // 사용자가 입력하여 요청한 데이터를 가져옴
         String userName = requestData.get("userName");
         String userEmail = requestData.get("userEmail");
 
+        //MemberService 클래스의 findId 메서드에서 사용자의 이름과 이메일을 매개변수로 받아서 사용자를 찾음
         Optional<Member> optionalMember = memberService.findId(userName, userEmail);
 
         if (optionalMember.isPresent()) {
@@ -81,6 +84,7 @@ public class MemberController {
     // 아이디, 이름, 이메일로 비밀번호 찾기/변경
     @PostMapping("/find-pw")
     public ResponseEntity<?> findPw(@RequestBody Map<String, String> requestData) {
+        // 사용자가 입력하여 요청한 데이터를 가져옴
         String userId = requestData.get("userId");
         String userName = requestData.get("userName");
         String userEmail = requestData.get("userEmail");
@@ -90,6 +94,7 @@ public class MemberController {
 
         if (optionalMember.isPresent()) {
             // 일치하는 회원이 있다면 비밀번호 변경 페이지로 이동
+            System.out.println("비밀번호 변경 페이지로 이동");
             return ResponseEntity.ok("success");
         } else {
             // 일치하는 회원이 없다면 오류 메시지 반환
@@ -99,10 +104,15 @@ public class MemberController {
 
     @PostMapping("/newPw")
     public ResponseEntity<String> changePassword(@RequestBody Map<String, String> requestData) {
+        String userId = requestData.get("userId");
+        String newPassword = requestData.get("newPassword");
+        System.out.println("비밀번호 변경 : " + userId  + " : " + newPassword);
         try {
-            memberService.changePassword(requestData.get("userId"), requestData.get("newPassword"));
+            memberService.changePassword(userId, newPassword);
+            System.out.println("비밀번호 변경이 완료되었습니다. 로그인 페이지로 이동");
             return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
         } catch (IllegalArgumentException e) {
+            System.out.println("해당 아이디의 회원을 찾을 수 없습니다.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 아이디의 회원을 찾을 수 없습니다.");
         }
     }
@@ -117,14 +127,6 @@ public class MemberController {
 
         try {
             System.out.println("회원가입 ==> " + memberFormDto);
-
-            // MemberFormDto에서 userFlag 값을 가져와서 확인
-            int userFlag = memberFormDto.getUserFlag();
-
-            // userFlag가 1이 아니면 강제로 1로 설정
-            if (userFlag != 1) {
-                memberFormDto.setUserFlag(1);
-            }
 
             // Member 객체 생성
             Member member = Member.createMember(memberFormDto, passwordEncoder);

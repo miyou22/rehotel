@@ -1,6 +1,5 @@
 package com.hotel.backend.service;
 
-import com.hotel.backend.dto.MemberFormDto;
 import com.hotel.backend.entity.Member;
 import com.hotel.backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
