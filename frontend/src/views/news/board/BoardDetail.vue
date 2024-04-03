@@ -18,9 +18,7 @@
         <span class="w3-right">조회수 : {{ boardCnt }}</span>
       </nav>
       <!-- 첨부파일, 본문, 버튼 -->
-      <div
-        class="contents w3-padding-32 w3-container w3-margin-bottom w3-border-bottom"
-      >
+      <div class="contents w3-padding-32 w3-container w3-border-bottom">
         <!-- 본문 및 버튼 -->
         <div
           id="viewer"
@@ -53,12 +51,9 @@
         </div>
       </div>
       <!--댓글리스트-->
-      <div
-        class="w3-padding-32 w3-container w3 w3-border-bottom"
-        v-if="pageTitle != '공지사항'"
-      >
+      <div class="w3-container commentList" v-if="pageTitle != '공지사항'">
         <ul
-          class="boardContent w3-padding-16 w3-container w3-border"
+          class="boardContentUl w3-padding-16 w3-container w3-border-bottom"
           v-for="(item, idx) in commentList"
           :key="idx"
         >
@@ -228,10 +223,6 @@ export default {
           console.log(error);
         });
     },
-    // getComment(){
-    //   this.$axios
-    //   .get("http://localhost:8081/api" +this.pageType + "/" +this.Sn)
-    // }
     renderMarkdown(content) {
       // Markdown을 HTML로 변환하는 로직을 여기에 추가하세요.
       // 예: 직접 구현하거나 다른 라이브러리 사용
@@ -428,5 +419,11 @@ li {
   margin-left: 8px;
   border-style: none;
   background-color: white;
+}
+.boardContentUl:last-child {
+  border-bottom: none !important; /* w3-border-bottom 스타일 제거 */
+}
+.commentList {
+  border-bottom: 1px solid black;
 }
 </style>

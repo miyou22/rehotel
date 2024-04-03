@@ -58,6 +58,7 @@ public class MemberController {
         System.out.println("Vue Gethering Test.....");
         List<Member> memInfo = memberRepository.findAll();
         System.out.println("아이템 리스트 ==> " + memInfo);
+
         return memInfo;
     }
 
