@@ -113,7 +113,6 @@ export default {
     },
     fnSave() {
       const sessionId = sessionStorage.getItem("sessionId");
-      const userId = sessionStorage.getItem("userId"); // userId 변수를 정의
 
       var boardData = {
         boardTitle: this.title,

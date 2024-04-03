@@ -52,63 +52,86 @@
           </button>
         </div>
       </div>
+      <!--댓글리스트-->
+      <div
+        class="w3-padding-32 w3-container w3 w3-border-bottom"
+        v-if="pageTitle != '공지사항'"
+      >
+        <ul
+          class="boardContent w3-padding-16 w3-container w3-border"
+          v-for="(item, idx) in commentList"
+          :key="idx"
+        >
+          <li v-if="!item.isEditing">
+            <div class="replyInfo">
+              <strong class="replyId" style="font-size: 16px">{{
+                item.userId
+              }}</strong>
+              <span class="replyDay">{{ formatDate(item.createdAt) }}</span>
+              <span class="buttonSub"
+                ><button
+                  class="w3-white content-button"
+                  @click="fnModifyContent(item)"
+                >
+                  수정</button
+                ><button class="content-button" @click="fnModifyDelete(item)">
+                  삭제
+                </button></span
+              >
+            </div>
+            <p class="w3-margin-top">{{ item.content }}</p>
+          </li>
+          <li v-else>
+            <div class="replyInfo">
+              <strong class="replyId" style="font-size: 16px">{{
+                item.userId
+              }}</strong>
+              <span class="replyDay">{{ formatDate(item.createdAt) }}</span>
+              <span class="buttonSub"
+                ><button
+                  class="content-button w3-white"
+                  @click="fnModifySave(item)"
+                >
+                  저장</button
+                ><button class="content-button" @click="fnModifyCancel(item)">
+                  취소
+                </button></span
+              >
+            </div>
+            <textarea
+              v-model="item.editedContent"
+              class="w3-input w3-border"
+              style="resize: none"
+            ></textarea>
+          </li>
+        </ul>
+      </div>
       <!-- 댓글 -->
       <div
         class="w3-padding-32 w3-container w3-border-bottom"
         v-if="pageTitle != '공지사항'"
       >
-        <div class="w3-row-padding">
-          <div class="w3-col s3">
-            <input
-              class="w3-input w3-border"
-              type="text"
-              placeholder="작성자명"
-            />
-          </div>
-          <div class="w3-col s3">
-            <input
-              class="w3-input w3-border w3-margin-bottom"
-              type="text"
-              placeholder="비밀번호"
-            />
-          </div>
-        </div>
+        <string class="replyStrong">댓글 달기</string>
         <div class="w3-row-padding textBtn" style="display: flex">
           <div class="w3-col s11">
             <textarea
               class="w3-input w3-border"
+              v-model="replyComment"
               style="resize: none"
+              placeholder="로그인 후 입력해주세요"
             ></textarea>
           </div>
           <button
             class="w3-col s2 w3-right w3-indigo w3-hover-lightt-blue"
             type="submit"
             style="cursor: pointer"
+            @click="fnComment"
           >
             작성하기
           </button>
         </div>
       </div>
-      <!--댓글리스트-->
-      <div
-        class="w3-padding-32 w3-container w3 w3-border-bottom"
-        v-if="pageTitle != '공지사항'"
-      >
-        <ul class="boardContent w3-padding-16 w3-container">
-          <li>
-            <div class="replyInfo">
-              <strong class="replyId" style="font-size: 16px">testid</strong>
-              <span class="replyDay">2024/03/18</span>
-              <span class="buttonSub"
-                ><button class="w3-white modifyDelete">수정</button
-                ><button class="modifyDelete">삭제</button
-                ><button class="modifyDelete">신고</button></span
-              >
-            </div>
-            <p class="w3-margin-top">리플내용이 담김</p>
-          </li>
-        </ul>
-      </div>
+
       <!-- 목록버튼 -->
       <div class="w3-padding-32 w3-container">
         <div class="w3-container w3-center">
@@ -131,6 +154,7 @@ import axios from "axios";
 import Viewer from "@toast-ui/editor/dist/toastui-editor-viewer";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css"; // Viewer를 위한 CSS 파일을 가져옵니다.
 const serverUrl = "http://localhost:8081";
+const sessionId = sessionStorage.getItem("sessionId");
 
 export default {
   data() {
@@ -138,9 +162,6 @@ export default {
       pageTitle: "", // 페이지 제목
       pageType: "", // 페이지 유형 ('inquiry' 또는 'notice')
       viewer: null,
-      categoryTitle: "", // 페이지 제목
-      categoryType: "", // 페이지 유형 ('inquiry' 또는 'notice')
-      // requestBody: this.$route.query,
       boardTitle: "",
       boardSn: null, // 게시물 번호
       createdAt: "",
@@ -148,6 +169,12 @@ export default {
       boardCnt: "",
       boardContent: "",
       role: "",
+      replyComment: "",
+      board: "",
+      userId: sessionId,
+      commentList: [],
+      editedContent: "",
+      id: "",
     };
   },
   created() {
@@ -169,7 +196,9 @@ export default {
   mounted() {
     this.boardSn = this.$route.params.boardSn;
     this.getDetail();
+    this.fnCommentList();
   },
+
   methods: {
     formatDate(dateTimeString) {
       return dateTimeString.slice(0, 10);
@@ -199,6 +228,10 @@ export default {
           console.log(error);
         });
     },
+    // getComment(){
+    //   this.$axios
+    //   .get("http://localhost:8081/api" +this.pageType + "/" +this.Sn)
+    // }
     renderMarkdown(content) {
       // Markdown을 HTML로 변환하는 로직을 여기에 추가하세요.
       // 예: 직접 구현하거나 다른 라이브러리 사용
@@ -246,10 +279,119 @@ export default {
         path: "/inquiry/update/" + boardSn,
       });
     },
+    fnComment() {
+      var commentData = {
+        content: this.replyComment,
+        categoryType: this.pageType,
+        userId: this.userId,
+        boardSn: this.boardSn,
+        id: this.id,
+      };
+      console.log(this.replyComment);
+      console.log(this.pageType);
+      console.log(this.boardSn);
+      console.log(commentData);
+      axios
+        .post(
+          "http://localhost:8081/api/" + this.pageType + "/" + this.boardSn,
+          commentData
+        )
+        .then((res) => {
+          console.log("data send::", res.commentData);
+          alert("댓글 작성이 완료");
+          location.reload();
+        })
+        .catch((err) => {
+          console.log("에러닷", err);
+        });
+    },
+    fnCommentList() {
+      const boardSn = this.boardSn;
+      // console.log(this.boardSn);
+      this.$axios
+        .get(
+          `http://localhost:8081/api/${this.pageType}/${this.boardSn}/comments`
+        )
+        .then((res) => {
+          console.log(res.data);
+          this.commentList = res.data;
+        })
+        .catch((error) => {
+          console.error("댓글 목록 가져오기 에러:", error);
+          // 댓글 목록을 가져오는데 실패했을 때의 동작 추가
+        });
+    },
+    fnCommentUpdate() {},
+    fnModifyContent(item) {
+      item.isEditing = true;
+      item.editedContent = item.content; // 수정할 내용을 textarea에 채움
+    },
+    fnModifyCancel(item) {
+      item.isEditing = false;
+    },
+    fnModifySave(item) {
+      var editedContent = item.editedContent;
+      var editid = item.id;
+      var comment = {
+        content: editedContent,
+        // categoryType: item.pageType,
+        // userId: item.userId,
+        // boardSn: item.boardSn,
+        id: editid,
+      };
+      axios
+        .put(
+          "http://localhost:8081/api/update/" +
+            this.pageType +
+            "/" +
+            this.boardSn,
+          comment
+        )
+        .then((res) => {
+          console.log("data sent", res);
+          alert("댓글 수정완료");
+          item.isEditing = false;
+          location.reload();
+        })
+        .catch((err) => {
+          console.log("에러닷", err);
+        });
+    },
+    fnModifyDelete(item) {
+      var editedContent = item.editedContent;
+      var editid = item.id;
+      var comment = {
+        content: editedContent,
+        id: editid,
+        commentStatus: this.commentStatus,
+      };
+      axios
+        .put(
+          "http://localhost:8081/api/modiDelete/" +
+            this.pageType +
+            "/" +
+            this.boardSn,
+          comment
+        )
+        .then((res) => {
+          console.log("data sent", res);
+          alert("댓글 삭제완료");
+          item.isEditing = false;
+          location.reload();
+        })
+        .catch((err) => {
+          console.log("에러닷", err);
+        });
+    },
   },
 };
 </script>
 <style scoped>
+.replyStrong {
+  display: block;
+  margin-bottom: 20px;
+  margin-left: 15px;
+}
 .board-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -281,7 +423,7 @@ li {
   margin-left: 8px;
 }
 
-.modifyDelete {
+.content-button {
   font-size: 14px;
   margin-left: 8px;
   border-style: none;

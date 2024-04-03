@@ -89,9 +89,6 @@ public class BoardService {
     //---------------------------------------------------------------------------------------------------------------------
     @Transactional
     public int updateView(Long boardSn){
-        System.out.println("조회asdfsdafasdfsadfasdfdasf  " + boardSn);
-        System.out.println("이거 나와야됨");
-
         return boardRepository.updateView(boardSn);
     }
 
