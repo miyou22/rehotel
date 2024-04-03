@@ -22,17 +22,17 @@
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/accommodation'  }"
-                href="accommodation"  @click = "subgnb2 = true" >Accommodation</a>
+                href="accommodation" >Accommodation</a>
 
             </li>
             <li class="header-nav-list" >
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/Facility' }"
-                href="Facility"  @click="subgnb2 = true">Facility</a>
+                href="Facility">Facility</a>
 
             </li>
             <li class="header-nav-list">
               <a class="header-nav-link" :class="{ 'header-active': currentRoute === '/banquethall' }"
-                href="banquethall"  @click = "subgnb2 = true">banquet hall</a>
+                href="banquethall" >banquet hall</a>
 
 </li>
             <li class="header-nav-list">
