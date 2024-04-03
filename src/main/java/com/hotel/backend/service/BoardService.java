@@ -84,6 +84,12 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-
+    //---------------------------------------------------------------------------------------------------------------------
+    // 게시판 조회수 증가
+    //---------------------------------------------------------------------------------------------------------------------
+    @Transactional
+    public int updateView(Long boardSn){
+        return boardRepository.updateView(boardSn);
+    }
 
 }

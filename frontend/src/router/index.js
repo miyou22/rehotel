@@ -12,6 +12,7 @@ import Mypage from "../views/Mypage";
 import Joinmember from "../views/join/Joinmember";
 import Login from "../views/Login";
 import Findidpw from "../views/Findidpw.vue";
+import FindPw from "../views/FindPw.vue";
 import Sitemap from "../views/Sitemap.vue";
 
 import Board from "../views/news/board/BoardList";
@@ -135,6 +136,11 @@ const routes = [
     path: "/findidpw",
     name: "findidpw",
     component: Findidpw,
+  },
+  {
+    path: "/findPw",
+    name: "findPw",
+    component: FindPw,
   },
   {
     path: "/admin",

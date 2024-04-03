@@ -31,7 +31,7 @@
                         <input type="text" id="user-id" v-model="userId" required placeholder="아이디">
                         <button type="confirm" @click="checkDuplicate">중복확인</button>
                     </div>
-                    <p v-show="errorId" class="input-error">아이디는 영문, 숫자를 포함한 4자 이상이어야합니다.</p>
+                    <p v-show="errorId" class="input-error">아이디는 영문을 포함한 4자 이상이어야합니다.</p>
                     <input type="password" id="user-pwd" v-model="userPwd" required placeholder="비밀번호">
                     <input type="password" id="password-confirm" v-model="passwordConfirm" required placeholder="비밀번호 확인">
                     <input type="text" id="user-name" v-model="userName" required placeholder="이름">
@@ -53,109 +53,7 @@
                 </form>
             </section>
         </div>
-        <div class="scrollable-content"><terms-content></terms-content></div>
-        <div class="user">
-          <h4>개인정보처리방침 동의 <b>(필수)</b></h4>
-          <div>
-            <input type="checkbox" id="privacy" v-model="agreedPrivacy" />
-            <label for="privacy">동의합니다.</label>
-          </div>
-        </div>
-        <div class="scrollable-content">
-          <privacy-policy-content></privacy-policy-content>
-        </div>
-
-      <div class="vertical-line"></div>
-      <!--세로 선 추가-->
-      <section class="join-form">
-        <h2 class="input">회원정보 입력</h2>
-        <form>
-          <div class="input-id">
-            <input
-              type="text"
-              id="user-id"
-              v-model="userId"
-              required
-              placeholder="아이디"
-            />
-            <button type="confirm" @click="checkDuplicate">중복확인</button>
-          </div>
-          <input
-            type="password"
-            id="user-pwd"
-            v-model="userPwd"
-            required
-            placeholder="비밀번호"
-          />
-          <input
-            type="password"
-            id="password-confirm"
-            v-model="passwordConfirm"
-            required
-            placeholder="비밀번호 확인"
-          />
-          <input
-            type="text"
-            id="user-name"
-            v-model="userName"
-            required
-            placeholder="이름"
-          />
-          <div class="input-email">
-            <input
-              type="email"
-              id="user-email"
-              v-model="userEmail"
-              placeholder="이메일"
-            />
-            <button
-              type="button"
-              @click="sendVerificationCode"
-              class="button-send-verification"
-            >
-              인증번호 발송
-            </button>
-          </div>
-          <input
-            type="text"
-            id="verification-code"
-            name="verification-code"
-            v-model="verificationCode"
-            placeholder="인증번호를 입력하세요."
-          />
-          <input
-            type="text"
-            id="user-tel"
-            v-model="userTel"
-            required
-            placeholder="연락처"
-          />
-          <input
-            type="text"
-            id="user-addr"
-            v-model="userAddr"
-            required
-            placeholder="주소"
-          />
-          <input
-            type="date"
-            id="user-birth"
-            v-model="userBirth"
-            required
-            placeholder="생년월일"
-          />
-          <select id="user-gender" v-model="userGender" required>
-            <option value="">성별을 선택하세요</option>
-            <option value="m">남성</option>
-            <option value="f">여성</option>
-          </select>
-          <button type="submit" class="submit" @click.prevent="submitForm">
-            회원가입
-          </button>
-        </form>
-      </section>
     </div>
-
 </template>
 
 <script>
@@ -192,12 +90,6 @@
         },
 
         methods: {
-            updateUserPrivate() {
-                // 이용약관과 개인정보처리방침에 모두 동의한 경우, userPrivate를 true로 변경
-                if (this.agreedTerms && this.agreedPrivacy) {
-                    this.userPrivate = true;
-                }
-            },
             checkId() { // 아이디 유효성 검사
                 if(!validateId.test(this.userId) || !this.userId) {
                     this.errorId = true;
@@ -257,7 +149,6 @@
 
     // 회원가입 버튼을 눌렀을 때
     submitForm: function () {
-      this.updateUserPrivate();
       if (!this.agreedTerms || !this.agreedPrivacy) {
         alert("약관 동의에 체크해주세요.");
         return;
@@ -291,6 +182,8 @@
         userGender: this.userGender,
         verificationCode: this.verificationCode,
         passwordConfirm: this.passwordConfirm,
+        userFlag : 1,
+        userPrivate: 1,
       };
       alert(this.userName + "님의 회원가입을 시작합니다.");
       axios

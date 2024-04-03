@@ -37,6 +37,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+const serverUrl = 'http://localhost:8081'
+import store from "@/store";
 export default {
     data() {
         return {
@@ -49,28 +52,51 @@ export default {
     },
     methods: {
         findId: function() {
-            if(!this.findIdUsername) {
-                alert('이름을 입력해주세요.')
-                return;
-                }
-            if(!this.findIdUseremail) {
-                alert('이메일을 입력해주세요.')
-                return;
-            }
-        },
+             if(!this.findIdUsername) {
+                 alert('이름을 입력해주세요.')
+                 return;
+                 }
+             if(!this.findIdUseremail) {
+                 alert('이메일을 입력해주세요.')
+                 return;
+             }
+             axios.post(serverUrl + '/api/member/find-id', {
+                 userName: this.findIdUsername,
+                 userEmail: this.findIdUseremail
+             })
+             .then(response => {
+                 alert(`찾으시는 아이디는 ${response.data} 입니다.`);
+             })
+             .catch(error => {
+                 console.error(error);
+                 alert('아이디를 찾을 수 없습니다.');
+             });
+         },
         findPw: function() {
-            if(!this.findPwUserid) {
-                alert('아이디를 입력해주세요')
+            if(!this.findPwUserid || !this.findPwUsername || !this.findPwUseremail) {
+                alert('아이디, 이름, 이메일을 모두 입력해주세요');
                 return;
             }
-            if(!this.findPwUsername) {
-                alert('이름을 입력해주세요')
-                return;
-            }
-            if(!this.findPwUseremail) {
-                alert('이메일을 입력해주세요')
-                return;
-            }
+
+            axios.post(serverUrl + '/api/member/find-pw', {
+                userId: this.findPwUserid,
+                userName: this.findPwUsername,
+                userEmail: this.findPwUseremail,
+            })
+            .then(response => {
+                // 서버에서 응답을 받으면 비밀번호 변경 페이지로 이동
+                if (response.data === 'success') {
+                console.log("비밀번호 변경으로 이동");
+                store.commit('setUserId', this.findPwUserid);       // 입력한 아이디를 스토어에 저장
+                this.$router.push('/findpw'); // 비밀번호 변경 페이지로 이동
+                } else {
+                alert('입력한 정보와 일치하는 회원이 없습니다.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert('비밀번호를 찾을 수 없습니다.');
+            });
         }
     }
 }

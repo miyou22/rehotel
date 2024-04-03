@@ -52,7 +52,7 @@
             />
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th>작성자</th>
           <td>
             <input
@@ -63,12 +63,12 @@
               value
             />
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
     <!-- 글작성 에이터 -->
     <div id="editor" class="w3-border-bottom w3-border-black"></div>
-    <button @click="saveContent">Save Content</button>
+    <!-- <button @click="saveContent">Save Content</button> -->
 
     <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">

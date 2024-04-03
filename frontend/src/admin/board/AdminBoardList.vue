@@ -31,6 +31,7 @@
             <col width="200px" />
             <col width="auto" />
             <col width="200px" />
+            <col width="200px" />
             <col width="150px" />
           </colgroup>
           <thead>
@@ -46,6 +47,7 @@
               <th class="w3-center">게시판</th>
               <th class="w3-center">제목</th>
               <th class="w3-center">작성자ID</th>
+              <th class="w3-center">조회수</th>
               <th class="w3-center">작성일</th>
             </tr>
           </thead>
@@ -65,6 +67,7 @@
                 <a @click="boardView(item.boardSn)">{{ item.boardTitle }}</a>
               </td>
               <td class="w3-center">nyaa</td>
+              <td class="w3-center">{{ item.boardCnt }}</td>
               <td class="w3-center">{{ formatDate(item.createdAt) }}</td>
             </tr>
           </tbody>
@@ -107,9 +110,17 @@
         <div class="common-buttons">
           <button
             type="button"
-            class="w3-button w3-round w3-margin-bottom w3-hover-white w3-text-red w3-border-red"
+            class="w3-button w3-round w3-margin-bottom w3-hover-white"
+            @click="fnBackPost"
           >
-            삭제하기
+            선택 글 복원하기
+          </button>
+          <button
+            type="button"
+            class="w3-button w3-round w3-margin-bottom w3-hover-white w3-hover-text-red w3-text-red w3-border-red"
+            @click="fnDelete"
+          >
+            영구 삭제
           </button>
         </div>
         <table class="w3-table w3-bordered w3-hoverable w3-margin-bottom">
@@ -117,9 +128,9 @@
             <col width="80px" />
             <col width="100px" />
             <col width="200px" />
-            <col width="200px" />
             <col width="auto" />
-            <col width="200px" />
+            <col width="300px" />
+            <col width="100px" />
             <col width="150px" />
           </colgroup>
           <thead>
@@ -128,42 +139,67 @@
                 <input
                   type="checkbox"
                   id="selectAll"
-                  @change="selectAllItems"
+                  @change="selectAllItems($event.target.checked)"
                 />
               </th>
               <th class="w3-center">번호</th>
               <th class="w3-center">게시판</th>
-              <th class="w3-center">카테고리</th>
-              <th class="w3-center">제목</th>
+              <th class="w3-center">게시글제목</th>
+              <th class="w3-center">댓글내용</th>
               <th class="w3-center">작성자ID</th>
               <th class="w3-center">작성일</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10" :key="item">
+            <tr v-for="(item, idx) in paginatedCommentList" :key="idx">
               <td class="w3-center">
-                <input type="checkbox" id="select" />
+                <input
+                  type="checkbox"
+                  id="select"
+                  @change="selectItem"
+                  v-model="item.selected"
+                />
               </td>
-              <td class="w3-center">{{ item }}</td>
-              <td class="w3-center">문의하기</td>
-              <td class="w3-center">객실</td>
-              <td class="w3-center">
-                <a href="/admin/board/detail">about</a>
+              <td class="w3-center">{{ getNumber(idx) }}</td>
+              <td class="w3-center">{{ jpcall(item.board.boardCategory) }}</td>
+              <td class="w3-center">{{ item.board.boardTitle }}</td>
+              <td class="w3-center deContent">
+                <p class="deleteContent">{{ item.content }}</p>
               </td>
               <td class="w3-center">nyaa</td>
-              <td class="w3-center">2024/03/21</td>
+              <td class="w3-center">{{ formatDate(item.createdAt) }}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <!-- Pagination -->
       <div class="w3-bar pagin">
-        <a href="#" class="w3-button w3-hover-purple circle">«</a>
-        <a href="#" class="w3-button w3-hover-green">1</a>
-        <a href="#" class="w3-button w3-hover-red">2</a>
-        <a href="#" class="w3-button w3-hover-blue">3</a>
-        <a href="#" class="w3-button w3-hover-black">4</a>
-        <a href="#" class="w3-button w3-hover-orange circle">»</a>
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber"
+          @click="prevPage"
+          >&laquo;</a
+        >
+        <a
+          v-for="page in pageCount"
+          :key="page"
+          href="#"
+          class="w3-button"
+          :class="{
+            'w3-text-black  w3-white w3-border w3-hover-white hofont':
+              page === currentPage,
+            'w3-text-black  w3-white w3-hover-white w3-hover-text-amber nofont':
+              page !== currentPage,
+          }"
+          @click="changePage(page)"
+          >{{ page }}</a
+        >
+        <a
+          href="#"
+          class="w3-button w3-hover-white w3-hover-text-amber w3-center"
+          @click="nextPage"
+          >&raquo;</a
+        >
       </div>
       <!-- SearchBar -->
     </div>
@@ -279,6 +315,7 @@ export default {
       itemsPerPage: 10,
       currentPage: 1,
       selectChecked: [],
+      commentList: [],
     };
   },
   mounted() {
@@ -286,6 +323,8 @@ export default {
       this.getBoardList();
     } else if (this.categoryType === "deletePost") {
       this.getDeleteList();
+    } else if (this.categoryType === "comments") {
+      this.fnCommentList();
     }
   },
   computed: {
@@ -296,6 +335,11 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
       return this.boardList.slice(startIndex, endIndex);
+    },
+    paginatedCommentList() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.commentList.slice(startIndex, endIndex);
     },
   },
   created() {
@@ -383,6 +427,21 @@ export default {
           console.log("항상 마지막에 실행");
         });
     },
+    fnCommentList() {
+      this.$axios
+        .get("http://localhost:8081/api/admin/comments")
+        .then((res) => {
+          this.commentList = res.data;
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
+    fnCommentDelete() {},
     formatDate(dateTimeString) {
       return dateTimeString.slice(0, 10);
     },
@@ -422,7 +481,8 @@ export default {
     getNumber(index) {
       const reversedIndex =
         this.boardList.length -
-        (index + (this.currentPage - 1) * this.itemsPerPage);
+        (index + (this.currentPage - 1) * this.itemsPerPage) +
+        1;
       return reversedIndex;
     },
     fnBackPost() {
@@ -430,11 +490,11 @@ export default {
       const selectIds = this.selectItem();
       console.log(selectIds);
       if (selectIds.length === 0) {
-        alert("꺼졍 ㅋ");
+        alert("선택하지 않았어요.");
         return;
       }
       selectIds.map((boardSn) => {
-        const boardDto = { boardSn, boardStatus: "Y" }; // 복구 요청에 필요한 요청 본문을 생성합니다.
+        const boardDto = { boardSn, boardStatus: "Y" };
         this.$axios
           .put(
             "http://localhost:8081/api/admin/board/detail/" + boardSn,
@@ -454,16 +514,20 @@ export default {
       alert("삭제할꼬야?");
       const selectIds = this.selectItem();
       if (selectIds.length === 0) {
-        alert("꺼졍 ㅋ");
+        alert("선택되지 않았엉");
         return;
       }
       selectIds.map((boardSn) => {
-        const boardDto = { boardSn }; // 삭제 요청에 필요한 요청 본문을 생성합니다.
+        const boardDto = { boardSn, boardStatus: "Y" }; // 삭제 요청에 필요한 요청 본문을 생성합니다.
+
         console.log(boardDto);
+        const config = {
+          data: boardDto,
+        };
         this.$axios
           .delete(
-            "http://localhost:8081/api/admin/deletePost/" + boardSn,
-            boardDto
+            `http://localhost:8081/api/admin/deletePost/${boardSn}`,
+            config
           )
           .then((res) => {
             console.log("data sent", res);
@@ -574,5 +638,16 @@ table td {
 a {
   text-decoration: none;
   cursor: pointer;
+}
+.deContent {
+  text-align: center;
+}
+.deleteContent {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 300px;
+  color: red;
+  text-align: center;
 }
 </style>

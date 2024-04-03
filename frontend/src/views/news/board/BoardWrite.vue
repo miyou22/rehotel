@@ -1,4 +1,4 @@
-<template>
+<template v-if="fnLogin(sessionId)">
   <div class="board-container w3-margin-bottom">
     <div class="page-header-container">
       <h1 class="page-header">문의사항</h1>
@@ -20,12 +20,12 @@
             />
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th>작성자</th>
           <td>
             <input type="text" class="boardWriter" required value />
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
     <!-- 글작성 에이터 -->
@@ -67,14 +67,14 @@ export default {
       createdAt: "",
       boardContent: "",
       content: "",
+      userId: "",
     };
   },
   created() {
     const pageType = "inquiry";
-
-    console.log(pageType);
   },
   mounted() {
+    this.fnLogin();
     this.editor = new Editor({
       el: document.querySelector("#editor"),
       height: "400px",
@@ -112,13 +112,17 @@ export default {
       return result;
     },
     fnSave() {
+      const sessionId = sessionStorage.getItem("sessionId");
+
       var boardData = {
         boardTitle: this.title,
         createdAt: this.createdAt,
-        boardContent: this.content,
         boardCategory: "inquiry",
         boardContent: this.editor.getHTML(),
+        boardCnt: 0,
+        userId: sessionId, // 백엔드로부터 받은 userId 사용
       };
+      console.log(sessionId); // sessionId 로그 확인
       console.log(boardData);
       axios
         .post("http://localhost:8081/api/admin/board/write", boardData)
@@ -134,6 +138,19 @@ export default {
     saveContent() {
       this.content = this.editor.getHTML(); // 에디터의 HTML 내용을 가져와 변수에 할당
       console.log("Saved content:", this.content);
+    },
+    fnLogin() {
+      // 세션 스토리지에서 데이터 가져오기
+      const sessionId = sessionStorage.getItem("sessionId");
+      console.log(sessionId);
+      // 데이터가 없는 경우 경고창 표시
+      if (!sessionId) {
+        alert("로그인 후 이용가능합니다.");
+        this.$router.push({ path: "/login" });
+      } else {
+        // 데이터가 있는 경우 페이지 이동
+        this.$router.push({ path: "/inquiry/write" });
+      }
     },
   },
 };
@@ -181,7 +198,8 @@ td select {
   background-position: 96% center;
 }
 .titleLong {
-  width: 60%;
+  width: 100%;
+  height: 40px;
 }
 tr th {
   width: 240px;
