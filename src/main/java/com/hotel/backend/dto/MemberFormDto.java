@@ -46,6 +46,8 @@ public class MemberFormDto {
 
  private LocalDateTime userJoin;
  private boolean  userPrivate;
+ // userFlag 값을 설정하는 setter 메서드 추가
+ @Setter
  private int  userFlag;
 
 
@@ -54,4 +56,5 @@ public class MemberFormDto {
 
  @NotEmpty(message = "비밀번호 확인은 필수 입력 항목입니다.")
  private String passwordConfirm;
+
 }

@@ -72,7 +72,7 @@ public class Member {
         member.setUserBirth(memberFormDto.getUserBirth());
         member.setUserTel(memberFormDto.getUserTel());
         member.setUserPrivate(false);   // 기본값 false로 설정
-        member.setUserFlag(memberFormDto.getUserFlag());
+        member.setUserFlag(1);
         member.setVerificationCode(memberFormDto.getVerificationCode());
         String password = passwordEncoder.encode(memberFormDto.getUserPwd());
         member.setUserPwd(password);
@@ -92,7 +92,6 @@ public class Member {
         member.setUserBirth(memberFormDto.getUserBirth());
         member.setUserTel(memberFormDto.getUserTel());
         member.setUserPrivate(false);   // 기본값 false로 설정
-        member.setUserFlag(0);
         if(memberFormDto.getUserFlag() == 1) {
             String password = passwordEncoder.encode(memberFormDto.getUserPwd());
             member.setUserPwd(password);
