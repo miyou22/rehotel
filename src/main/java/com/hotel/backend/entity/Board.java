@@ -35,16 +35,6 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private Member userId;
-
-//    @Column(name = "userId", insertable = false, updatable = false)
-//    private String userId; // 변경된 부분
-
-//    @Column(name = "user_id", nullable = false)
-//    private String userId;
-
     @ManyToOne
     @JoinColumn(name = "userId")
     private Member member; // 수정
@@ -69,15 +59,5 @@ public class Board {
 
     @Column(name="board_status", length = 1)
     private String boardStatus = "N";
-
-//    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-//    @OrderBy("id asc")
-//    private List<Comments> comments;
-
-    // setUser 메서드 추가
-//    public void setUser(Member user) {
-//        this.user_id = user_id;
-//    }
-
 
 }

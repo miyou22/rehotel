@@ -40,8 +40,6 @@ public class BoardService {
     // 게시글 수정
     //---------------------------------------------------------------------------------------------------------------------
     public Board update(BoardDto boardDto) {
-        System.out.println("게시글번호 : " + boardDto.getBoardSn());
-        System.out.println("게시판제목 : " + boardDto.getBoardTitle());
         Long boardSn = boardDto.getBoardSn();
         Board board = boardRepository.findById(boardSn).orElseThrow(()-> new RuntimeException(boardSn + "에 해당하는 글이 존재하지 않습니다."));
         board.setBoardCategory(boardDto.getBoardCategory());
@@ -70,7 +68,6 @@ public class BoardService {
             System.out.println("board" + boardStatus);
             throw new IllegalArgumentException("유효하지 않은 액션 값입니다.");
         }
-//        board.setBoardStatus("Y");
         return boardRepository.save(board);
     }
     //---------------------------------------------------------------------------------------------------------------------
@@ -91,5 +88,4 @@ public class BoardService {
     public int updateView(Long boardSn){
         return boardRepository.updateView(boardSn);
     }
-
 }

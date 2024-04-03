@@ -59,7 +59,6 @@ public class MemberController {
         List<Member> memInfo = memberRepository.findAll();
         System.out.println("아이템 리스트 ==> " + memInfo);
 
-        model.addAttribute("checkList", memInfo);
         return memInfo;
     }
 
