@@ -95,7 +95,6 @@ public class MemberService {
     public void deleteMember(List<String> memberIds) {
 
         System.out.println("MemberService deleteMember ==> " + memberIds);
-
         memberIds.forEach(userId -> {
             Optional<Member> selectMember = memberRepository.findByUserId(userId);
             System.out.println(selectMember);
