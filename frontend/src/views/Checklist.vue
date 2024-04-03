@@ -24,12 +24,17 @@
               <th class="w3-center" style="width: 140px">예약날짜</th>
               <th class="w3-center" style="width: 150px">결제금액</th>
               <th class="w3-center" style="width: 140px">예약 취소</th>
-
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item, index) in filteredList" :key="index">
-              <template v-if="item.userId === userId || (item.resId === reservationId && item.userEmail === reservationEmail)">
+              <template
+                v-if="
+                  item.userId === userId ||
+                  (item.resId === reservationId &&
+                    item.userEmail === reservationEmail)
+                "
+              >
                 <td class="w3-center">{{ index + 1 }}</td>
                 <td
                   class="w3-center detail"
@@ -47,10 +52,11 @@
                   {{ numberWithCommas(item.roomPrice) }}
                 </td>
                 <td class="w3-center">
-                  <button class="return" @click="checkRe(item.resId)">취소</button>
+                  <button class="return" @click="checkRe(item.resId)">
+                    취소
+                  </button>
                 </td>
               </template>
-
             </tr>
           </tbody>
         </table>
@@ -69,7 +75,7 @@
 
 <script>
 import axios from "axios";
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -80,7 +86,6 @@ export default {
     this.getResList();
   },
   methods: {
-
     saveSelectedItems(item) {
       this.setSelectedResItems(item); // Vuex 액션 호출
       this.$router.push("/checkDetail");
@@ -90,11 +95,10 @@ export default {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
 
-
     checkRe(resId) {
       if (confirm("삭제하시겠습니까?") == true) {
         //true는 확인버튼을 눌렀을 때 코드 작성
-        const selectedIds = [resId]
+        const selectedIds = [resId];
         axios
           .post(
             "http://localhost:8081/api/reservation/updatePayCheck",
@@ -137,18 +141,27 @@ export default {
   computed: {
     filteredList() {
       if (this.userId) {
-        return this.resList.filter(item => item.userId === this.userId ||
-            (item.resId === this.reservationId && item.userEmail === this.reservationEmail));
+        return this.resList.filter(
+          (item) =>
+            item.userId === this.userId ||
+            (item.resId === this.reservationId &&
+              item.userEmail === this.reservationEmail)
+        );
       } else {
         // 비회원인 경우 reservationId와 reservationEmail이 일치하는 예약 정보만 필터링
-        return this.resList.filter(item => item.resId ===
-            parseInt(this.reservationId) && item.userEmail === this.reservationEmail);
+        return this.resList.filter(
+          (item) =>
+            (item.resId === parseInt(this.reservationId) &&
+              item.userEmail === this.reservationEmail) ||
+            item.userEmail === this.reservationEmail2
+        );
       }
     },
 
     ...mapState(["userId"]),
     ...mapState(["reservationId"]),
     ...mapState(["reservationEmail"]),
+    ...mapState(["reservationEmail2"]),
   },
 };
 </script>
@@ -216,4 +229,3 @@ export default {
   font-size: 36px;
 }
 </style>
-
