@@ -49,7 +49,7 @@ public class Member {
     private LocalDateTime userJoin;
 
     @Column(nullable = false,length = 1)
-    private boolean  userPrivate;       // 기본값 false, 고객이 회원가입 시 약관에 동의 체크하면 true
+    private boolean  userPrivate;       // 고객이 회원가입 시 약관에 동의 체크하게 되는데 private값 1로 설정
 
     @Column(nullable = false,length = 1)
     private int userFlag;

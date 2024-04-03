@@ -15,33 +15,30 @@
 
 <script>
 import axios from 'axios'
-const serverUrl = 'http://localhost:8081'
 import store from "@/store";
+const serverUrl = 'http://localhost:8081'
 export default {
   data() {
     return {
       newPassword: '',
       confirmPassword: '',
-      userId: '' // 이전 페이지에서 전달된 사용자 아이디 값 저장
     };
   },
-    created() {
-      // 이전 페이지에서 전달된 사용자 아이디 값 받아오기
-      this.userId = this.$route.query.userId;
-    },
+ // mounted()  {
+ //   alert( userId )
+ // },
   computed: {
     canSubmit() {
-      return this.newPassword !== '' && this.newPassword === this.confirmPassword;
+      return this.newPassword !== '' && this.newPassword === this.confirmPassword;      // 둘 다 비어있지 않고 두 값이 서로 일치하면 true를 반환. true면 버튼의 색을 #d4af37
     }
   },
   methods: {
     submitNewPassword() {
       if (this.canSubmit) {
-        const requestData = {
-          userId: this.userId, // 받아온 사용자 아이디 값 사용
-          newPassword: this.newPassword
-        };
-        axios.post(serverUrl + '/api/member/newPw', requestData)
+        axios.post(serverUrl + '/api/member/newPw', {
+                   userId: store.state.userId,  // 비밀번호 찾기 폼에 입력한 아이디를 저장한 스토어의 아이디 값을 가져옴
+                   newPassword: this.newPassword
+        })
           .then(response => {
             alert('비밀번호가 성공적으로 변경되었습니다.');
             // 비밀번호 변경 후 로그인 페이지로 이동

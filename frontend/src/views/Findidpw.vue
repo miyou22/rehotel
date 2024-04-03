@@ -81,14 +81,14 @@ export default {
             axios.post(serverUrl + '/api/member/find-pw', {
                 userId: this.findPwUserid,
                 userName: this.findPwUsername,
-                userEmail: this.findPwUseremail
+                userEmail: this.findPwUseremail,
             })
             .then(response => {
                 // 서버에서 응답을 받으면 비밀번호 변경 페이지로 이동
                 if (response.data === 'success') {
                 console.log("비밀번호 변경으로 이동");
-                this.$store.commit('setUserId', this.findPwUserid); // Vuex store에 사용자 ID 저장
-                this.$router.push('/findpw'); // 비밀번호 변경 페이지의 경로에 따라 수정
+                store.commit('setUserId', this.findPwUserid);       // 입력한 아이디를 스토어에 저장
+                this.$router.push('/findpw'); // 비밀번호 변경 페이지로 이동
                 } else {
                 alert('입력한 정보와 일치하는 회원이 없습니다.');
                 }
