@@ -70,9 +70,9 @@ public class Board {
     @Column(name="board_status", length = 1)
     private String boardStatus = "N";
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @OrderBy("id asc")
-    private List<Comments> comments;
+//    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    @OrderBy("id asc")
+//    private List<Comments> comments;
 
     // setUser 메서드 추가
 //    public void setUser(Member user) {
