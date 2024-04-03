@@ -5,6 +5,8 @@ import com.hotel.backend.entity.Member;
 import com.hotel.backend.entity.Reservation;
 import com.hotel.backend.repository.MemberRepository;
 import com.hotel.backend.service.MemberService;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,7 +78,7 @@ public class MemberController {
         }
     }
 
-    // 아이디, 이름, 이메일로 비밀번호 찾기/ 변경
+    // 아이디, 이름, 이메일로 비밀번호 찾기/변경
     @PostMapping("/find-pw")
     public ResponseEntity<?> findPw(@RequestBody Map<String, String> requestData) {
         String userId = requestData.get("userId");
@@ -95,6 +97,17 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/newPw")
+    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> requestData) {
+        try {
+            memberService.changePassword(requestData.get("userId"), requestData.get("newPassword"));
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 아이디의 회원을 찾을 수 없습니다.");
+        }
+    }
+
+
     //  회원가입
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     @PostMapping("/memberInsert")
@@ -104,7 +117,18 @@ public class MemberController {
 
         try {
             System.out.println("회원가입 ==> " + memberFormDto);
+
+            // MemberFormDto에서 userFlag 값을 가져와서 확인
+            int userFlag = memberFormDto.getUserFlag();
+
+            // userFlag가 1이 아니면 강제로 1로 설정
+            if (userFlag != 1) {
+                memberFormDto.setUserFlag(1);
+            }
+
+            // Member 객체 생성
             Member member = Member.createMember(memberFormDto, passwordEncoder);
+            // Member 객체 저장
             memberService.saveMember(member);
         } catch (Exception e) {
             e.printStackTrace();
