@@ -52,11 +52,8 @@ public class CommentController {
     @GetMapping("/{boardCategory}/{boardSn}/comments")
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     public List<Comments> commentsList(@PathVariable Long boardSn){
-        System.out.println("boardSn::::" + boardSn);
-
         Board board = boardRepository.findById(boardSn).orElseThrow(()->new IllegalArgumentException("게시물을 찾을수 없습니다."));
         List<Comments> comments = commentRepository.findByboardSnAndCommentStatus(board.getBoardSn(),"N");
-
         return comments;
     }
     //-------------------------------------------------------------------
@@ -65,12 +62,9 @@ public class CommentController {
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     @PutMapping("/update/{boardCategory}/{boardSn}")
     public Comments updateComment( @RequestBody Comments updatedComment){
-        System.out.println("수정정보::::" + updatedComment);
-
         Comments modifyComment = commentRepository.findById(updatedComment.getId())
                 .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
         modifyComment.setContent(updatedComment.getContent());
-
         return commentRepository.save(modifyComment);
     }
 
@@ -80,9 +74,6 @@ public class CommentController {
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     @PutMapping("/modiDelete/{boardCategory}/{boardSn}")
     public Comments deleteComment( @RequestBody Comments comments){
-        System.out.println("삭제정보::::" + comments);
-
-        System.out.println("삭제 요청으로 받은 정보 : " + comments);
         return commentService.modiDelete(comments);
     }
 
@@ -92,9 +83,16 @@ public class CommentController {
     @GetMapping("/admin/comments")
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     public List<Comments> commentsDeleteList(){
-
         List<Comments> comments = commentRepository.findBycommentStatus("Y");
-
         return comments;
+    }
+
+    //-------------------------------------------------------------------
+    // 댓글 삭제 대기 완전삭제
+    //-------------------------------------------------------------------
+    @DeleteMapping("/admin/deleteComment/{id}")
+    @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
+    public void deleteComments(@RequestBody Comments comments){
+        commentService.deleteComments(comments);
     }
 }

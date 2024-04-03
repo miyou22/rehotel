@@ -23,67 +23,29 @@
 
       <!--{{ countDeluxeVilla }}-->
       <h3>최근소식</h3>
+      <div>{{ categoryBoard }}</div>
       <ul class="adminNotice">
-        <li class="w3-card notice">
-          <h4>공지사항 <a>자세히보기</a></h4>
+        <li
+          class="w3-card notice"
+          v-for="(categoryItems, categoryKey) in categorizedItems"
+          :key="categoryKey"
+        >
+          <h4>
+            {{ categoryNames[categoryKey] }}
+            <a href="admin/board">자세히보기</a>
+          </h4>
           <ul class="adminDetailView">
-            <li>
-              <p>
-                <a href="/notice"
-                  >도도도dddddddddddddddddddddddddddddddddddddd</a
-                >
+            <li
+              v-for="(item, index) in getLastThreeItems(categoryItems)"
+              :key="index"
+            >
+              <p
+                class="linkMove"
+                @click="$router.push(`/admin/board/detail/${item.boardSn}`)"
+              >
+                {{ item.boardTitle }}
               </p>
-              <span>2024/03/20</span>
-            </li>
-            <li>
-              <p><a href="/notice">레레레</a></p>
-              <span>2024/03/20</span>
-            </li>
-            <li>
-              <p><a href="/notice">미미미</a></p>
-              <span>2024/03/20</span>
-            </li>
-          </ul>
-        </li>
-        <li class="w3-card inquiry">
-          <h4>문의사항 <a>자세히보기</a></h4>
-          <ul class="adminDetailView">
-            <li>
-              <p>
-                <a href="/notice"
-                  >도도도dddddddddddddddddddddddddddddddddddddd</a
-                >
-              </p>
-              <span>2024/03/20</span>
-            </li>
-            <li>
-              <p><a href="/notice">레레레</a></p>
-              <span>2024/03/20</span>
-            </li>
-            <li>
-              <p><a href="/notice">미미미</a></p>
-              <span>2024/03/20</span>
-            </li>
-          </ul>
-        </li>
-        <li class="w3-card faq">
-          <h4>FAQ <a>자세히보기</a></h4>
-          <ul class="adminDetailView">
-            <li>
-              <p>
-                <a href="/notice"
-                  >도도도dddddddddddddddddddddddddddddddddddddd</a
-                >
-              </p>
-              <span>2024/03/20</span>
-            </li>
-            <li>
-              <p><a href="/notice">레레레</a></p>
-              <span>2024/03/20</span>
-            </li>
-            <li>
-              <p><a href="/notice">미미미</a></p>
-              <span>2024/03/20</span>
+              <span>{{ formatDate(item.createdAt) }}</span>
             </li>
           </ul>
         </li>
@@ -121,11 +83,15 @@ export default {
     return {
       roomName: "",
       resList: [],
+      boardList: [],
+      // faqList: [],
+      // noticeList: [],
+      // inquiryList: [],
       PriceList: [],
       totalRoomPrice: 0,
       chartData: {
-        labels: ["1번", "2번", "3번", "4번", "5번"],
-        datasets: [{ data: [2, 6, 3, 2, 1] }],
+        labels: ["공지사항", "문의사항", "faq"],
+        datasets: [{ data: [2, 6, 3] }],
       },
       chartOptions: {
         responsive: true,
@@ -137,7 +103,44 @@ export default {
       },
     };
   },
+  computed: {
+    countDeluxeVilla() {
+      // 'resList'에서 'roomName'이 '디럭스 풀빌라'인 항목의 개수를 계산하여 반환합니다.
+      return this.resList.filter((item) => item.roomName === "디럭스 풀빌라")
+        .length;
+    },
+    categorizedItems() {
+      const categories = {
+        notice: [],
+        inquiry: [],
+        faq: [],
+      };
+      for (const item of this.boardList) {
+        if (categories[item.boardCategory]) {
+          categories[item.boardCategory].push(item);
+        }
+      }
+      console.log("categories::::", categories);
+      return categories;
+    },
+    categoryNames() {
+      return {
+        notice: "공지사항",
+        inquiry: "문의사항",
+        faq: "FAQ",
+      };
+    },
+  },
+  mounted() {
+    this.getResList();
+    this.getPriceList();
+    this.getBoardList();
+    console.log(this.boardList);
+  },
   methods: {
+    formatDate(dateTimeString) {
+      return dateTimeString.slice(0, 10);
+    },
     updateChartData() {
       // 'countDeluxeVilla()' 메소드를 호출하여 '디럭스 풀빌라'로 예약된 객실의 개수를 가져옵니다.
       const count = this.countDeluxeVilla();
@@ -157,7 +160,6 @@ export default {
         return total + parseFloat(item.roomPrice);
       }, 0);
     },
-
     getResList() {
       const today = new Date();
       today.setHours(0, 0, 0, 0); // 오늘 날짜의 시간을 00:00:00 으로 설정
@@ -166,10 +168,10 @@ export default {
         .get("http://localhost:8081/api/reservation/resInfo")
         .then((res) => {
           // checkout 날짜가 오늘 이후인 데이터만 필터링하여 resList에 할당
+          console.log("res.data::::", res.data);
           this.resList = res.data.filter((item) => {
             const checkoutDate = new Date(item.resCheckout);
             checkoutDate.setHours(0, 0, 0, 0); // checkout 날짜의 시간을 00:00:00 으로 설정
-
             return checkoutDate >= today && item.payCheck === 1;
           });
         })
@@ -196,17 +198,22 @@ export default {
           console.log("항상 마지막에 실행");
         });
     },
-  },
-  computed: {
-    countDeluxeVilla() {
-      // 'resList'에서 'roomName'이 '디럭스 풀빌라'인 항목의 개수를 계산하여 반환합니다.
-      return this.resList.filter((item) => item.roomName === "디럭스 풀빌라")
-        .length;
+    getBoardList() {
+      this.$axios
+        .get("http://localhost:8081/api/admin/board")
+        .then((res) => {
+          this.boardList = res.data;
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log("에러닷:", err);
+        });
     },
-  },
-  mounted() {
-    this.getResList();
-    this.getPriceList();
+
+    getLastThreeItems(categoryItems) {
+      console.log(categoryItems);
+      return categoryItems.slice(-3).reverse();
+    },
   },
 };
 </script>
@@ -260,7 +267,7 @@ h4 {
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 h4 a {
@@ -271,21 +278,19 @@ h4 a {
   display: flex;
   justify-content: space-between;
   margin-bottom: 7px;
-  font-size: 18px;
+  font-size: 15px;
 }
 .adminDetailView li p {
   width: 70%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  cursor: pointer;
+  font-size: 15px;
 }
 .adminDetailView li span {
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.5;
-}
-.adminDetailView li a {
-  text-decoration: none;
-  font-size: 18px;
 }
 .roomP {
   margin-bottom: 10px;
