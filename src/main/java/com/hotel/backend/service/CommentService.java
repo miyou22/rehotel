@@ -35,7 +35,7 @@ public class CommentService {
 
         Optional<Member> optionalFindMember = memberRepository.findByUserId(comments.getUserId());
         if (optionalFindMember.isPresent() && board != null) {
-
+            System.out.println("댓글 자장하나?");
             Member findMember = optionalFindMember.get();
             comments.setCreatedAt(LocalDateTime.now());
             comments.setMember(findMember);

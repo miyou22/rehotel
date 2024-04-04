@@ -32,6 +32,7 @@
         >
           <h4>
             {{ categoryNames[categoryKey] }}
+            {{ categoryKey }}
             <a href="admin/board">자세히보기</a>
           </h4>
           <ul class="adminDetailView">
