@@ -39,7 +39,7 @@ public class CommentController {
     @PostMapping("/{boardCategory}/{boardSn}")
     @CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
     public String writeComment(@PathVariable(name = "boardSn") Long boardSn, @PathVariable(name = "boardCategory") String boardCategory,  @RequestBody Comments comments){
-        System.out.println("댓글정보 ==> " + comments.toString());
+
         String userId = comments.getUserId();
 
         commentService.writeComment(comments, boardSn, userId);

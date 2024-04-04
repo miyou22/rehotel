@@ -166,12 +166,20 @@ export default {
     paginatedBoardList() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.boardList.slice(startIndex, endIndex);
+      const sortedList = this.boardList
+        .slice()
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      return sortedList.slice(startIndex, endIndex);
     },
     paginatedSearchList() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.searchList.slice(startIndex, endIndex);
+      const sortedList = this.searchList
+        .slice()
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      return sortedList.slice(startIndex, endIndex);
     },
   },
   created() {
@@ -276,7 +284,6 @@ export default {
 
           .then((res) => {
             this.searchList = res.data;
-            console.log("res:::", res);
             this.searchfinish = true;
           })
           .catch((err) => {

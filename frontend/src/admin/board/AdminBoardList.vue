@@ -333,7 +333,11 @@ export default {
     paginatedResList() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.boardList.slice(startIndex, endIndex);
+      const sortedList = this.boardList
+        .slice()
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      return sortedList.slice(startIndex, endIndex);
     },
     paginatedCommentList() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;

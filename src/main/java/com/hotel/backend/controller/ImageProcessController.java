@@ -26,26 +26,29 @@ public class ImageProcessController {
 
     @PostMapping("/api/admin/board/write/upload")
     public ImageUploadResultDto uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+        System.out.println("이건 뭘까요?" + file.toString());
 
+        //임의의 uuid생성
         String uuid = UUID.randomUUID().toString();
-
+        //업로드된 파일의 확장자 위치를 찾는다
         int extractorIndex = file.getOriginalFilename().lastIndexOf(".");
+        //업로드된 파일의 확장자를 추출
         String extractor = file.getOriginalFilename().substring(extractorIndex);
+        //고유한 파일 이름을 생성
         String saveFileName = uuid + extractor;
-
+        //디렉터리가 존재하지 않으면 생성
         File folder = new File(PATH);
         if (!folder.exists()) {
             folder.mkdirs();
         }
-
+        //업로드된 파일의 바이트를 실제 파일로 복사
         FileCopyUtils.copy(file.getBytes(), new File(PATH + saveFileName));
-
+        //업로드된 이미지에 대한 접근 URL을 생성
         String accessUrl = IMAGE_SERVER + "/image?name=" + saveFileName;
-
+        //이미지 업로드 결과를 담을 DTO 객체를 생성
         ImageUploadResultDto ImageUploadResultDto = new ImageUploadResultDto();
         ImageUploadResultDto.setStatus(200);
         ImageUploadResultDto.setImageAccessUrl(accessUrl);
-
         return ImageUploadResultDto;
     }
 

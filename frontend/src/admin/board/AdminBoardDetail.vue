@@ -33,7 +33,7 @@
         </div>
       </header>
       <!-- 작성자, 조회수 -->
-      <nav class="w3-container w3-padding-16"></nav>
+      <nav class="w3-container"></nav>
       <!-- 첨부파일, 본문, 버튼 -->
       <div class="contents w3-padding-32 w3-container w3-border-bottom">
         <!-- 본문 및 버튼 -->
