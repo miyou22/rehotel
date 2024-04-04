@@ -5,18 +5,19 @@
     </div>
     <div class="boardDetail" style="width: 100%">
       <!--제목,분류,작성일-->
-      <header class="w3-container w3-blue w3-padding-32">
-        <span class="w3-left">[{{ boardCheck(boardCategory) }}]</span>
-        <span>&nbsp; {{ boardTitle }}</span>
-        <span class="w3-right">{{ formatDate(createdAt) }}</span>
+      <header class="w3-container w3-padding-32">
+        <div class="topSpan">
+          <span class="w3-left">[{{ boardCheck(boardCategory) }}]</span>
+          <span>&nbsp; {{ boardTitle }}</span>
+          <span class="w3-right">{{ formatDate(createdAt) }}</span>
+        </div>
+        <div class="bottomSpan">
+          <span>작성자 : 관리자</span>
+          <span class="w3-right">조회수 : {{ boardCnt }}</span>
+        </div>
       </header>
       <!-- 작성자, 조회수 -->
-      <nav
-        class="w3-container w3-green w3-padding-16 w3-border-bottom w3-border-black"
-      >
-        <span>작성자들어감</span>
-        <span class="w3-right">조회수 : {{ boardCnt }}</span>
-      </nav>
+
       <!-- 첨부파일, 본문, 버튼 -->
       <div class="contents w3-padding-32 w3-container w3-border-bottom">
         <!-- 본문 및 버튼 -->
@@ -31,6 +32,7 @@
             type="button"
             class="w3-button w3-round w3-white w3-text-black w3-border w3-wide w3-border-black w3-padding-large"
             @click.prevent="boardUpdate(boardSn)"
+            v-if="isAuthor"
           >
             수정</button
           >&nbsp;
@@ -38,16 +40,10 @@
             type="button"
             class="w3-button w3-round w3-white w3-text-black w3-border w3-wide w3-border-black w3-padding-large"
             @click.prevent="changeMod"
+            v-if="isAuthor"
           >
             삭제</button
           >&nbsp;
-          <button
-            type="button"
-            class="w3-button w3-round w3-white w3-text-black w3-border w3-border-black w3-wide w3-padding-large"
-            @click.prevent="button1"
-          >
-            목록
-          </button>
         </div>
       </div>
       <!--댓글리스트-->
@@ -133,7 +129,7 @@
           <button
             class="w3-button w3-round w3-blue-gray"
             style="width: 20%"
-            @click="$router.push({ path: '/' + pageType })"
+            @click.prevent="button1"
           >
             목록
           </button>
@@ -169,7 +165,8 @@ export default {
       userId: sessionId,
       commentList: [],
       editedContent: "",
-      id: "",
+      id: "", //댓글 id
+      isAuthor: false, //현재계정과 글작성자 계정 비교
     };
   },
   created() {
@@ -177,9 +174,7 @@ export default {
 
     const pageType = this.$route.params.pageType;
 
-    console.log(pageType);
-
-    // 페이지의 유형에 따라 페이지 제목과 게시판 리스트 출력 여부를 설정합니다.
+    // 페이지의 유형에 따라 페이지 제목과 게시판 리스트 출력 여부를 설정.
     if (pageType === "notice") {
       this.pageTitle = "공지사항";
       this.pageType = "notice";
@@ -199,16 +194,9 @@ export default {
       return dateTimeString.slice(0, 10);
     },
     getDetail(boardSn) {
-      alert("getList 넘버 : " + this.boardSn);
       this.$axios
-        .get(
-          "http://localhost:8081/api/" + this.pageType + "/" + this.boardSn,
-          {
-            // params: this.requestBody,
-          }
-        )
+        .get("http://localhost:8081/api/" + this.pageType + "/" + this.boardSn)
         .then((res) => {
-          console.log(res);
           this.boardCategory = res.data.boardCategory;
           this.boardCnt = res.data.boardCnt;
           this.boardTitle = res.data.boardTitle;
@@ -216,6 +204,7 @@ export default {
           this.role = res.data.role;
           this.createdAt = res.data.createdAt;
           this.boardStatus = res.data.boardStatus;
+          this.isAuthor = res.data.member.userId === sessionId;
           this.renderMarkdown(this.boardContent);
         })
         .catch(function (error) {
@@ -246,7 +235,6 @@ export default {
         boardSn: this.boardSn,
         boardStatus: this.boardStatus,
       };
-      console.log(boardStatus);
       this.$axios
         .put(
           "http://localhost:8081/api/admin/board/detail/" + this.boardSn,
@@ -264,47 +252,41 @@ export default {
       this.$router.push({ path: "/inquiry" }); // 페이지 이동
     },
     boardUpdate(boardSn) {
-      alert("boardSn은 : " + boardSn);
-      alert("boardSn은 : " + this.pageType);
       this.$router.push({
         path: "/inquiry/update/" + boardSn,
       });
     },
     fnComment() {
-      var commentData = {
-        content: this.replyComment,
-        categoryType: this.pageType,
-        userId: this.userId,
-        boardSn: this.boardSn,
-        id: this.id,
-      };
-      console.log(this.replyComment);
-      console.log(this.pageType);
-      console.log(this.boardSn);
-      console.log(commentData);
-      axios
-        .post(
-          "http://localhost:8081/api/" + this.pageType + "/" + this.boardSn,
-          commentData
-        )
-        .then((res) => {
-          console.log("data send::", res.commentData);
-          alert("댓글 작성이 완료");
-          location.reload();
-        })
-        .catch((err) => {
-          console.log("에러닷", err);
-        });
+      if (sessionId != null) {
+        var commentData = {
+          content: this.replyComment,
+          categoryType: this.pageType,
+          userId: this.userId,
+          boardSn: this.boardSn,
+          id: this.id,
+        };
+        axios
+          .post(
+            "http://localhost:8081/api/" + this.pageType + "/" + this.boardSn,
+            commentData
+          )
+          .then((res) => {
+            console.log("data send::", res.commentData);
+            alert("댓글 작성이 완료");
+            location.reload();
+          })
+          .catch((err) => {
+            console.log("에러닷", err);
+          });
+      } else alert("로그인 해주세요!");
     },
     fnCommentList() {
       const boardSn = this.boardSn;
-      // console.log(this.boardSn);
       this.$axios
         .get(
           `http://localhost:8081/api/${this.pageType}/${this.boardSn}/comments`
         )
         .then((res) => {
-          console.log(res.data);
           this.commentList = res.data;
         })
         .catch((error) => {
@@ -312,10 +294,12 @@ export default {
           // 댓글 목록을 가져오는데 실패했을 때의 동작 추가
         });
     },
-    fnCommentUpdate() {},
     fnModifyContent(item) {
-      item.isEditing = true;
-      item.editedContent = item.content; // 수정할 내용을 textarea에 채움
+      let commentId = item.userId;
+      if (sessionId === commentId) {
+        item.isEditing = true;
+        item.editedContent = item.content; // 수정할 내용을 textarea에 채움
+      } else alert("너따위가 수정을 한다고?");
     },
     fnModifyCancel(item) {
       item.isEditing = false;
@@ -325,9 +309,6 @@ export default {
       var editid = item.id;
       var comment = {
         content: editedContent,
-        // categoryType: item.pageType,
-        // userId: item.userId,
-        // boardSn: item.boardSn,
         id: editid,
       };
       axios
@@ -425,5 +406,17 @@ li {
 }
 .commentList {
   border-bottom: 1px solid black;
+}
+header {
+  background-color: rgb(247, 247, 247);
+  color: rgb(33, 32, 30);
+  border-top: 1px solid black;
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+header .topSpan span {
+  font-size: 22px;
+}
+header .bottomSpan span {
+  font-size: 15px;
 }
 </style>
