@@ -35,15 +35,16 @@ public class ReservationController {
     public void saveeReservation(@RequestBody Reservation reservation) {
         System.out.println("예약정보 ==> Start ");
         System.out.println("예약정보 ==> " + reservation);
+        // userID를 DB에 저장
         Optional<Member> optionalFindMember = memberRepository.findByUserId(reservation.getUserId());
 
         if (optionalFindMember.isPresent()) {
             Member findMember = optionalFindMember.get();
             reservation.setMember(findMember);
         }
-        // reservationRepository.save(reservation);
-        reservation.setResId(reservation.getResId());
 
+        // 받아온 데이터들을 DB에 저장
+        reservation.setResId(reservation.getResId());
         reservation.setRoomName(reservation.getRoomName());
         reservation.setRoomPrice(reservation.getRoomPrice());
         reservation.setUserName(reservation.getUserName());
@@ -56,7 +57,7 @@ public class ReservationController {
         reservation.setFacCheck(reservation.getFacCheck());
         reservation.setPayCheck(reservation.getPayCheck());
         reservation.setUserFlag(reservation.getUserFlag());
-        // Item savedItem = itemRepository.save(item);
+
         reservationRepository.save(reservation);
     }
 
