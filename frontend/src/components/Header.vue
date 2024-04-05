@@ -287,6 +287,7 @@ export default {
   width: 140px;
 }
 
+
 .news {
   width: 100px;
 }
