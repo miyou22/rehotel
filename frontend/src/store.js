@@ -19,6 +19,7 @@ const store = createStore({
       selectedResItems: null,
       selectedMemItems: null,
       userId: null,
+      isLoggedIn: false,
     };
   },
   getters: {
@@ -78,6 +79,10 @@ const store = createStore({
     },
     setUserId(state, userId) {
       state.userId = userId // 사용자 아이디를 저장하는 뮤테이션 추가
+    },
+    // 로그인 상태를 변경하는 뮤테이션
+    setLoggedIn(state, isLoggedIn) {
+      state.isLoggedIn = isLoggedIn;
     },
   },
   actions: {

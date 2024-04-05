@@ -109,8 +109,8 @@ export default {
     };
   },
   methods: {
-
     login: function () {
+        store.commit('setLoggedIn', true);
       if (!this.userId || !this.userPwd) {
         alert("아이디와 비밀번호가 일치하지 않습니다.");
         return;
@@ -119,7 +119,6 @@ export default {
         userId: this.userId,
         userPwd: this.userPwd,
       };
-
       // alert('로그인을 시작합니다!!!' + data.userId)
       axios
         .post(serverUrl + "/api/member/login", data)
