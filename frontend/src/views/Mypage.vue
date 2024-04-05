@@ -128,7 +128,8 @@ export default {
       this.$axios
         .post("http://localhost:8081/api/member/memberUpdatePost", data)
         .then((res) => {
-          console.log(res)
+          alert("수정이 완료되었습니다")
+          console.log('res::::', res)
         })
         .catch((error) => {
           console.log(error);
@@ -139,10 +140,6 @@ export default {
       console.log("Verification code sent");
       alert("인증번호가 발송되었습니다")
     },
-    // completeUpdate() {
-    //   //수정완료 버튼 클릭시 alert로 수정이 완료되었습니다 라는 문구생김
-    //   alert("수정이 완료되었습니다")
-    // }
   },
   mounted() {
     this.getUserMember();

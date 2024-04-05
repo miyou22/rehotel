@@ -28,18 +28,6 @@
             </select>
           </td>
         </tr>
-        <!-- <tr>
-          <th>카테고리</th>
-          <td>
-            <select required name="category" class="selectCategory">
-              <option value>선택</option>
-              <option value="칭찬">칭찬</option>
-              <option value="문의">문의</option>
-              <option value="제안">제안</option>
-              <option value="기타">기타</option>
-            </select>
-          </td>
-        </tr> -->
         <tr>
           <th>제목</th>
           <td>
@@ -52,18 +40,6 @@
             />
           </td>
         </tr>
-        <!-- <tr>
-          <th>작성자</th>
-          <td>
-            <input
-              type="text"
-              class="boardWriter"
-              v-model="writer"
-              required
-              value
-            />
-          </td>
-        </tr> -->
       </tbody>
     </table>
     <!-- 글작성 에이터 -->
@@ -114,6 +90,7 @@ export default {
       createdAt: "",
       boardContent: "",
       content: "",
+      userId: "admin",
     };
   },
   created() {
@@ -174,12 +151,14 @@ export default {
       console.log(category);
     },
     fnSave() {
+      const sessionId = sessionStorage.getItem("sessionId");
+
       var boardData = {
         boardCategory: this.selectValue.value,
         boardTitle: this.title,
         createdAt: this.createdAt,
-        boardContent: this.content,
         boardContent: this.editor.getHTML(),
+        userId: this.userId,
       };
       console.log(boardData);
       axios

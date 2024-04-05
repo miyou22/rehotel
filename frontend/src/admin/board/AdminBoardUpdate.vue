@@ -38,7 +38,7 @@
             />
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th>작성자</th>
           <td>
             <input
@@ -49,7 +49,7 @@
               value
             />
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
     <!-- 글작성 에이터 -->

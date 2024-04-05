@@ -47,6 +47,7 @@ public class BoardController {
     @GetMapping("/notice")
     public List<Board> noticeList(){
         List<Board> noticeList = boardRepository.findByBoardCategoryAndBoardStatus("notice","N");
+        System.out.println("aaa:::" + noticeList);
         return noticeList;
     }
     //------------------------------------------------------------------------------------
@@ -65,6 +66,7 @@ public class BoardController {
     public Optional<Board> boardCategoryView(@PathVariable(name = "boardSn") Long boardSn, @PathVariable(name = "boardCategory") String boardCategory){
         Optional<Board> board = boardRepository.findById(boardSn);
         boardService.updateView(boardSn);
+        System.out.println("board::::::시발" + board);
         return board;
     }
     //------------------------------------------------------------------------------------
@@ -96,6 +98,7 @@ public class BoardController {
             board.setMember(findMember);
         }
         board.setCreatedAt(LocalDateTime.now());
+        System.out.println("board::::" + board);
         boardRepository.save(board);
 
     }
