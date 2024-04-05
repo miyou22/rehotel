@@ -67,10 +67,6 @@ public class MemberService {
         return existingMember.isPresent();
     }
 
-//    public void update(MemberFormDto memberFormDto) {
-//        memberRepository.save(MemberEntity.toUpdateEntity(memberFormDto));
-//
-//    }
 
     //Test
     public Member memberUpdate(String userId) {
