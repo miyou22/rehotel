@@ -20,12 +20,6 @@
             />
           </td>
         </tr>
-        <!-- <tr>
-          <th>작성자</th>
-          <td>
-            <input type="text" class="boardWriter" required value />
-          </td>
-        </tr> -->
       </tbody>
     </table>
     <!-- 글작성 에이터 -->
