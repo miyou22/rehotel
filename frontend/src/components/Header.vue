@@ -104,7 +104,6 @@
             <li><a href="/sitemap">사이트맵</a></li>
             <li><a href="/adLogin">관리자 홈</a></li>
           </div>
-          //예약버튼
           <li>
             <button class="top-btn">
               <a href="/reservation" class="booksNow">Books Now!!!</a>
