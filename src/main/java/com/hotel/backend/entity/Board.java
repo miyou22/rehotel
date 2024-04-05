@@ -60,4 +60,5 @@ public class Board {
     @Column(name="board_status", length = 1)
     private String boardStatus = "N";
 
+
 }

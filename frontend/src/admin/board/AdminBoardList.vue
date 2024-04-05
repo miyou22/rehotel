@@ -105,6 +105,7 @@
     </div>
     <!-- 댓글관리 -->
     <div class="allBoard" v-if="categoryType === 'comments'">
+      <!-- Board -->
       <div class="board-list">
         <div class="common-buttons">
           <button
@@ -119,6 +120,7 @@
           <colgroup>
             <col width="80px" />
             <col width="100px" />
+            <col width="200px" />
             <col width="200px" />
             <col width="auto" />
             <col width="300px" />
