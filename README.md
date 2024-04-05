@@ -1,1 +1,1 @@
-# rehotel
+# KINGS HOTEL
