@@ -119,7 +119,7 @@
     </div>
   </header>
   <div class="sub-gnb" v-if="subgnb1">
-    <p class="sub-gnb-name">킹스 호텔</p>
+    <p class="sub-gnb-name">킹스 호 텔</p>
     <ul class="sub-gnb-list">
       <li>
         <router-link
