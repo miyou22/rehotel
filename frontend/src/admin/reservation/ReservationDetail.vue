@@ -86,7 +86,6 @@ export default {
     },
   },
   methods: {
-
     numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
@@ -126,6 +125,7 @@ export default {
   font-size: 40px;
   font-weight: bold;
   text-align: center;
+  margin-top: 85px;
 }
 #editor {
   width: 100%;

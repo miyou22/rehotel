@@ -186,6 +186,7 @@ export default {
       this.$axios
         .get("http://localhost:8081/api/reservation/resInfo")
         .then((res) => {
+          // 예약여부가 취소가 아닌 예약정보들의 가격 추출
           this.PriceList = res.data.filter((item) => item.payCheck === 1);
 
           this.calculateTotalRoomPrice();
