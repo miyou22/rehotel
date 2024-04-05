@@ -87,14 +87,14 @@
               >
             </li> -->
             <!-- ------------------------------------------------------------------------------------------------------------------------- -->
-            <li v-if="!$store.state.userId"><a href="/login">LogIn</a></li>
+            <li v-if="!$store.state.isLoggedIn"><a href="/login">LogIn</a></li>
             <li v-else>
               <a @click="logout()" style="cursor: pointer"
                 >{{ $store.state.userId }}님 Logout</a
               >
             </li>
 
-            <li v-if="!$store.state.userId">
+            <li v-if="!$store.state.isLoggedIn">
               <a href="/joinmember">회원가입</a>
             </li>
             <li v-else><a href="/mypage">마이페이지</a></li>
@@ -240,6 +240,7 @@ export default {
 
     logout() {
       alert("로그아웃합니다");
+      store.commit('setLoggedIn', false);
       // sessionStorage.removeItem("userId");
       store.commit("setAccount", null);
       sessionStorage.removeItem("sessionId");

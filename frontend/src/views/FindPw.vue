@@ -24,9 +24,9 @@ export default {
       confirmPassword: '',
     };
   },
- // mounted()  {
- //   alert( userId )
- // },
+  mounted() {
+    this.$store.commit('setLoggedIn', false);
+  },
   computed: {
     canSubmit() {
       return this.newPassword !== '' && this.newPassword === this.confirmPassword;      // 둘 다 비어있지 않고 두 값이 서로 일치하면 true를 반환. true면 버튼의 색을 #d4af37
