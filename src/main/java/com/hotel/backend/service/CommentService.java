@@ -6,6 +6,7 @@ import com.hotel.backend.entity.Member;
 import com.hotel.backend.repository.BoardRepository;
 import com.hotel.backend.repository.CommentRepository;
 import com.hotel.backend.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,13 +35,12 @@ public class CommentService {
 
         Optional<Member> optionalFindMember = memberRepository.findByUserId(comments.getUserId());
         if (optionalFindMember.isPresent() && board != null) {
-
+            System.out.println("댓글 자장하나?");
             Member findMember = optionalFindMember.get();
             comments.setCreatedAt(LocalDateTime.now());
             comments.setMember(findMember);
             comments.setContent(comments.getContent());
             comments.setBoard(board);
-            System.out.println("comment정보:" + comments);
         }
         commentRepository.save(comments);
         return comments.getId(); // 저장된 댓글의 ID 반환
@@ -56,19 +56,23 @@ public class CommentService {
         if ("N".equals(commentStatus)) {
             // 상태를 "Y"로 변경합니다.
             comment.setCommentStatus("Y");
-            System.out.println("삭제호ㅓ인" + commentStatus);
 
         } else if ("Y".equals(commentStatus)) {
             //   "N"으로 변경합니다.
             comment.setCommentStatus("N");
-            System.out.println("삭제 여부" + commentStatus);
 
         }else {
             // 예외 처리: 유효하지 않은 action 값이 들어온 경우
-            System.out.println("commentStatus" + commentStatus);
             throw new IllegalArgumentException("유효하지 않은 액션 값입니다.");
         }
         return commentRepository.save(comment);
-
+    }
+    //-------------------------------------------------------------------
+    // 댓글 삭제 대기 완전 삭제
+    //-------------------------------------------------------------------
+    public void deleteComments(Comments comments){
+        Long id = comments.getId();
+        Comments comment = commentRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("댓글을 찾을수 없습니다:" + id));
+        commentRepository.delete(comment);
     }
 }

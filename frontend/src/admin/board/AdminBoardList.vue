@@ -66,7 +66,7 @@
               <td class="w3-center">
                 <a @click="boardView(item.boardSn)">{{ item.boardTitle }}</a>
               </td>
-              <td class="w3-center">nyaa</td>
+              <td class="w3-center">{{ item.userId }}</td>
               <td class="w3-center">{{ item.boardCnt }}</td>
               <td class="w3-center">{{ formatDate(item.createdAt) }}</td>
             </tr>
@@ -105,20 +105,12 @@
     </div>
     <!-- 댓글관리 -->
     <div class="allBoard" v-if="categoryType === 'comments'">
-      <!-- Board -->
       <div class="board-list">
         <div class="common-buttons">
           <button
             type="button"
-            class="w3-button w3-round w3-margin-bottom w3-hover-white"
-            @click="fnBackPost"
-          >
-            선택 글 복원하기
-          </button>
-          <button
-            type="button"
             class="w3-button w3-round w3-margin-bottom w3-hover-white w3-hover-text-red w3-text-red w3-border-red"
-            @click="fnDelete"
+            @click="fnCommentDelete"
           >
             영구 삭제
           </button>
@@ -139,7 +131,7 @@
                 <input
                   type="checkbox"
                   id="selectAll"
-                  @change="selectAllItems($event.target.checked)"
+                  @change="selectCommAllItems($event.target.checked)"
                 />
               </th>
               <th class="w3-center">번호</th>
@@ -156,17 +148,24 @@
                 <input
                   type="checkbox"
                   id="select"
-                  @change="selectItem"
+                  @change="selectCommentItem"
                   v-model="item.selected"
                 />
               </td>
-              <td class="w3-center">{{ getNumber(idx) }}</td>
+              <td class="w3-center">{{ getCommentNumber(idx) }}</td>
               <td class="w3-center">{{ jpcall(item.board.boardCategory) }}</td>
               <td class="w3-center">{{ item.board.boardTitle }}</td>
               <td class="w3-center deContent">
-                <p class="deleteContent">{{ item.content }}</p>
+                <p
+                  class="deleteContent"
+                  @mouseover="showTooltip(idx, true)"
+                  @mouseout="showTooltip(idx, false)"
+                  :class="{ showTooltip: tooltipVisible === idx }"
+                >
+                  {{ item.content }}
+                </p>
               </td>
-              <td class="w3-center">nyaa</td>
+              <td class="w3-center">{{ item.userId }}</td>
               <td class="w3-center">{{ formatDate(item.createdAt) }}</td>
             </tr>
           </tbody>
@@ -314,8 +313,8 @@ export default {
       boardCategory: "",
       itemsPerPage: 10,
       currentPage: 1,
-      selectChecked: [],
       commentList: [],
+      tooltipVisible: null,
     };
   },
   mounted() {
@@ -329,12 +328,16 @@ export default {
   },
   computed: {
     pageCount() {
-      return Math.ceil(this.boardList.length / this.itemsPerPage);
+      return Math.ceil(this.commentList.length / this.itemsPerPage);
     },
     paginatedResList() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.boardList.slice(startIndex, endIndex);
+      const sortedList = this.boardList
+        .slice()
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      return sortedList.slice(startIndex, endIndex);
     },
     paginatedCommentList() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -359,10 +362,21 @@ export default {
     }
   },
   methods: {
+    //툴팁 관련
+    showTooltip(idx, value) {
+      this.tooltipVisible = value ? idx : null;
+    },
+    // 체크박스 관련
     selectAllItems(checked) {
       this.allChecked = checked;
       for (let i in this.boardList) {
         this.boardList[i].selected = this.allChecked;
+      }
+    },
+    selectCommAllItems(checked) {
+      this.allChecked = checked;
+      for (let i in this.commentList) {
+        this.commentList[i].selected = this.allChecked;
       }
     },
     selectItem(checked) {
@@ -375,30 +389,17 @@ export default {
       }
       return itemIdx;
     },
-    fnChange() {
-      alert("삭제할꼬야?");
-      const selectIds = this.selectItem();
-      if (selectIds.length === 0) {
-        alert("꺼졍 ㅋ");
-        return;
+    selectCommentItem(checked) {
+      let itemIdx = [];
+      for (let i in this.commentList) {
+        if (this.commentList[i].selected) {
+          itemIdx.push(this.commentList[i].id);
+        }
+        console.log(itemIdx);
       }
-      selectIds.map((boardSn) => {
-        const boardDto = { boardSn, boardStatus: "N" }; // 삭제 요청에 필요한 요청 본문을 생성합니다.
-        this.$axios
-          .put(
-            "http://localhost:8081/api/admin/board/detail/" + boardSn,
-            boardDto
-          )
-          .then((res) => {
-            console.log("data sent", res);
-            alert("글삭제가 완료되었습니다");
-            window.location.reload();
-          })
-          .catch((error) => {
-            console.log("에러닷!", error);
-          });
-      });
+      return itemIdx;
     },
+    //게시판 글 불러오기
     getBoardList() {
       this.$axios
         .get("http://localhost:8081/api/admin/board")
@@ -427,64 +428,32 @@ export default {
           console.log("항상 마지막에 실행");
         });
     },
-    fnCommentList() {
-      this.$axios
-        .get("http://localhost:8081/api/admin/comments")
-        .then((res) => {
-          this.commentList = res.data;
-          console.log(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          console.log("항상 마지막에 실행");
-        });
-    },
-    fnCommentDelete() {},
-    formatDate(dateTimeString) {
-      return dateTimeString.slice(0, 10);
-    },
-
-    boardView(boardSn) {
-      alert("boardSn은 : " + boardSn);
-      // this.requestBody.boardSn = boardSn;
-      this.$router.push({
-        // query: this.requestBody,
-        path: "/admin/board/detail/" + boardSn,
+    //게시글 삭제(put)
+    fnChange() {
+      alert("삭제할꼬야?");
+      const selectIds = this.selectItem();
+      if (selectIds.length === 0) {
+        alert("꺼졍 ㅋ");
+        return;
+      }
+      selectIds.map((boardSn) => {
+        const boardDto = { boardSn, boardStatus: "N" };
+        this.$axios
+          .put(
+            "http://localhost:8081/api/admin/board/detail/" + boardSn,
+            boardDto
+          )
+          .then((res) => {
+            console.log("data sent", res);
+            alert("글삭제가 완료되었습니다");
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log("에러닷!", error);
+          });
       });
     },
-    jpcall(category) {
-      let categoryChange = "";
-      if (category === "notice") {
-        categoryChange = "공지사항";
-      } else if (category === "inquiry") {
-        categoryChange = "문의사항";
-      } else if (category === "faq") {
-        categoryChange = "FAQ";
-      }
-      return categoryChange;
-    },
-    changePage(page) {
-      this.currentPage = page;
-    },
-    nextPage() {
-      if (this.currentPage < this.pageCount) {
-        this.currentPage++;
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-      }
-    },
-    getNumber(index) {
-      const reversedIndex =
-        this.boardList.length -
-        (index + (this.currentPage - 1) * this.itemsPerPage) +
-        1;
-      return reversedIndex;
-    },
+    //게시글 삭제 복구(put)
     fnBackPost() {
       alert("복구할꼬야?");
       const selectIds = this.selectItem();
@@ -510,6 +479,7 @@ export default {
           });
       });
     },
+    //게시글 완전 삭제(delete)
     fnDelete() {
       alert("삭제할꼬야?");
       const selectIds = this.selectItem();
@@ -518,7 +488,7 @@ export default {
         return;
       }
       selectIds.map((boardSn) => {
-        const boardDto = { boardSn, boardStatus: "Y" }; // 삭제 요청에 필요한 요청 본문을 생성합니다.
+        const boardDto = { boardSn, boardStatus: "Y" };
 
         console.log(boardDto);
         const config = {
@@ -530,6 +500,68 @@ export default {
             config
           )
           .then((res) => {
+            alert("글삭제가 완료되었습니다");
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log("에러닷!", error);
+          });
+      });
+    },
+    //게시판 이동
+    boardView(boardSn) {
+      alert("boardSn은 : " + boardSn);
+      // this.requestBody.boardSn = boardSn;
+      this.$router.push({
+        // query: this.requestBody,
+        path: "/admin/board/detail/" + boardSn,
+      });
+    },
+    //게시판 카테고리 한글로 나누기
+    jpcall(category) {
+      let categoryChange = "";
+      if (category === "notice") {
+        categoryChange = "공지사항";
+      } else if (category === "inquiry") {
+        categoryChange = "문의사항";
+      } else if (category === "faq") {
+        categoryChange = "FAQ";
+      }
+      return categoryChange;
+    },
+    //댓글 불러오기
+    fnCommentList() {
+      this.$axios
+        .get("http://localhost:8081/api/admin/comments")
+        .then((res) => {
+          this.commentList = res.data;
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("항상 마지막에 실행");
+        });
+    },
+    //댓글 완전 삭제(DELETE)
+    fnCommentDelete() {
+      alert("삭제할꼬야?");
+      const selectIds = this.selectCommentItem();
+      if (selectIds.length === 0) {
+        alert("선택되지 않았엉");
+        return;
+      }
+      selectIds.map((id) => {
+        const commnets = { id, commentStatus: "Y" }; // 삭제 요청에 필요한 요청 본문을 생성합니다.
+
+        console.log(commnets);
+        const config = {
+          data: commnets,
+        };
+        this.$axios
+          .delete(`http://localhost:8081/api/admin/deleteComment/${id}`, config)
+          .then((res) => {
             console.log("data sent", res);
             alert("글삭제가 완료되었습니다");
             window.location.reload();
@@ -539,11 +571,44 @@ export default {
           });
       });
     },
+    //날짜 바꾸는 형식
+    formatDate(dateTimeString) {
+      return dateTimeString.slice(0, 10);
+    },
+    //페이지네이션 관련
+    changePage(page) {
+      this.currentPage = page;
+    },
+    nextPage() {
+      if (this.currentPage < this.pageCount) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    getNumber(index) {
+      const reversedIndex =
+        this.boardList.length -
+        (index + (this.currentPage - 1) * this.itemsPerPage);
+      return reversedIndex;
+    },
+    getCommentNumber(index) {
+      const reversedIndex =
+        this.commentList.length -
+        (index + (this.currentPage - 1) * this.itemsPerPage);
+      return reversedIndex;
+    },
   },
 };
 </script>
 
 <style scoped>
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
 table th,
 table td {
   font-size: 16px;
@@ -638,16 +703,35 @@ table td {
 a {
   text-decoration: none;
   cursor: pointer;
+  font-size: 16px;
 }
-.deContent {
+td {
+  padding: 16.5px 12px;
   text-align: center;
+  position: relative;
+  vertical-align: middle;
 }
+
 .deleteContent {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 300px;
-  color: red;
   text-align: center;
+  font-size: 16px;
+  position: relative; /* 추가된 부분: 툴팁의 상대적인 위치 설정을 위해 필요 */
+}
+.showTooltip {
+  white-space: normal;
+  overflow: visible;
+  position: absolute;
+  background-color: white;
+  z-index: 9999;
+  bottom: 20px;
+  padding: 16.5px 12px;
+  bottom: -70%; /* 툴팁을 해당 요소의 아래로 위치시킵니다. */
+  left: 0; /* 툴팁을 요소의 왼쪽 끝에 위치시킵니다. */
+  /* 추가적인 스타일을 필요에 따라 지정하세요 */
+  border: 1px solid black;
 }
 </style>

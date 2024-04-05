@@ -514,6 +514,7 @@ export default {
   padding: 0;
   border: 0;
   box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
 }
 .facility {
   border-bottom: 1px solid #dfdfdf;
@@ -726,6 +727,7 @@ input {
   font-size: 40px;
   font-weight: bold;
   margin: 0;
+  margin-top: 85px;
   margin-bottom: 10px;
 }
 .pay-wrap {

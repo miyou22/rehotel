@@ -6,12 +6,6 @@
 
     <!-- 글작성 메뉴 -->
     <table class="w3-border-top w3-margin-top w3-border-black">
-      <button
-        type="button"
-        class="w3-button w3-white w3-border-red w3-border w3-text-red w3-right w3-margin-bottom"
-      >
-        회원 삭제
-      </button>
       <tbody>
         <tr>
           <th>회원 ID</th>
@@ -21,20 +15,31 @@
               class="memberId"
               name="memberId"
               placeholder="나중에수정못하도록 input이 아닌 데이터값을 넣어야함."
-              value
+              :value="SelectedMemItems.userId"
+              readonly
             />
           </td>
         </tr>
         <tr>
           <th>회원이름</th>
           <td>
-            <input type="text" class="memberName" name="memberName" value />
+            <input
+              type="text"
+              class="memberName"
+              name="memberName"
+              v-model="userName"
+            />
           </td>
         </tr>
         <tr>
           <th>비밀번호</th>
           <td>
-            <input type="password" class="password" name="password" value />
+            <input
+              type="password"
+              class="password"
+              name="password"
+              v-model="userPwd2"
+            />
           </td>
         </tr>
         <tr>
@@ -44,35 +49,46 @@
               type="password"
               class="passwordCheck"
               name="passwordCheck"
-              value
+              v-model="passwordConfirm"
             />
           </td>
         </tr>
         <tr>
           <th>이메일</th>
           <td>
-            <input type="email" class="email" name="email" value />
+            <input
+              type="email"
+              class="email"
+              name="email"
+              v-model="userEmail"
+            />
           </td>
         </tr>
         <tr>
           <th>연락처</th>
           <td>
-            <input type="tel" class="tell" name="tell" value />
+            <input type="tel" class="tell" name="tell" v-model="formattedTel" />
           </td>
         </tr>
         <tr>
           <th>생일</th>
           <td>
-            <input type="date" class="birth" name="birth" value />
+            <input type="date" class="birth" name="birth" v-model="userBirth" />
           </td>
         </tr>
         <tr>
           <th>성별</th>
           <td>
-            <select value class="gender" name="gender">
-              <option value="선택안함">선택안함</option>
-              <option value="남성">남성</option>
-              <option value="여성">여성</option>
+            <select
+              id="gender"
+              name="gender"
+              v-model="userGender"
+              required
+              class="select-gender"
+            >
+              <option value="" selected disabled hidden>성별 선택</option>
+              <option value="m">남성</option>
+              <option value="f">여성</option>
             </select>
           </td>
         </tr>
@@ -83,9 +99,9 @@
               type="text"
               class="join"
               name="join"
-              placeholder="input이아닌데이터값"
               required
-              value
+              :value="formattedJoinDate"
+              readonly
             />
           </td>
         </tr>
@@ -93,13 +109,17 @@
     </table>
     <!-- 버튼 -->
     <div class="w3-container w3-center w3-margin-top">
-      <button class="w3-button w3-round y w3-margin-bottom" style="width: 20%">
-        작성하기
+      <button
+        class="w3-button w3-round y w3-margin-bottom"
+        style="width: 20%"
+        @click="completeUpdate"
+      >
+        수정하기
       </button>
       <button
         class="w3-button w3-round w3-margin-bottom"
         style="width: 20%"
-        @click="$router.push({ path: '/' + pageType })"
+        @click="$router.push({ path: '/admin/member' })"
       >
         취소
       </button>
@@ -108,8 +128,101 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  methods: {},
+  data() {
+    return {
+      userId: "",
+      userPwd: "",
+      userPwd2: "",
+      passwordConfirm: "",
+      userName: "",
+      userEmail: "",
+      userTel: "",
+      userAddr: "",
+      userBirth: "",
+      userGender: "",
+      role: "",
+    };
+  },
+  computed: {
+    // Vuex 게터를 사용하여 선택된 예약 항목을 가져오기
+    ...mapGetters(["getSelectedMemItems"]),
+    SelectedMemItems() {
+      return this.getSelectedMemItems;
+    },
+    formattedJoinDate() {
+      const joinDate = new Date(this.SelectedMemItems.userJoin);
+      return joinDate.toISOString().split("T")[0];
+    },
+    formattedTel() {
+      const tel = this.SelectedMemItems.userTel;
+      return tel ? "0" + tel : tel;
+    },
+  },
+  methods: {
+    getUserMember() {
+      this.userId = this.SelectedMemItems.userId;
+      var data = {
+        userId: this.userId,
+      };
+      this.$axios
+        .post("http://localhost:8081/api/member/memberUpdate", data)
+        .then((res) => {
+          console.log(res);
+          this.userId = res.data.userId;
+          this.userPwd = res.data.userPwd;
+          this.userName = res.data.userName;
+          this.userEmail = res.data.userEmail;
+          this.userTel = res.data.userTel;
+          this.userAddr = res.data.userAddr;
+          this.userBirth = res.data.userBirth;
+          this.userGender = res.data.userGender;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    completeUpdate() {
+      if (this.userPwd2) {
+        var data = {
+          userId: this.userId,
+          userPwd: this.userPwd2,
+          userName: this.userName,
+          userEmail: this.userEmail,
+          userTel: this.userTel,
+          userAddr: this.userAddr,
+          userBirth: this.userBirth,
+          userGender: this.userGender,
+          userFlag: 1,
+        };
+      } else {
+        var data = {
+          userId: this.userId,
+          userPwd: this.userPwd,
+          userName: this.userName,
+          userEmail: this.userEmail,
+          userTel: this.userTel,
+          userAddr: this.userAddr,
+          userBirth: this.userBirth,
+          userGender: this.userGender,
+        };
+      }
+      this.$axios
+        .post("http://localhost:8081/api/member/memberUpdatePost", data)
+        .then((res) => {
+          alert("회원 정보 수정을 완료하였습니다");
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  mounted() {
+    this.getUserMember();
+  },
 };
 </script>
 
@@ -130,6 +243,7 @@ export default {
   font-size: 40px;
   font-weight: bold;
   text-align: center;
+  margin-top: 85px;
 }
 #editor {
   width: 100%;

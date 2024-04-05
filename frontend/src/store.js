@@ -17,6 +17,7 @@ const store = createStore({
       totalmember: null,
       selectedResItem: null,
       selectedResItems: null,
+      selectedMemItems: null,
       userId: null,
     };
   },
@@ -26,6 +27,7 @@ const store = createStore({
     },
     getSelectedResItem: (state) => state.selectedResItem,
     getSelectedResItems: (state) => state.selectedResItems,
+    getSelectedMemItems: (state) => state.selectedMemItems,
   },
   mutations: {
     setReservationId(state, reservationId) {
@@ -42,6 +44,9 @@ const store = createStore({
     },
     setSelectedResItems(state, item) {
       state.selectedResItems = item; // 선택된 예약 항목을 설정하는 뮤테이션
+    },
+    setSelectedMemItems(state, item) {
+      state.selectedMemItems = item; // 선택된 예약 항목을 설정하는 뮤테이션
     },
     setYmd(state, payload) {
       state.fromDate = payload;
@@ -87,6 +92,9 @@ const store = createStore({
     },
     setSelectedResItems({ commit }, item) {
       commit("setSelectedResItems", item); // 선택된 예약 항목을 설정하는 액션
+    },
+    setSelectedMemItems({ commit }, item) {
+      commit("setSelectedMemItems", item); // 선택된 예약 항목을 설정하는 액션
     },
   },
 });

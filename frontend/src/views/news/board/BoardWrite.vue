@@ -122,8 +122,7 @@ export default {
         boardCnt: 0,
         userId: sessionId, // 백엔드로부터 받은 userId 사용
       };
-      console.log(sessionId); // sessionId 로그 확인
-      console.log(boardData);
+
       axios
         .post("http://localhost:8081/api/admin/board/write", boardData)
         .then((res) => {
@@ -137,7 +136,6 @@ export default {
     },
     saveContent() {
       this.content = this.editor.getHTML(); // 에디터의 HTML 내용을 가져와 변수에 할당
-      console.log("Saved content:", this.content);
     },
     fnLogin() {
       // 세션 스토리지에서 데이터 가져오기
