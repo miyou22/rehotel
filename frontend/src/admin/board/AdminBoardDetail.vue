@@ -102,7 +102,7 @@
         class="w3-padding-32 w3-container w3-border-bottom"
         v-if="pageTitle != '공지사항'"
       >
-        <string class="replyStrong">댓글 달기</string>
+        <string class="replyStrong">댓글 달기 check</string>
         <div class="w3-row-padding textBtn" style="display: flex">
           <div class="w3-col s11">
             <textarea
