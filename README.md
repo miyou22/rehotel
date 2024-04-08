@@ -102,7 +102,6 @@
 2. [github](https://github.com/miyou22/rehotel)
 
 
-3. [프로젝트명세서](https://www.notion.so/561141f0dbf04c4f9fee40df4fa76cfe?pvs=4)
-
+3. [프로젝트명세서](https://radical-cupboard-80b.notion.site/561141f0dbf04c4f9fee40df4fa76cfe)
 
 
