@@ -1,0 +1,46 @@
+  /* =========================================== */
+  *{
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  .accName {
+    font-family: "Noto Sans KR", sans-serif;
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 40px;
+    text-align: center;
+  }
+  .information {
+    outline: 1px solid #b1afaf;
+    display: flex;
+    margin-bottom: 30px;
+  }
+  .left-information {
+  }
+  .left-information img {
+    width: 650px;
+  }
+  .right-information {
+    padding: 70px;
+    width: 550px;
+  }
+  .name {
+    font-size: 30px;
+    font-weight: 500;
+  }
+  .sub-information {
+    font-size: 14px;
+    color: #696969;
+    line-height: 1.6;
+    margin: 20px 0 20px 0;
+  }
+  .sub-bottom p {
+    font-size: 14px;
+    display: inline;
+    color: black;
+    font-weight: bold;
+  }
+  .sub-bottom {
+    font-size: 14px;
+    color: #696969;
+    margin-top: 10px;
+  }
