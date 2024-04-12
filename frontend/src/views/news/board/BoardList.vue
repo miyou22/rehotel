@@ -13,7 +13,7 @@
             v-if="pageType !== 'notice'"
             @click.prevent="fnWrite"
           >
-            작성하기-데헷
+            작성하기
           </button>
         </div>
         <!-- 기본으로 나옴 -->
