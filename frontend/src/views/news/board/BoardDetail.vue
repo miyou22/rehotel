@@ -110,6 +110,13 @@
               v-model="replyComment"
               style="resize: none"
               placeholder="로그인 후 입력해주세요"
+              v-if="!userId"
+            ></textarea>
+            <textarea
+              class="w3-input w3-border"
+              v-model="replyComment"
+              style="resize: none"
+              v-else
             ></textarea>
           </div>
           <button
